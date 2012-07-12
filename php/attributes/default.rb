@@ -93,5 +93,6 @@ default['php']['configure_options'] = %W{--prefix=#{php['prefix_dir']}
 
 default[:php][:post_max_size] = "8M"
 default[:php][:upload_max_filesize] = "2M"
+default['php']['timezone'] = 'UTC'
 
 default[:php][:fpm][:process][:max] = 50
