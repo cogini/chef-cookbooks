@@ -26,7 +26,7 @@ when "debian"
     default[:postgresql][:version] = "8.4"
   end
 
-  set[:postgresql][:dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
+  default[:postgresql][:dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
 
 when "ubuntu"
 
@@ -39,7 +39,8 @@ when "ubuntu"
     default[:postgresql][:version] = "9.1"
   end
 
-  set[:postgresql][:dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
+  default[:postgresql][:dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
+  default[:postgresql][:config][:archive_dir] = "/var/lib/postgresql/wal-archive"
 
 when "fedora"
 
@@ -49,12 +50,13 @@ when "fedora"
     default[:postgresql][:version] = "8.4"
   end
 
-  set[:postgresql][:dir] = "/var/lib/pgsql/data"
+  default[:postgresql][:dir] = "/var/lib/pgsql/data"
 
-when "redhat","centos","scientific","amazon"
+when "redhat", "centos", "scientific"
 
   default[:postgresql][:version] = "8.4"
-  set[:postgresql][:dir] = "/var/lib/pgsql/data"
+  default[:postgresql][:dir] = "/var/lib/pgsql/data"
+  default[:postgresql][:config][:archive_dir] = "/var/lib/pgsql/wal-archive"
 
 when "suse"
 
@@ -64,9 +66,28 @@ when "suse"
     default[:postgresql][:version] = "8.4"
   end
 
-  set[:postgresql][:dir] = "/var/lib/pgsql/data"
+  default[:postgresql][:dir] = "/var/lib/pgsql/data"
+
+when "amazon"
+
+  default[:postgresql][:version] = "9.1"
+  default[:postgresql][:dir] = "/var/lib/pgsql/data"
+  default[:postgresql][:config][:archive_dir] = "/var/lib/pgsql/wal-archive"
 
 else
   default[:postgresql][:version] = "8.4"
-  set[:postgresql][:dir]         = "/etc/postgresql/#{node[:postgresql][:version]}/main"
+  default[:postgresql][:dir]         = "/etc/postgresql/#{node[:postgresql][:version]}/main"
 end
+
+default[:postgresql][:client_auth] = []
+default[:postgresql][:master_host] = nil
+default[:cron_time][:postgresql_clear_wal] = "20"
+
+default[:postgresql][:config][:listen_addresses] = "localhost"
+default[:postgresql][:config][:wal_level] = "minimal"
+default[:postgresql][:config][:archive_mode] = "off"
+default[:postgresql][:config][:archive_timeout] = "60"
+default[:postgresql][:config][:max_wal_senders] = "0"
+default[:postgresql][:config][:hot_standby] = "off"
+
+set[:postgresql][:is_slave] = node[:postgresql][:master_host]
