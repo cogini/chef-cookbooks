@@ -19,6 +19,7 @@ include_recipe 'basics::hostname'
 include_recipe 'basics::aliases'
 include_recipe 'basics::unicode'
 include_recipe 'basics::sshusers'
+include_recipe 'localbackup'
 
 
 case node.platform
@@ -48,6 +49,3 @@ node.basics.package_mask.each do |pkg|
         end
     end
 end
-
-
-include_recipe 'backup::local'
