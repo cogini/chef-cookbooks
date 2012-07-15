@@ -1,0 +1,6 @@
+NETWORKING=yes
+NETWORKING_IPV6=yes
+HOSTNAME=<%= node[:new_hostname] %>
+<% if node[:network][:gateway] -%>
+GATEWAY=<%= node[:network][:gateway] %>
+<% end -%>
