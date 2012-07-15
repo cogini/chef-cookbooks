@@ -474,7 +474,7 @@ register_argc_argv = Off
 auto_globals_jit = On
 
 ; Maximum size of POST data that PHP will accept.
-post_max_size = 8M
+post_max_size = <%= node[:php][:post_max_size] %>
 
 ; Magic quotes
 ;
@@ -579,7 +579,7 @@ file_uploads = On
 ;upload_tmp_dir =
 
 ; Maximum allowed size for uploaded files.
-upload_max_filesize = 2M
+upload_max_filesize = <%= node[:php][:upload_max_filesize] %>
 
 
 ;;;;;;;;;;;;;;;;;;

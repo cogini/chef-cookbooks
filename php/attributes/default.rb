@@ -24,30 +24,27 @@ default['php']['install_method'] = 'package'
 
 case node["platform"]
 when "centos", "redhat", "fedora", "amazon"
-  default['php']['conf_dir']      = '/etc'
-  default['php']['ext_conf_dir']  = '/etc/php.d'
-  default['php']['fpm_user']      = 'nobody'
-  default['php']['fpm_group']     = 'nobody'
-  default['php']['ext_dir']       = "/usr/#{lib_dir}/php/modules"
-  default['php']['fpm_packages']  = %w{ php-fpm php-cli }
-  default['php']['fpm_service']   = 'php-fpm'
-  default['php']['fpm_template']  = 'redhat-php-fpm.conf.erb'
-  default['php']['fpm_config']    = '/etc/php-fpm.d/www.conf'
-  default['php']['fpm_template']  = 'redhat-php-fpm.conf.erb'
+  default['php']['conf_dir']     = '/etc'
+  default['php']['ext_conf_dir'] = '/etc/php.d'
+  default['php']['fpm_user']     = 'nobody'
+  default['php']['fpm_group']    = 'nobody'
+  default['php']['ext_dir']      = "/usr/#{lib_dir}/php/modules"
+  default['php']['fpm_packages'] = %w{ php-fpm php-cli }
+  default['php']['fpm_service']  = 'php-fpm'
+  default['php']['fpm_template'] = 'redhat-php-fpm.conf.erb'
+  default['php']['fpm_config']   = '/etc/php-fpm.d/www.conf'
+  default['php']['fpm_template'] = 'redhat-php-fpm.conf.erb'
 when "debian", "ubuntu"
-  default['php']['conf_dir']      = '/etc/php5/cli'
-  default['php']['ext_conf_dir']  = '/etc/php5/conf.d'
-  default['php']['fpm_user']      = 'www-data'
-  default['php']['fpm_group']     = 'www-data'
-  default['php']['fpm_packages']  = %w{ php5-fpm php5-cli }
-  default['php']['fpm_service']   = 'php5-fpm'
-  default['php']['fpm_config']    = '/etc/php5/fpm/php-fpm.conf'
-  default['php']['fpm_template']  = 'ubuntu-php-fpm.conf.erb'
+  default['php']['conf_dir']     = '/etc/php5/cli'
+  default['php']['ext_conf_dir'] = '/etc/php5/conf.d'
+  default['php']['fpm_user']     = 'www-data'
+  default['php']['fpm_group']    = 'www-data'
+  default['php']['fpm_packages'] = %w{ php5-fpm php5-cli }
+  default['php']['fpm_service']  = 'php5-fpm'
+  default['php']['fpm_config']   = '/etc/php5/fpm/php-fpm.conf'
+  default['php']['fpm_template'] = 'ubuntu-php-fpm.conf.erb'
 else
-  default['php']['conf_dir']      = '/etc/php5/cli'
-  default['php']['ext_conf_dir']  = '/etc/php5/conf.d'
-  default['php']['fpm_user']      = 'www-data'
-  default['php']['fpm_group']     = 'www-data'
+  raise NotImplementedError
 end
 
 default['php']['url'] = 'http://us.php.net/distributions'

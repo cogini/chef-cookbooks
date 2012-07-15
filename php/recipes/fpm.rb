@@ -8,7 +8,9 @@ when "centos"
     end
 
 when "ubuntu"
+
     node.php.conf_dir = '/etc/php5/fpm'
+
     if node['platform_version'].to_f <= 10.04
         apt_repository "ondrej-php5" do
             uri "http://ppa.launchpad.net/ondrej/php5/ubuntu"
@@ -23,8 +25,10 @@ when "ubuntu"
 end
 
 
-package node.php.fpm_package do
-    action :install
+node[:php][:fpm_packages].each do |pkg|
+    package pkg do
+        action :install
+    end
 end
 
 template node.php.fpm_config do
