@@ -6,12 +6,12 @@
 
 ACCEPT net                 $FW tcp 80
 ACCEPT net                 $FW tcp 443
-<% node[:ssh][:ports].each do |ssh_port| -%>
-ACCEPT net                 $FW tcp <%= ssh_port %>
+<% node[:shorewall][:allowed_ports].each do |port| -%>
+ACCEPT net                 $FW tcp <%= port %>
 <% end -%>
 
 # Monitoring
-<% node[:shorewall][:trusted_hosts].each do |host| -%>
+<% node[:shorewall][:allowed_hosts].each do |host| -%>
 ACCEPT  net:<%= host %> $FW
 <% end -%>
 
