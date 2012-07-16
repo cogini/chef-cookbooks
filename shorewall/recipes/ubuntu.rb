@@ -14,5 +14,5 @@ end
 
 template '/etc/default/shorewall' do
     mode '0644'
-    source 'ubuntu-shorwall.conf.erb'
+    source 'ubuntu-shorewall.conf.erb'
 end

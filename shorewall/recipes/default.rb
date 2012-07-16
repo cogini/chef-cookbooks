@@ -34,3 +34,7 @@ template '/etc/shorewall/policy' do
     mode '0644'
     source 'policy.erb'
 end
+
+service 'shorewall' do
+    action [:enable, :restart]
+end
