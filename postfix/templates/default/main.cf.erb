@@ -22,18 +22,23 @@ smtp_use_tls = <%= node['postfix']['smtp_use_tls'] %>
 myhostname = <%= node['postfix']['myhostname'] %>
 mydomain = <%= node['postfix']['mydomain'] %>
 myorigin = <%= node['postfix']['myorigin'] %>
-smtpd_banner = $myhostname ESMTP $mail_name 
+smtpd_banner = $myhostname ESMTP $mail_name
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
 mydestination = <%= node['postfix']['myhostname'] %>, <%= node['hostname'] %>, localhost.localdomain, localhost
 <% if node['postfix']['mail_type'] == "master" -%>
-relayhost = 
-mynetworks = <%= node['postfix']['mail_relay_networks'] %>
+relayhost =
+mynetworks = <%= node.postfix.mail_relay_networks.join(', ') %>
 inet_interfaces = all
 <% else -%>
 relayhost = <%= node['postfix']['relayhost'] %>
-mynetworks = <%= node['postfix']['mail_relay_networks'] %>
+mynetworks = <%= node.postfix.mail_relay_networks.join(', ') %>
 inet_interfaces = loopback-only
 <% end -%>
 mailbox_size_limit = 0
 recipient_delimiter = +
+inet_protocols = <%= node.postfix.inet_protocols %>
+disable_dns_lookups = <%= node[:postfix][:disable_dns_lookups] %>
+relay_domains = <%= node.postfix.relay_domains.join(', ') %>
+smtpd_recipient_restrictions = <%= node.postfix.smtpd_recipient_restrictions.join(', ') %>
+relay_recipient_maps = <%= node.postfix.relay_recipient_maps %>

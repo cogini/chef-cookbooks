@@ -20,9 +20,10 @@ default['postfix']['myhostname'] = fqdn
 default['postfix']['mydomain']   = domain
 default['postfix']['myorigin']   = "$myhostname"
 default['postfix']['relayhost']  = ""
-default['postfix']['mail_relay_networks']        = "127.0.0.0/8"
+default['postfix']['mail_relay_networks']        = ["127.0.0.0/8"]
 default['postfix']['relayhost_role']             = "relayhost"
 default['postfix']['multi_environment_relay'] = false
+default['postfix']['inet_protocols'] = "all"
 
 default['postfix']['smtpd_use_tls'] = "yes"
 default['postfix']['smtp_sasl_auth_enable'] = "no"
@@ -34,3 +35,8 @@ default['postfix']['smtp_sasl_user_name'] = ""
 default['postfix']['smtp_sasl_passwd']    = ""
 
 default['postfix']['aliases'] = {}
+
+default[:postfix][:relay_domains] = ["$mydestination"]
+default[:postfix][:smtpd_recipient_restrictions] = ["permit_mynetworks", "reject_unauth_destination"]
+default[:postfix][:relay_recipient_maps] = ""
+default[:postfix][:disable_dns_lookups] = "no"
