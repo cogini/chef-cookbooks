@@ -16,6 +16,7 @@ end
 sshusers.each do |username|
     user username do
         home "/home/#{username}"
+        shell '/bin/bash'
         supports :manage_home => true
         action :create
     end
