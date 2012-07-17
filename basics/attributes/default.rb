@@ -5,6 +5,10 @@ default[:basics][:package_unmask] = []
 default[:basics][:root_alias] = 'root'
 default[:ssh][:ports] = [22]
 default[:ssh][:enable_password] = false
+default[:ssh][:hostkeys] = %w{
+    /etc/ssh/ssh_host_rsa_key
+    /etc/ssh/ssh_host_dsa_key
+}
 
 case node[:platform]
 
@@ -79,4 +83,11 @@ when 'ubuntu'
         wget
         zip
     }
+    if node[:platform_version].to_f >= 12.04
+        default[:ssh][:hostkeys] = %w{
+            /etc/ssh/ssh_host_rsa_key
+            /etc/ssh/ssh_host_dsa_key
+            /etc/ssh/ssh_host_ecdsa_key
+        }
+    end
 end
