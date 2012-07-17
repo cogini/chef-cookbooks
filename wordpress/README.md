@@ -21,7 +21,7 @@ Changes
 * [COOK-406] - wp-config.php.erb has wrong CRLF encoding
 * Dropping explicit support for Red Hat platforms due to issues in php
   and mysql cookbooks (COOK-603, COOK-672, COOK-816, COOK-679)
-  
+
 ### v0.8.2:
 
 * [COOK-435] Don't set the mysql root user password in wordpress cookbook
@@ -47,7 +47,6 @@ Cookbooks
 
 * mysql
 * php
-* apache2
 * opensssl (uses library to generate secure passwords)
 
 Attributes
@@ -59,7 +58,6 @@ Attributes
 * `node['wordpress']['db']['database']` - Wordpress will use this MySQL database to store its data.
 * `node['wordpress']['db']['user']` - Wordpress will connect to MySQL using this user.
 * `node['wordpress']['db']['password']` - Password for the Wordpress MySQL user. The default is a randomly generated string.
-* `node['wordpress']['server_aliases']` - Array of ServerAliases used in apache vhost. Default is `node['fqdn']`.
 
 Attributes will probably never need to change (these all default to randomly generated strings):
 
@@ -76,8 +74,6 @@ Usage
 If a different version than the default is desired, download that version and get the SHA256 checksum (sha256sum on Linux systems), and set the version and checksum attributes.
 
 Add the "wordpress" recipe to your node's run list or role, or include the recipe in another cookbook.
-
-Chef will install and configure mysql, php, and apache2 according to the instructions at http://codex.wordpress.org/Installing_WordPress. Does not set up a wordpress blog. You will need to do this manually by going to http://hostname/wp-admin/install.php (this URL may be different if you change the attribute values).
 
 The mysql::server recipe needs to come first, and contain an execute resource to install mysql privileges from the grants.sql template in this cookbook.
 
