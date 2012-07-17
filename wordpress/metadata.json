@@ -1,0 +1,190 @@
+{
+  "name": "wordpress",
+  "description": "Installs/Configures wordpress",
+  "long_description": "Description\n===========\n\nInstalls and configures Wordpress according to the instructions at http://codex.wordpress.org/Installing_WordPress. Does not set up a wordpress blog. You will need to do this manually by going to http://hostname/wp-admin/install.php (this URL may be different if you change the attribute values).\n\nChanges\n=======\n\n## v0.8.8:\n\n* [COOK-826] -  recipe doesn't quote password string\n\n## v0.8.6:\n\n* [COOK-534] - allow server_aliases to overridden by an attribute\n* [COOK-799] - fixed disables .htaccess breaking permalink feature\n* [COOK-820] - guard node.save with check for chef-solo in our cookbooks\n\n## v0.8.4:\n\n* [COOK-406] - wp-config.php.erb has wrong CRLF encoding\n* Dropping explicit support for Red Hat platforms due to issues in php\n  and mysql cookbooks (COOK-603, COOK-672, COOK-816, COOK-679)\n  \n### v0.8.2:\n\n* [COOK-435] Don't set the mysql root user password in wordpress cookbook\n* [COOK-535] - recursively create the directory\n* RHEL/CentOS/Fedora support (yeah!)\n* cleaned up node attribute keys\n* cleaned up README.md\n\nRequirements\n============\n\nPlatform\n--------\n\n* Debian, Ubuntu\n\nTested on:\n\n* Ubuntu 9.04, 9.10, 10.04\n\nCookbooks\n---------\n\n* mysql\n* php\n* apache2\n* opensssl (uses library to generate secure passwords)\n\nAttributes\n==========\n\n* `node['wordpress']['version']` - Set the version to download.\n* `node['wordpress']['checksum']` - sha256sum of the tarball, make sure this matches for the version!\n* `node['wordpress']['dir']` - Set the location to place wordpress files. Default is /var/www.\n* `node['wordpress']['db']['database']` - Wordpress will use this MySQL database to store its data.\n* `node['wordpress']['db']['user']` - Wordpress will connect to MySQL using this user.\n* `node['wordpress']['db']['password']` - Password for the Wordpress MySQL user. The default is a randomly generated string.\n* `node['wordpress']['server_aliases']` - Array of ServerAliases used in apache vhost. Default is `node['fqdn']`.\n\nAttributes will probably never need to change (these all default to randomly generated strings):\n\n* `node['wordpress']['keys']['auth']`\n* `node['wordpress']['keys']['secure_auth']`\n* `node['wordpress']['keys']['logged_in']`\n* `node['wordpress']['keys']['nonce']`\n\nThe random generation is handled with the secure_password method in the openssl cookbook which is a cryptographically secure random generator and not predictable like the random method in the ruby standard library.\n\nUsage\n=====\n\nIf a different version than the default is desired, download that version and get the SHA256 checksum (sha256sum on Linux systems), and set the version and checksum attributes.\n\nAdd the \"wordpress\" recipe to your node's run list or role, or include the recipe in another cookbook.\n\nChef will install and configure mysql, php, and apache2 according to the instructions at http://codex.wordpress.org/Installing_WordPress. Does not set up a wordpress blog. You will need to do this manually by going to http://hostname/wp-admin/install.php (this URL may be different if you change the attribute values).\n\nThe mysql::server recipe needs to come first, and contain an execute resource to install mysql privileges from the grants.sql template in this cookbook.\n\n## Note about MySQL\n\nThis cookbook will decouple the mysql::server and be smart about detecting whether to use a local database or find a database server in the environment in a later version.\n\nLicense and Author\n==================\n\nAuthor:: Barry Steinglass (barry@opscode.com)\nAuthor:: Joshua Timberman (joshua@opscode.com)\nAuthor:: Seth Chisamore (schisamo@opscode.com)\n\nCopyright:: 2010-2011, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+  "maintainer": "Barry Steinglass",
+  "maintainer_email": "cookbooks@opscode.com",
+  "license": "Apache 2.0",
+  "platforms": {
+    "debian": ">= 0.0.0",
+    "ubuntu": ">= 0.0.0"
+  },
+  "dependencies": {
+    "php": ">= 0.0.0",
+    "openssl": ">= 0.0.0",
+    "apache2": ">= 0.99.4",
+    "mysql": ">= 1.0.5"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+    "wordpress/version": {
+      "display_name": "Wordpress download version",
+      "description": "Version of Wordpress to download from the Wordpress site.",
+      "default": "3.0.4",
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
+      "required": "optional",
+      "recipes": [
+
+      ]
+    },
+    "wordpress/checksum": {
+      "display_name": "Wordpress tarball checksum",
+      "description": "Checksum of the tarball for the version specified.",
+      "default": "7342627f4a3dca44886c5aca6834cc88671dbd3aa2760182d2fcb9a330807",
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
+      "required": "optional",
+      "recipes": [
+
+      ]
+    },
+    "wordpress/dir": {
+      "display_name": "Wordpress installation directory",
+      "description": "Location to place wordpress files.",
+      "default": "/var/www",
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
+      "required": "optional",
+      "recipes": [
+
+      ]
+    },
+    "wordpress/db/database": {
+      "display_name": "Wordpress MySQL database",
+      "description": "Wordpress will use this MySQL database to store its data.",
+      "default": "wordpressdb",
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
+      "required": "optional",
+      "recipes": [
+
+      ]
+    },
+    "wordpress/db/user": {
+      "display_name": "Wordpress MySQL user",
+      "description": "Wordpress will connect to MySQL using this user.",
+      "default": "wordpressuser",
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
+      "required": "optional",
+      "recipes": [
+
+      ]
+    },
+    "wordpress/db/password": {
+      "display_name": "Wordpress MySQL password",
+      "description": "Password for the Wordpress MySQL user.",
+      "default": "randomly generated",
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
+      "required": "optional",
+      "recipes": [
+
+      ]
+    },
+    "wordpress/keys/auth": {
+      "display_name": "Wordpress auth key",
+      "description": "Wordpress auth key.",
+      "default": "randomly generated",
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
+      "required": "optional",
+      "recipes": [
+
+      ]
+    },
+    "wordpress/keys/secure_auth": {
+      "display_name": "Wordpress secure auth key",
+      "description": "Wordpress secure auth key.",
+      "default": "randomly generated",
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
+      "required": "optional",
+      "recipes": [
+
+      ]
+    },
+    "wordpress/keys/logged_in": {
+      "display_name": "Wordpress logged-in key",
+      "description": "Wordpress logged-in key.",
+      "default": "randomly generated",
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
+      "required": "optional",
+      "recipes": [
+
+      ]
+    },
+    "wordpress/keys/nonce": {
+      "display_name": "Wordpress nonce key",
+      "description": "Wordpress nonce key.",
+      "default": "randomly generated",
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
+      "required": "optional",
+      "recipes": [
+
+      ]
+    },
+    "wordpress/server_aliases": {
+      "display_name": "Wordpress Server Aliases",
+      "description": "Wordpress Server Aliases",
+      "default": "FQDN",
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
+      "required": "optional",
+      "recipes": [
+
+      ]
+    }
+  },
+  "groupings": {
+  },
+  "recipes": {
+    "wordpress": "Installs and configures wordpress LAMP stack on a single system"
+  },
+  "version": "0.8.8"
+}
