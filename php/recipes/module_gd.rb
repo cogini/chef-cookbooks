@@ -20,15 +20,11 @@
 #
 
 pkg = value_for_platform(
-    ["centos", "redhat", "fedora"] => {
-        "default" => "php53-gd"
-    },
-    "amazon" => {
-        "default" => "php-gd"
-    },
+    ["centos", "redhat", "fedora"] => { "default" => "php53-gd" },
+    "amazon" => { "default" => "php-gd" },
     "default" => "php5-gd"
 )
 
 package pkg do
-  action :install
+    action :install
 end
