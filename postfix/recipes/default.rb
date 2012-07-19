@@ -18,9 +18,7 @@
 # limitations under the License.
 #
 
-package "postfix" do
-  action :install
-end
+include_recipe 'postfix::vanilla'
 
 service "postfix" do
   supports :status => true, :restart => true, :reload => true

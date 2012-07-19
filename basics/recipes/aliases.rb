@@ -7,9 +7,7 @@
 # All rights reserved - Do not Redistribute
 #
 
-package 'postfix' do
-    action :install
-end
+include_recipe 'postfix::vanilla'
 
 template '/etc/aliases' do
     mode '0644'
