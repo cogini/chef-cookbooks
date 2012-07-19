@@ -18,8 +18,8 @@
 # limitations under the License.
 #
 
-define :nginx_site, :enable => true do
-  if params[:enable]
+define :nginx_site, :action => :enable do
+  if params[:action] == :enable
     execute "nxensite #{params[:name]}" do
       command "/usr/sbin/nxensite #{params[:name]}"
       notifies :reload, resources(:service => "nginx")
