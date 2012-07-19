@@ -1,20 +1,20 @@
 #
 # Cookbook Name:: basics
-# Recipe:: sudoer
+# Recipe:: sudoers
 #
 # Copyright 2012, Cogini
 #
 # All rights reserved - Do Not Redistribute
 #
 
-sudoers = node[:sudoers]
-admin_users = node[:admin_users]
-
 case node[:platform]
 when 'ubuntu'
 else
     raise NotImpleMentedError
 end
+
+sudoers = node[:sudoers]
+admin_users = node[:admin_users]
 
 users = sudoers | admin_users
 

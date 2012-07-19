@@ -19,6 +19,7 @@ include_recipe 'basics::hostname'
 include_recipe 'basics::aliases'
 include_recipe 'basics::unicode'
 include_recipe 'basics::sshusers'
+include_recipe 'basics::sudoers'
 include_recipe 'localbackup'
 
 
