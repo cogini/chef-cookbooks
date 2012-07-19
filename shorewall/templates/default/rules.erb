@@ -4,8 +4,6 @@
 #ACTION         SOURCE          DEST            PROTO   DEST    SOURCE          ORIGINAL        RATE            USER/
 #                                                       PORT    PORT(S)         DEST            LIMIT           GROUP
 
-ACCEPT net                 $FW tcp 80
-ACCEPT net                 $FW tcp 443
 <% node[:shorewall][:allowed_ports].each do |port| -%>
 ACCEPT net                 $FW tcp <%= port %>
 <% end -%>

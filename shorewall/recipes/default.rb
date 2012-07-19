@@ -36,5 +36,5 @@ template '/etc/shorewall/policy' do
 end
 
 service 'shorewall' do
-    action [:enable, :restart]
+    action [:enable, :start, :restart]
 end
