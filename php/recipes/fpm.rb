@@ -9,7 +9,7 @@ when "centos"
 
 when "ubuntu"
 
-    node.php.conf_dir = '/etc/php5/fpm'
+    node[:php][:conf_dir] = '/etc/php5/fpm'
 
     if node['platform_version'].to_f <= 10.04
         apt_repository "ondrej-php5" do
@@ -31,16 +31,22 @@ node[:php][:fpm_packages].each do |pkg|
     end
 end
 
-template node.php.fpm_config do
-    source node.php.fpm_template
+template node[:php][:fpm_config] do
+    source node[:php][:fpm_config_template]
     mode "0644"
 end
 
-template "#{node.php.conf_dir}/php.ini" do
+# TODO: Redhat will fail
+template node[:php][:fpm_pool_config] do
+    source node[:php][:fpm_pool_config_template]
+    mode "0644"
+end
+
+template "#{node[:php][:conf_dir]}/php.ini" do
     source "php.ini.erb"
     mode "0644"
 end
 
-service node.php.fpm_service do
+service node[:php][:fpm_service] do
     action [:enable, :restart]
 end
