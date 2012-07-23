@@ -13,6 +13,4 @@ when 'ubuntu'
         default[:dkim][:config] = '/etc/opendkim.conf'
         default[:dkim][:genkey] = 'opendkim-genkey'
     end
-else
-    raise NotImplementedError
 end

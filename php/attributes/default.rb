@@ -45,8 +45,6 @@ when "debian", "ubuntu"
   default['php']['fpm_pool_config']   = '/etc/php5/fpm/pool.d/www.conf'
   default['php']['fpm_config_template'] = 'ubuntu-php-fpm.conf.erb'
   default['php']['fpm_pool_config_template'] = 'ubuntu-fpm-www.conf.erb'
-else
-  raise NotImplementedError
 end
 
 default['php']['url'] = 'http://us.php.net/distributions'
