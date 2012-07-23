@@ -9,7 +9,7 @@
 
 case node['platform']
 when 'centos', 'redhat'
-    include_recipe 'shorewall::centos'
+    include_recipe 'shorewall::redhat'
 when 'ubuntu'
     include_recipe 'shorewall::ubuntu'
 end
