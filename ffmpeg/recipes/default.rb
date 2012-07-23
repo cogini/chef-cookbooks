@@ -14,41 +14,19 @@ ffmpeg_version = node["ffmpeg"]["version"]
 chef_cache = Chef::Config[:file_cache_path]
 
 
-yum_repo "atrpms" do
-    action :enable
-end
-
-yum_repo "atrpms-testing" do
-    action :enable
-end
-
 node[:ffmpeg][:dependencies][:atrpms].each do |pkg|
     package pkg do
         action :install
+        options '--enablerepo=atrpms'
     end
 end
 
-yum_repo "atrpms" do
-    action :disable
-end
-
-yum_repo "atrpms-testing" do
-    action :disable
-end
-
-
-yum_repo "epel" do
-    action :enable
-end
 
 node[:ffmpeg][:dependencies][:epel].each do |pkg|
     package pkg do
         action :install
+        options '--enablerepo=epel'
     end
-end
-
-yum_repo "epel" do
-    action :disable
 end
 
 

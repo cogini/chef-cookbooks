@@ -61,12 +61,3 @@ template "/etc/yum.repos.d/atrpms-testing.repo" do
     mode "0644"
     source "atrpms-testing.repo"
 end
-
-
-yum_repo :atrpms do
-    action :disable
-end
-
-yum_repo "atrpms-testing" do
-    action :disable
-end
