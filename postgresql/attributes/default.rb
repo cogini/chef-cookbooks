@@ -80,9 +80,6 @@ else
 end
 
 default[:postgresql][:client_auth] = []
-default[:postgresql][:master_host] = nil
-default[:cron_time][:postgresql_clear_wal] = "20"
-
 default[:postgresql][:config][:listen_addresses] = "localhost"
 default[:postgresql][:config][:wal_level] = "minimal"
 default[:postgresql][:config][:archive_mode] = "off"
@@ -90,4 +87,7 @@ default[:postgresql][:config][:archive_timeout] = "60"
 default[:postgresql][:config][:max_wal_senders] = "0"
 default[:postgresql][:config][:hot_standby] = "off"
 
+default[:cron_time][:postgresql_clear_wal] = "20"
+
+default[:postgresql][:master_host] = nil
 set[:postgresql][:is_slave] = node[:postgresql][:master_host]

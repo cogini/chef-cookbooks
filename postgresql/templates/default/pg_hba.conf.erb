@@ -81,3 +81,7 @@ local   all         all                               ident
 host    all         all         127.0.0.1/32          md5
 # IPv6 local connections:
 host    all         all         ::1/128               md5
+
+<% node[:postgresql][:client_auth]each do |client| -%>
+<%= client[:type] %> <%= client[:database] %> <%= client[:user] %> <%= client[:address] %> <%= client[:auth_method] %>
+<% end -%>

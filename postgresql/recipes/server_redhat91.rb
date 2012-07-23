@@ -40,7 +40,7 @@ end
 
 package "postgresql" do
   case node.platform
-  when "redhat", "centos", "scientific", "amazon"
+  when "redhat","centos","scientific"
     case
     when node.platform_version.to_f >= 6.0
       package_name "postgresql"
@@ -53,7 +53,7 @@ package "postgresql" do
 end
 
 case node.platform
-when "redhat","centos","scientific", "amazon"
+when "redhat","centos","scientific"
   case
   when node.platform_version.to_f >= 6.0
     package "postgresql-server"
@@ -64,18 +64,13 @@ when "fedora","suse"
   package "postgresql-server"
 end
 
-template "/etc/init.d/postgresql" do
-  source "_etc_init.d_postgresql.erb"
+template "/etc/init.d/postgresql-9.1" do
+  source "_etc_init.d_postgresql-9.1.erb"
   mode "0755"
 end
 
-execute "/sbin/service postgresql initdb" do
+execute "/sbin/service postgresql-9.1 initdb" do
   not_if { ::FileTest.exist?(File.join(node.postgresql.dir, "PG_VERSION")) }
-end
-
-service "postgresql" do
-  supports :restart => true, :status => true, :reload => true
-  action [:enable, :start]
 end
 
 template "#{node[:postgresql][:dir]}/postgresql.conf" do
@@ -83,5 +78,34 @@ template "#{node[:postgresql][:dir]}/postgresql.conf" do
   owner "postgres"
   group "postgres"
   mode 0600
-  notifies :restart, resources(:service => "postgresql")
+end
+
+
+archive_dir = node.postgresql.config.archive_dir
+
+if node.postgresql.is_slave
+    template "#{node.postgresql.dir}/recovery.conf" do
+      source "recovery.conf.erb"
+      owner "postgres"
+      group "postgres"
+      mode 0600
+      variables({
+          :master_host => node.postgresql.master_host,
+          :archive_dir => archive_dir,
+      })
+    end
+end
+
+if node.postgresql.config.archive_mode == "on"
+    cron "postgresql-clear-old-wal" do
+        hour node.cron_time.postgresql_clear_wal
+        minute "0"
+        command "find #{archive_dir} -type f -ctime +0 -delete"
+    end
+end
+
+
+service "postgresql-9.1" do
+  supports :restart => true, :status => true, :reload => true
+  action [:enable, :start]
 end
