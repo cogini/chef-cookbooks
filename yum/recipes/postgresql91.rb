@@ -29,7 +29,7 @@ remote_file rpm_file do
 end
 
 execute 'install pgdg-centos91' do
-    command "yum install -y #{rpm_file}"
+    command "rpm -i #{rpm_file}"
 end
 
 
