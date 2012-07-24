@@ -1,8 +1,10 @@
 default[:network][:gateway] = nil
 default[:network][:hosts] = {}
+
 default[:basics][:package_mask] = []
 default[:basics][:package_unmask] = []
 default[:basics][:root_alias] = 'root'
+
 default[:ssh][:ports] = [22]
 default[:ssh][:enable_password] = false
 default[:ssh][:hostkeys] = %w{
@@ -10,9 +12,12 @@ default[:ssh][:hostkeys] = %w{
     /etc/ssh/ssh_host_dsa_key
 }
 
+default[:sudoers] = []
+
 case node[:platform]
 
 when 'redhat', 'centos', 'amazon'
+    default[:admin_group] = 'wheel'
     default[:ssh][:service] = 'sshd'
     default[:basics][:packages] = %w(
         bind-utils
@@ -50,6 +55,7 @@ when 'redhat', 'centos', 'amazon'
     end
 
 when 'ubuntu'
+    default[:admin_group] = 'admin'
     default[:ssh][:service] = 'ssh'
     default[:basics][:package_mask] = %w{
         consolekit

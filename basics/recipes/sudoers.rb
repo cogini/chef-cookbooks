@@ -8,7 +8,7 @@
 #
 
 case node[:platform]
-when 'ubuntu'
+when 'ubuntu', 'centos'
 else
     raise NotImpleMentedError
 end
@@ -31,7 +31,7 @@ group 'sudo' do
     action :create
 end
 
-group 'admin' do
+group node[:admin_group] do
     members admin_users
     action :create
 end
