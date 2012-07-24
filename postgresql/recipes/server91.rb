@@ -76,8 +76,3 @@ unless node.postgresql.is_slave
       action :run
     end
 end
-
-
-link "/usr/bin/pg_config" do
-    to "/usr/pgsql-9.1/bin/pg_config"
-end
