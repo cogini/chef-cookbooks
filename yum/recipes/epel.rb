@@ -1,50 +1,34 @@
 #
-# Author:: Joshua Timberman (<joshua@opscode.com>)
 # Cookbook Name:: yum
 # Recipe:: epel
 #
-# Copyright:: Copyright (c) 2011 Opscode, Inc.
+# Copyright 2012, Cogini
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
+# All rights reserved - Do Not Redistribute
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 
-if platform?("amazon")
-  # Enable the amazon-provided epel repository
-  execute "enable-epel-repository" do
-    command "yum-config-manager --quiet --enable epel"
-  end
+key = "#{node.platform}#{node.platform_version.to_i}"
 
+case key
+when 'centos6'
+    url = 'http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-7.noarch.rpm'
+when 'centos5'
+    url = 'http://dl.fedoraproject.org/pub/epel/5/x86_64/epel-release-5-4.noarch.rpm'
 else
-  major = node['platform_version'].to_i
-  epel  = node['yum']['epel_release']
+    raise NotImplementedError
+end
 
-  # If rpm installation from a URL supported 302's, we'd just use that.
-  # Instead, we get to remote_file then rpm_package.
+rpm_file = "#{Chef::Config[:file_cache_path]}/#{File.basename(url)}"
 
-  remote_file "#{Chef::Config[:file_cache_path]}/epel-release-#{epel}.noarch.rpm" do
-    source "http://download.fedoraproject.org/pub/epel/#{major}/i386/epel-release-#{epel}.noarch.rpm"
-    not_if "rpm -qa | egrep -qx 'epel-release-#{epel}(|.noarch)'"
-    notifies :install, "rpm_package[epel-release]", :immediately
-    retries 5 # We may be redirected to a FTP URL, CHEF-1031.
-  end
+package 'epel-release' do
+    action :remove
+end
 
-  rpm_package "epel-release" do
-    source "#{Chef::Config[:file_cache_path]}/epel-release-#{epel}.noarch.rpm"
-    only_if {::File.exists?("#{Chef::Config[:file_cache_path]}/epel-release-#{epel}.noarch.rpm")}
-    action :nothing
-  end
+remote_file rpm_file do
+    source url
+    action :create_if_missing
+end
 
-  file "epel-release-cleanup" do
-    path "#{Chef::Config[:file_cache_path]}/epel-release-#{epel}.noarch.rpm"
-    action :delete
-  end
+execute 'install epel' do
+    command "rpm -i #{rpm_file}"
 end
