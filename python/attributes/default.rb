@@ -28,3 +28,15 @@ default['python']['checksum'] = '80e387bcf57eae8ce26726753584fd63e060ec11682d114
 default['python']['prefix_dir'] = '/usr/local'
 
 default['python']['configure_options'] = %W{--prefix=#{python['prefix_dir']}}
+
+case node[:platform]
+when 'centos', 'redhat'
+    case node[:platform_version].to_i
+    when 5
+        default[:python][:packages] = %w{ python26 python26-devel }
+    when 6
+        default[:python][:packages] = %w{ python python-devel }
+    end
+when 'ubuntu', 'debian'
+    default[:python][:packages] = %w{ python python-dev }
+end
