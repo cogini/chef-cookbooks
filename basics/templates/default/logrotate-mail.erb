@@ -1,0 +1,9 @@
+/var/mail/* {
+    daily
+    missingok
+    rotate 3
+    compress
+    delaycompress
+    minsize 10M
+    olddir <%= @old_mail_dir %>
+}
