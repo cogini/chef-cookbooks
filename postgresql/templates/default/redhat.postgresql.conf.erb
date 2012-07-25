@@ -1,5 +1,5 @@
 <% pg_config =  node[:postgresql][:config] -%>
-listen_addresses = '<%= pg_config[:listen_addresses] %>'
+listen_addresses = '<%= pg_config[:listen_addresses].join(',') %>'
 max_connections = 100                   # (change requires restart)
 shared_buffers = 32MB                   # min 128kB
 logging_collector = on                  # Enable capturing of stderr and csvlog
