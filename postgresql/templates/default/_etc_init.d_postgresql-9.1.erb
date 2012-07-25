@@ -58,7 +58,7 @@ LOCALEPARAMETER=$2
 PGENGINE=/usr/pgsql-9.1/bin
 PGPORT=5432
 PGDATA=<%= node[:postgresql][:dir] %>
-PGLOG=/var/lib/pgsql/9.1/pgstartup.log
+PGLOG=<%= node[:postgresql][:dir] %>/pgstartup.log
 
 # Override defaults from /etc/sysconfig/pgsql if file is present
 [ -f /etc/sysconfig/pgsql/${NAME} ] && . /etc/sysconfig/pgsql/${NAME}
