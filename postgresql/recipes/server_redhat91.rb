@@ -96,11 +96,14 @@ if node.postgresql.is_slave
     end
 end
 
-if node.postgresql.config.archive_mode == "on"
-    cron "postgresql-clear-old-wal" do
-        hour node.cron_time.postgresql_clear_wal
-        minute "0"
-        command "find #{archive_dir} -type f -ctime +0 -delete"
+cron 'postgresql-clear-old-wal' do
+    hour node.cron_time.postgresql_clear_wal
+    minute '0'
+    command "find #{archive_dir} -type f -ctime +0 -delete"
+    if node[:postgresql][:config][:archive_mode] == 'on'
+        action :create
+    else
+        action :delete
     end
 end
 
