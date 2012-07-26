@@ -6,7 +6,7 @@
 # chkconfig: - 64 36
 # description: PostgreSQL database server.
 # processname: postmaster
-# pidfile: /var/run/postmaster-9.1.pid
+<% pg_dir = node[:postgresql][:dir] -%>
 
 # This script is slightly unusual in that the name of the daemon (postmaster)
 # is not the same as the name of the subsystem (postgresql)
@@ -67,7 +67,7 @@ export PGDATA
 export PGPORT
 
 lockfile="/var/lock/subsys/${NAME}"
-pidfile="/var/run/postmaster-9.1.pid"
+pidfile="<%= pg_dir %>/postmaster.pid"
 
 [ -f "$PGENGINE/postmaster" ] || exit 1
 
@@ -235,7 +235,7 @@ case "$1" in
     stop
     ;;
   status)
-    status -p /var/run/postmaster-9.1.pid
+  status -p <%= pg_dir %>/postmaster.pid
     script_result=$?
     ;;
   restart)
