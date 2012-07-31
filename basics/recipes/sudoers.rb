@@ -8,7 +8,7 @@
 #
 
 case node[:platform]
-when 'ubuntu', 'centos'
+when 'ubuntu', 'centos', 'amazon'
 else
     raise NotImpleMentedError
 end
