@@ -7,12 +7,16 @@
 # All rights reserved - Do Not Redistribute
 #
 
-directory node[:localbackup][:destination] do
-    action 'create'
-    recursive true
+script_dir = '/root/scripts'
+
+[node[:localbackup][:destination], script_dir].each do |dir|
+    directory dir do
+        action 'create'
+        recursive true
+    end
 end
 
-template '/usr/local/backups/make_backup.sh' do
+template "#{script_dir}/make_backup.sh" do
     source 'make_backup.sh.erb'
     action 'create'
     mode '0700'
@@ -21,5 +25,5 @@ end
 cron 'local backup' do
     hour node[:localbackup][:time]
     minute '0'
-    command '/usr/local/backups/make_backup.sh'
+    command "#{script_dir}/make_backup.sh"
 end
