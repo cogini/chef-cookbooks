@@ -17,10 +17,10 @@
 # limitations under the License.
 #
 
-define :apache_site, :enable => true do
+define :apache_site, :action => :enable do
   include_recipe "apache2"
 
-  if params[:enable]
+  if params[:action] == :enable
     execute "a2ensite #{params[:name]}" do
       command "/usr/sbin/a2ensite #{params[:name]}"
       notifies :restart, resources(:service => "apache2")
