@@ -7,7 +7,8 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe "fpm"
+include_recipe 'basics::cronic'
+include_recipe 'fpm'
 
 
 tarsnap_version = node["tarsnap"]["version"]
@@ -102,5 +103,5 @@ end
 cron 'tarsnap_backup' do
     hour node[:tarsnap][:cron_time]
     minute '0'
-    command '/root/tarsnap/tarsnap-backup.sh'
+    command "#{node[:cronic]} /root/tarsnap/tarsnap-backup.sh"
 end
