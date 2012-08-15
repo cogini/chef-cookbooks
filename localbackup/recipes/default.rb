@@ -7,6 +7,8 @@
 # All rights reserved - Do Not Redistribute
 #
 
+include_recipe 'basics::cronic'
+
 script_dir = '/root/scripts'
 
 [node[:localbackup][:destination], script_dir].each do |dir|
@@ -25,5 +27,5 @@ end
 cron 'local backup' do
     hour node[:localbackup][:time]
     minute '0'
-    command "#{script_dir}/make_backup.sh"
+    command "#{node[:cronic]} #{script_dir}/make_backup.sh"
 end

@@ -22,7 +22,7 @@ tar_dir() {
     # Replace / with _
     out_base="${the_dir//\//_}"
     out_file="$backup_dir/$out_base-$date_stamp.tar.gz"
-    /bin/tar -czf "$out_file" "$the_dir"
+    /bin/tar -Pczf "$out_file" "$the_dir"
     rotate "$out_base"
 }
 

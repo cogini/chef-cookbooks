@@ -1,3 +1,5 @@
+default[:cronic] = '/opt/bin/cronic'
+
 default[:network][:gateway] = nil
 default[:network][:hosts] = {}
 
