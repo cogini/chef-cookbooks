@@ -40,7 +40,6 @@ end
 template '/etc/nagios/nrpe_local.cfg' do
     source 'nrpe_local.cfg.erb'
     variables(
-        :root_disk => node['nagios']['root_disk'],
         :pgsql => node['nagios']['pgsql'],
         :mysql => node['nagios']['mysql']
     )
