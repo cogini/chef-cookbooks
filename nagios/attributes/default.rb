@@ -5,4 +5,4 @@ default[:nagios][:mysql][:enable] = false
 default[:nagios][:mysql][:host] = 'localhost'
 default[:nagios][:mysql][:username] = 'nagiosCheck'
 
-default[:nagios][:root_][:disk] = ['/dev/sda1']
+default[:nagios][:root_disk] = ['/dev/sda1']
