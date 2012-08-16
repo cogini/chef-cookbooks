@@ -201,18 +201,6 @@ command[check_hda1]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p /dev/hda
 command[check_zombie_procs]=/usr/lib/nagios/plugins/check_procs -w 5 -c 10 -s Z
 command[check_total_procs]=/usr/lib/nagios/plugins/check_procs -w 150 -c 200
 
-
-# The following examples allow user-supplied arguments and can
-# only be used if the NRPE daemon was compiled with support for
-# command arguments *AND* the dont_blame_nrpe directive in this
-# config file is set to '1'.  This poses a potential security risk, so
-# make sure you read the SECURITY file before doing this.
-
-#command[check_users]=/usr/lib/nagios/plugins/check_users -w $ARG1$ -c $ARG2$
-#command[check_load]=/usr/lib/nagios/plugins/check_load -w $ARG1$ -c $ARG2$
-#command[check_disk]=/usr/lib/nagios/plugins/check_disk -w $ARG1$ -c $ARG2$ -p $ARG3$
-#command[check_procs]=/usr/lib/nagios/plugins/check_procs -w $ARG1$ -c $ARG2$ -s $ARG3$
-
 #
 # local configuration:
 #	if you'd prefer, you can instead place directives here
@@ -221,5 +209,3 @@ include=/etc/nagios/nrpe_local.cfg
 #
 # you can place your config snipplets into nrpe.d/
 include_dir=/etc/nagios/nrpe.d/
-
-

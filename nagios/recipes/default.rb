@@ -39,10 +39,6 @@ end
 
 template '/etc/nagios/nrpe_local.cfg' do
     source 'nrpe_local.cfg.erb'
-    variables(
-        :pgsql => node['nagios']['pgsql'],
-        :mysql => node['nagios']['mysql']
-    )
     notifies :restart, "service[#{nrpe_service}]"
 end
 
