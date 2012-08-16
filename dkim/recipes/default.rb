@@ -28,7 +28,7 @@ bash 'dkim genkey' do
     code <<-EOBASH
         mkdir -p /etc/mail
         cd /etc/mail
-        #{node[:dkim][:dkim_genkey]} -s #{selector} -d #{node[:dkim][:domains][0]}
+        #{node[:dkim][:genkey]} -s #{selector} -d #{node[:dkim][:domains][0]}
     EOBASH
     not_if { File.exists?("/etc/mail/#{selector}.private") }
 end

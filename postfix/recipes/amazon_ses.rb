@@ -34,5 +34,5 @@ EOSES
         rm /etc/postfix/sasl_passwd
         postconf -e 'smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt'
     EOBASH
-    not_if 'grep 'Amazon SES' /etc/postfix/main.cf'
+    not_if "grep 'Amazon SES' /etc/postfix/main.cf"
 end
