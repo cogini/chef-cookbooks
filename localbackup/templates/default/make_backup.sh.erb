@@ -4,6 +4,7 @@ set -e
 backup_dir=<%= node[:localbackup][:destination] %>
 backups_to_keep=5
 
+cd /tmp
 umask 0077
 date_stamp=$(date +%Y%m%d)
 
