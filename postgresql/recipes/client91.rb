@@ -37,4 +37,8 @@ pg_packages.each do |pg_pack|
   package pg_pack
 end
 
+link "/usr/bin/pg_config" do
+    to "/usr/pgsql-9.1/bin/pg_config"
+end
+
 gem_package "pg"

@@ -22,7 +22,7 @@
 ::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
 
 include_recipe "yum::postgresql91"
-include_recipe "postgresql::client"
+include_recipe "postgresql::client91"
 
 # randomly generate postgres password
 node.set_unless[:postgresql][:password][:postgres] = secure_password

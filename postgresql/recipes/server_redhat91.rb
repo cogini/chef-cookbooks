@@ -19,7 +19,7 @@
 # limitations under the License.
 #
 
-include_recipe "postgresql::client"
+include_recipe "postgresql::client91"
 
 # Create a group and user like the package will.
 # Otherwise the templates fail.
