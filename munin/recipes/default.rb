@@ -2,7 +2,7 @@
 # Cookbook Name:: munin
 # Recipe:: default
 #
-# Copyright 2012, YOUR_COMPANY_NAME
+# Copyright 2012, Cogini
 #
 # All rights reserved - Do Not Redistribute
 #
