@@ -7,13 +7,14 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe "git"
-include_recipe "php::module_soap"
-include_recipe "php::module_dom"
-include_recipe "php::module_mbstring"
-include_recipe "php::module_xmlrpc"
-include_recipe "php::module_gd"
-include_recipe "php::module_intl"
+include_recipe 'git'
+include_recipe 'php::module_soap'
+include_recipe 'php::module_dom'
+include_recipe 'php::module_mbstring'
+include_recipe 'php::module_xmlrpc'
+include_recipe 'php::module_gd'
+include_recipe 'php::module_intl'
+include_recipe 'basics::cronic'
 
 
 site_dir = node.moodle.site_dir
@@ -30,7 +31,7 @@ moodle_group = node.moodle.group
     end
 end
 
-bash "install moodle from git" do
+bash 'install moodle from git' do
     code <<-EOH
         git clone git://git.moodle.org/moodle.git #{site_dir}
         cd #{site_dir}
@@ -41,8 +42,8 @@ bash "install moodle from git" do
 end
 
 
-cron "moodle maintenance cron" do
+cron 'moodle maintenance cron' do
     hour node[:moodle][:cron_time]
-    minute "0"
-    command "php #{site_dir}/admin/cli/cron.php"
+    minute 0
+    command "#{node[:cronic]} php #{site_dir}/admin/cli/cron.php"
 end
