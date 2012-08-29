@@ -95,5 +95,6 @@ default[:php][:post_max_size] = "8M"
 default[:php][:upload_max_filesize] = "2M"
 default[:php][:timezone] = 'UTC'
 
+default[:php][:fpm][:pm] = 'ondemand'
 default[:php][:fpm][:process][:max] = 10
 default[:php][:fpm][:catch_workers_output] = 'yes'
