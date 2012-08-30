@@ -8,6 +8,8 @@ default[:sphinx][:use_stemmer]  = false
 default[:sphinx][:use_mysql]    = true
 default[:sphinx][:use_postgres] = false
 
+# NTA FIX: This is aweful, overlapping config options. What's worse,
+# this is set wrongly
 default[:sphinx][:configure_flags] = [
   "#{sphinx[:use_stemmer] ? '--with-stemmer' : '--without-stemmer'}",
   "#{sphinx[:use_mysql] ? '--with-mysql' : '--without-mysql'}",
