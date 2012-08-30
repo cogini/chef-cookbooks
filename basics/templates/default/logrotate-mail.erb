@@ -1,9 +1,7 @@
 /var/mail/* {
-    daily
-    missingok
     rotate 3
     compress
     delaycompress
-    minsize 10M
+    size 10M
     olddir <%= @old_mail_dir %>
 }
