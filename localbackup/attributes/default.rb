@@ -4,7 +4,8 @@ default[:localbackup][:dirs] = %w{
 }
 default[:localbackup][:time] = 17
 
-if (default[:localbackup][:mysql][:enable] = File.exists?('/usr/bin/mysqldump'))
+default[:localbackup][:mysql][:enable] = File.exists?('/usr/bin/mysqldump')
+if (node[:localbackup][:mysql][:enable])
     default[:localbackup][:mysql][:user] = 'root'
     default[:localbackup][:mysql][:password] = node[:mysql][:server_root_password]
 end
