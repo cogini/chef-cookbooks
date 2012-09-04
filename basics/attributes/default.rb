@@ -5,7 +5,7 @@ default[:network][:hosts] = {}
 
 default[:basics][:package_mask] = []
 default[:basics][:package_unmask] = []
-default[:basics][:root_alias] = 'root'
+default[:aliases] = {}
 
 default[:ssh][:ports] = [22]
 default[:ssh][:enable_password] = false
