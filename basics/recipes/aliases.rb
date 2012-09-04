@@ -11,7 +11,7 @@ include_recipe 'postfix::vanilla'
 
 template '/etc/aliases' do
     mode '0644'
-    source '_etc_aliases.erb'
+    source 'aliases.erb'
 end
 
 execute 'newaliases' do
