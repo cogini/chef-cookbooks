@@ -40,6 +40,6 @@ end
 
 # To make the host know about itself
 template '/etc/hosts' do
-    source '_etc_hosts.erb'
+    source 'hosts.erb'
     mode '0644'
 end

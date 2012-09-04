@@ -1,8 +1,8 @@
 127.0.0.1 localhost
 127.0.1.1 <%= node[:new_fqdn] %> <%= node[:new_hostname] %>
 
-<% node[:network][:hosts].keys.each do |key| -%>
-<%= key %> <%= node[:network][:hosts][key].join(' ') %>
+<% node[:network][:hosts].each do |key, value| -%>
+<%= key %> <%= value.join(' ') %>
 <% end -%>
 
 # The following lines are desirable for IPv6 capable hosts
