@@ -8,6 +8,8 @@ apt-get install opscode-keyring
 echo "chef chef/chef_server_url string none" | debconf-set-selections && apt-get install chef -y
 
 # Hardy is funny
-# Add this ppa https://launchpad.net/~ubuntu-ruby/+archive/ppa
+#echo 'deb http://ppa.launchpad.net/ubuntu-ruby/ppa/ubuntu hardy main' > /etc/apt/sources.list.d/ruby.list
+#sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 3B02E741
+#sudo apt-get update
 #sudo apt-get install build-essential libopenssl-ruby ruby1.8-dev rubygems
 #sudo gem install chef
