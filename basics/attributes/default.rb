@@ -91,6 +91,9 @@ when 'ubuntu'
         wget
         zip
     }
+    if node[:platform_version].to_f <= 8.4
+        default[:basics][:packages] -= %w{ byobu tmux }
+    end
     if node[:platform_version].to_f >= 12.04
         default[:ssh][:hostkeys] = %w{
             /etc/ssh/ssh_host_rsa_key
