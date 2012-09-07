@@ -60,6 +60,7 @@ when 'ubuntu'
     default[:admin_group] = 'admin'
     default[:ssh][:service] = 'ssh'
     default[:basics][:package_mask] = %w{
+        apt-listchanges
         consolekit
         unattended-upgrades
     }
