@@ -36,9 +36,8 @@ template node[:php][:fpm_config] do
     mode "0644"
 end
 
-# TODO: Redhat will fail
 template node[:php][:fpm_pool_config] do
-    source node[:php][:fpm_pool_config_template]
+    source 'fpm-www.conf.erb'
     mode "0644"
 end
 
