@@ -9,4 +9,4 @@
 
 
 include_recipe 'apt'
-include_recipe 'apt:disable_recommends'
+include_recipe 'apt::disable_recommends'
