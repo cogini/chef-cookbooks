@@ -5,12 +5,12 @@
 #
 
 case node['platform']
-when "amazon"
-    package "php-soap" do
+when 'amazon', 'centos'
+    package 'php-soap' do
         action :install
     end
-when "ubuntu"
-    package "php-soap" do
+when 'ubuntu'
+    package 'php-soap' do
         action :install
     end
 else

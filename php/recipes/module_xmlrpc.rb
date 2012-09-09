@@ -1,9 +1,9 @@
 pkg = value_for_platform({
-    "ubuntu" => {
-        "default" => "php5-xmlrpc",
+    'ubuntu' => {
+        'default' => 'php5-xmlrpc',
     },
-    "amazon" => {
-        "default" => "php-xmlrpc",
+    ['centos', 'amazon'] => {
+        'default' => 'php-xmlrpc',
     },
 })
 

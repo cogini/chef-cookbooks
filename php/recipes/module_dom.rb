@@ -5,11 +5,11 @@
 #
 
 case node['platform']
-when "amazon"
-    package "php-dom" do
+when 'amazon', 'centos'
+    package 'php-dom' do
         action :install
     end
-when "ubuntu"
+when 'ubuntu'
     # DOM included by default, no action needed
 else
     raise NotImplementedError

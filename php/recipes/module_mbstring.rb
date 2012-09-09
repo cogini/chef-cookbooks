@@ -5,11 +5,11 @@
 #
 
 case node['platform']
-when "amazon"
-    package "php-mbstring" do
+when 'amazon', 'centos'
+    package 'php-mbstring' do
         action :install
     end
-when "ubuntu"
+when 'ubuntu'
     # mbstring included by default, no action needed
 else
     raise NotImplementedError

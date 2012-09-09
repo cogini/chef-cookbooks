@@ -36,7 +36,7 @@ when "centos", "redhat", "fedora", "amazon"
   default['php']['fpm_config_template']      = 'redhat-php-fpm.conf.erb'
   default[:php][:fpm][:slowlog] = '/var/log/php-fpm/www-slow.log'
 when "debian", "ubuntu"
-  default['php']['conf_dir']                 = '/etc/php5/cli'
+  default['php']['conf_dir']                 = '/etc/php5/fpm'
   default['php']['ext_conf_dir']             = '/etc/php5/conf.d'
   default[:php][:fpm][:user]                 = 'www-data'
   default[:php][:fpm][:group]                = 'www-data'
