@@ -25,7 +25,7 @@ template "#{script_dir}/make_backup.sh" do
 end
 
 cron 'local backup' do
-    hour node[:localbackup][:time]
+    hour node[:localbackup][:cron_time]
     minute '0'
     command "#{node[:cronic]} #{script_dir}/make_backup.sh"
 end

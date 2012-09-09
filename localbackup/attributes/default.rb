@@ -2,7 +2,7 @@ default[:localbackup][:destination] = '/usr/local/backups'
 default[:localbackup][:dirs] = %w{
     /etc
 }
-default[:localbackup][:time] = 0
+default[:localbackup][:cron_time] = 0
 
 default[:localbackup][:mysql][:enable] = File.exists?('/usr/bin/mysqldump')
 if (node[:localbackup][:mysql][:enable])
