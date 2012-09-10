@@ -37,11 +37,6 @@ template '/etc/nagios/nrpe.cfg' do
     notifies :restart, "service[#{nrpe_service}]"
 end
 
-template '/etc/nagios/nrpe_local.cfg' do
-    source 'nrpe_local.cfg.erb'
-    notifies :restart, "service[#{nrpe_service}]"
-end
-
 
 unless node[:platform] = 'ubuntu' && node[:platform_version].to_f <= 8.04
     include_recipe 'logwarn'
