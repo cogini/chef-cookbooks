@@ -1,7 +1,16 @@
 default[:localbackup][:destination] = '/usr/local/backups'
-default[:localbackup][:dirs] = %w{
-    /etc
-}
+
+case node[:platform]
+when 'ubuntu'
+    default[:localbackup][:dirs] = %w{
+        /etc
+        /var/backups
+    }
+else
+    default[:localbackup][:dirs] = %w{
+        /etc
+    }
+end
 
 default[:localbackup][:mysql][:enable] = File.exists?('/usr/bin/mysqldump')
 if (node[:localbackup][:mysql][:enable])
