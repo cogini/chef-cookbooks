@@ -1,0 +1,3 @@
+[submodule "erlang"]
+	path = erlang
+	url = git://github.com/phunehehe/erlang-cookbook.git
