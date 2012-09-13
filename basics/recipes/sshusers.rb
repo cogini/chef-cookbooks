@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-sshusers = node[:sshusers]
+sshusers = node[:sshusers] | node[:admin_users] | node[:sudoers]
 
 service node[:ssh][:service] do
     supports :restart => true

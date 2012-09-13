@@ -15,6 +15,7 @@ default[:ssh][:hostkeys] = %w{
 }
 
 default[:sudoers] = []
+default[:sshusers] = []
 
 case node[:platform]
 
