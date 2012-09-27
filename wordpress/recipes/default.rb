@@ -52,33 +52,15 @@ execute "untar-wordpress" do
   creates "#{node['wordpress']['dir']}/wp-settings.php"
 end
 
-execute "mysql-install-wp-privileges" do
-  command "/usr/bin/mysql -u root -p\"#{node['mysql']['server_root_password']}\" < #{node['mysql']['conf_dir']}/wp-grants.sql"
-  action :nothing
+
+mysql_user node[:wordpress][:db][:user] do
+    password node[:wordpress][:db][:password]
 end
 
-template "#{node['mysql']['conf_dir']}/wp-grants.sql" do
-  source "grants.sql.erb"
-  owner "root"
-  group "root"
-  mode "0600"
-  variables(
-    :user     => node['wordpress']['db']['user'],
-    :password => node['wordpress']['db']['password'],
-    :database => node['wordpress']['db']['database']
-  )
-  notifies :run, "execute[mysql-install-wp-privileges]", :immediately
+mysql_db node[:wordpress][:db][:database] do
+    owner node[:wordpress][:db][:user]
 end
 
-execute "create #{node['wordpress']['db']['database']} database" do
-  command "/usr/bin/mysqladmin -u root -p\"#{node['mysql']['server_root_password']}\" create #{node['wordpress']['db']['database']}"
-  not_if do
-    require 'mysql'
-    m = Mysql.new("localhost", "root", node['mysql']['server_root_password'])
-    m.list_dbs.include?(node['wordpress']['db']['database'])
-  end
-  notifies :create, "ruby_block[save node data]", :immediately unless Chef::Config[:solo]
-end
 
 # save node data after writing the MYSQL root password, so that a failed chef-client run that gets this far doesn't cause an unknown password to get applied to the box without being saved in the node data.
 unless Chef::Config[:solo]
