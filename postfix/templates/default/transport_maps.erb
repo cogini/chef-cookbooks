@@ -1,0 +1,3 @@
+<% node[:postfix][:transport_maps].each do |recipient, transport| -%>
+<%= recipient %> <%= transport %>
+<% end -%>
