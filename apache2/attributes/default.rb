@@ -122,11 +122,11 @@ default['apache']['allowed_openids'] = Array.new
 default['apache']['ext_status'] = false
 
 # Prefork Attributes
-default['apache']['prefork']['startservers'] = 16
-default['apache']['prefork']['minspareservers'] = 16
-default['apache']['prefork']['maxspareservers'] = 32
-default['apache']['prefork']['serverlimit'] = 400
-default['apache']['prefork']['maxclients'] = 400
+default['apache']['prefork']['startservers'] = 4
+default['apache']['prefork']['minspareservers'] = 1
+default['apache']['prefork']['maxspareservers'] = 4
+default['apache']['prefork']['serverlimit'] = 16
+default['apache']['prefork']['maxclients'] = 16
 default['apache']['prefork']['maxrequestsperchild'] = 10000
 
 # Worker Attributes
