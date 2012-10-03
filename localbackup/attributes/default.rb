@@ -13,9 +13,11 @@ else
 end
 
 default[:localbackup][:mysql][:enable] = File.exists?('/usr/bin/mysqldump')
-if (node[:localbackup][:mysql][:enable])
+if node[:localbackup][:mysql][:enable]
     default[:localbackup][:mysql][:user] = 'root'
-    default[:localbackup][:mysql][:password] = node[:mysql][:server_root_password]
+    if node[:mysql] && node[:mysql][:server_root_password]
+        default[:localbackup][:mysql][:password] = node[:mysql][:server_root_password]
+    end
 end
 
 default[:localbackup][:pgsql][:enable] = File.exists?('/usr/bin/pg_dump')
