@@ -16,7 +16,9 @@ inet_protocols = <%= postfix[:inet_protocols] %>
 mailbox_size_limit = 0
 
 mydestination = <%= postfix[:myhostname] %>, <%= node[:hostname] %>, localhost.localdomain, localhost
+<% if postfix[:mydomain] -%>
 mydomain = <%= postfix[:mydomain] %>
+<% end -%>
 myhostname = <%= postfix[:myhostname] %>
 mynetworks = <%= postfix[:mail_relay_networks].join(', ') %>
 myorigin = <%= postfix[:myorigin] %>
