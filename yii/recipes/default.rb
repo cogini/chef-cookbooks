@@ -18,7 +18,7 @@ end
 
 bash 'install-yii' do
     code <<-EOH
-        git clone https://github.com/yiisoft/yii.git #{yii_path}
+        [[ -d #{yii_path} ]] || git clone https://github.com/yiisoft/yii.git #{yii_path}
         cd #{yii_path}
         git fetch
         git checkout #{node[:yii][:version]}
