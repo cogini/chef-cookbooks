@@ -196,6 +196,9 @@ initdb(){
             # Clean up SELinux tagging for PGDATA
             [ -x /sbin/restorecon ] && /sbin/restorecon "$PGDATA"
 
+            # Initialize the database
+            $SU -l postgres -c "$PGENGINE/initdb --pgdata='$PGDATA' --auth='ident' $LOCALESTRING" < /dev/null
+
             # Make sure the startup-time log file is OK, too
             if [ ! -e "$PGLOG" -a ! -h "$PGLOG" ]
             then
@@ -204,9 +207,6 @@ initdb(){
                 chmod go-rwx "$PGLOG"
                 [ -x /sbin/restorecon ] && /sbin/restorecon "$PGLOG"
             fi
-
-            # Initialize the database
-            $SU -l postgres -c "$PGENGINE/initdb --pgdata='$PGDATA' --auth='ident' $LOCALESTRING" >> "$PGLOG" 2>&1 < /dev/null
 
             # Create directory for postmaster log
             mkdir "$PGDATA/pg_log"
