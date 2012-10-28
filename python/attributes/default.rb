@@ -37,6 +37,8 @@ when 'centos', 'redhat'
     when 6
         default[:python][:packages] = %w{ python python-devel }
     end
+when 'amazon'
+    default[:python][:packages] = %w{ python python-devel }
 when 'ubuntu', 'debian'
     default[:python][:packages] = %w{ python python-dev }
 end
