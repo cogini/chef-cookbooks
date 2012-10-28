@@ -64,11 +64,6 @@ when "fedora","suse"
   package "postgresql-server"
 end
 
-template "/etc/init.d/postgresql" do
-  source "_etc_init.d_postgresql.erb"
-  mode "0755"
-end
-
 execute "/sbin/service postgresql initdb" do
   not_if { ::FileTest.exist?(File.join(node.postgresql.dir, "PG_VERSION")) }
 end
