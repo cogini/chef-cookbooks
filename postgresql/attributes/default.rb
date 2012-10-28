@@ -70,9 +70,9 @@ when "suse"
 
 when "amazon"
 
-  default[:postgresql][:version] = "9.1"
-  default[:postgresql][:dir] = "/var/lib/pgsql/data"
-  default[:postgresql][:config][:archive_dir] = "/var/lib/pgsql/wal-archive"
+  default[:postgresql][:version] = "9.2"
+  default[:postgresql][:dir] = "/var/lib/pgsql9/data"
+  default[:postgresql][:config][:archive_dir] = "/var/lib/pgsql9/wal-archive"
 
 else
   default[:postgresql][:version] = "8.4"
