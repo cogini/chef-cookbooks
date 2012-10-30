@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-%w{ munin-node munin-plugins-extra}.each do |pkg|
+node[:munin][:packages].each do |pkg|
     package pkg do
         action :install
     end
