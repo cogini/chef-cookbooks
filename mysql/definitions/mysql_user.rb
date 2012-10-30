@@ -7,18 +7,20 @@ define :mysql_user, :action => :create, :password => nil, :host => 'localhost' d
 
     bash "create user #{username}" do
         code <<-EOH
-            mysql -uroot -p#{root_password} -e "
-                GRANT USAGE ON *.* TO '#{username}'@'#{host}';
-            "
+mysql -uroot -p#{root_password} <<EOF
+    GRANT USAGE ON *.* TO '#{username}'@'#{host}';
+EOF
         EOH
     end
 
     bash "set password for #{username}" do
         code <<-EOH
-            mysql -uroot -p#{root_password} -e "
-                UPDATE mysql.user SET password = PASSWORD('#{password}') where user = '#{username}';
-            "
+mysql -uroot -p#{root_password} <<EOF
+    UPDATE mysql.user SET password = PASSWORD('#{password}') where user = '#{username}';
+    FLUSH PRIVILEGES;
+EOF
         EOH
         only_if { password }
     end
+
 end
