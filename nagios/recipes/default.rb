@@ -7,6 +7,23 @@
 # All rights reserved - Do Not Redistribute
 #
 
+mysql_config = node[:nagios][:mysql]
+if mysql_config[:enable] and mysql_config[:host] == 'localhost'
+    mysql_user mysql_config[:username] do
+        action :create
+        password mysql_config[:password]
+    end
+end
+
+pgsql_config = node[:nagios][:pgsql]
+if pgsql_config[:enable] and pgsql_config[:host] == 'localhost'
+    pgsql_user pgsql_config[:username] do
+        action :create
+        password pgsql_config[:password]
+    end
+end
+
+
 distro_recipe = value_for_platform(
     %w{redhat centos} => {
         'default' => 'nagios::centos'
