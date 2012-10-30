@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: nagios
-# Recipe:: default
+# Recipe:: redhat
 #
 # Copyright 2012, Cogini
 #

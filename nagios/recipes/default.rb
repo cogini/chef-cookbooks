@@ -7,6 +7,9 @@
 # All rights reserved - Do Not Redistribute
 #
 
+include_recipe node[:nagios][:recipe]
+
+
 mysql_config = node[:nagios][:mysql]
 if mysql_config[:enable] and mysql_config[:host] == 'localhost'
     mysql_user mysql_config[:username] do
@@ -24,30 +27,12 @@ if pgsql_config[:enable] and pgsql_config[:host] == 'localhost'
 end
 
 
-distro_recipe = value_for_platform(
-    %w{redhat centos} => {
-        'default' => 'nagios::centos'
-    },
-    # Ubuntu
-    'default' => 'nagios::ubuntu'
-)
-
-include_recipe distro_recipe
-
-
-nrpe_service = value_for_platform(
-    %w{redhat centos} => {
-        'default' => 'nrpe'
-    },
-    # Ubuntu
-    'default' => 'nagios-nrpe-server'
-)
+nrpe_service = node[:nagios][:service]
 
 service nrpe_service do
     action [:start, :enable]
-    supports :restart => true, :reload => true
+    supports :restart => true
 end
-
 
 template '/etc/nagios/nrpe.cfg' do
     source 'nrpe.cfg.erb'
