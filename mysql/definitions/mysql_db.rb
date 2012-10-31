@@ -7,7 +7,7 @@ define :mysql_db, :action => :create, :owner => 'root', :host => 'localhost' do
 
     bash "create database #{db_name}" do
         code <<-EOH
-mysql -uroot -p#{root_password} <<EOF
+mysql -uroot -p#{root_password} <<"EOF"
     CREATE DATABASE IF NOT EXISTS `#{db_name}`;
     GRANT ALL ON `#{db_name}`.* TO '#{owner}'@'#{host}';
     FLUSH PRIVILEGES;
