@@ -25,6 +25,6 @@ bash 'install-yii' do
     EOH
 end
 
-execute "ln -s /opt/yii #{node[:yii][:symlink]}" do
+execute "ln -snf #{node[:yii][:path]} #{node[:yii][:symlink]}" do
     only_if {node[:yii][:symlink]}
 end
