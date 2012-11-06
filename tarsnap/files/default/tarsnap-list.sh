@@ -5,4 +5,4 @@
 set -e
 . "$(dirname "$0")/tarsnap-env.sh"
 
-$tarsnap --keyfile $read_key --list-archives
+$tarsnap --keyfile $read_key --list-archives -v
