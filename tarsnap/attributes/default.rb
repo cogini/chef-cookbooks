@@ -1,4 +1,13 @@
 default[:tarsnap][:version] = '1.0.32'
-default[:tarsnap][:dirs] = %w{
-    /etc
-}
+
+case node[:platform]
+when 'ubuntu'
+    default[:tarsnap][:dirs] = %w{
+        /etc
+        /var/backups
+    }
+else
+    default[:tarsnap][:dirs] = %w{
+        /etc
+    }
+end
