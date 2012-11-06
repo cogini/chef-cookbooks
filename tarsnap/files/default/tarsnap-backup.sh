@@ -10,7 +10,7 @@ do
     # Strip leading slash manually
     dir="${dir#/}"
     # Name of archive is like cogini-prod1_20120812-190027_opt-cogini
-    archive="$(hostname)_$(date -u +%Y%m%d-%H%M%S)_$(echo "${dir:1}" | tr / -)"
+    archive="$(hostname)_$(date -u +%Y%m%d-%H%M%S)_$(echo "${dir}" | tr / -)"
 
     nice $tarsnap --keyfile $write_key -c -C / --one-file-system -f "$archive" "$dir"
 done
