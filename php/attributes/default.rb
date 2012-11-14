@@ -20,32 +20,42 @@
 
 lib_dir = kernel['machine'] =~ /x86_64/ ? 'lib64' : 'lib'
 
-default['php']['install_method'] = 'package'
+default[:php][:install_method] = 'package'
+default[:php][:post_max_size] = "8M"
+default[:php][:timezone] = 'UTC'
+default[:php][:upload_max_filesize] = "2M"
 
-case node["platform"]
-when "centos", "redhat", "fedora", "amazon"
-  default['php']['conf_dir']                 = '/etc'
-  default['php']['ext_conf_dir']             = '/etc/php.d'
-  default[:php][:fpm][:user]                 = 'nobody'
-  default[:php][:fpm][:group]                = 'nobody'
-  default['php']['ext_dir']                  = "/usr/#{lib_dir}/php/modules"
-  default['php']['fpm_packages']             = %w{ php-fpm php-cli }
-  default['php']['fpm_service']              = 'php-fpm'
-  default['php']['fpm_config']               = '/etc/php-fpm.conf'
-  default['php']['fpm_pool_config']          = '/etc/php-fpm.d/www.conf'
-  default['php']['fpm_config_template']      = 'redhat-php-fpm.conf.erb'
-  default[:php][:fpm][:slowlog] = '/var/log/php-fpm/www-slow.log'
-when "debian", "ubuntu"
-  default['php']['conf_dir']                 = '/etc/php5/fpm'
-  default['php']['ext_conf_dir']             = '/etc/php5/conf.d'
-  default[:php][:fpm][:user]                 = 'www-data'
-  default[:php][:fpm][:group]                = 'www-data'
-  default['php']['fpm_packages']             = %w{ php5-fpm php5-cli }
-  default['php']['fpm_service']              = 'php5-fpm'
-  default['php']['fpm_config']               = '/etc/php5/fpm/php-fpm.conf'
-  default['php']['fpm_pool_config']          = '/etc/php5/fpm/pool.d/www.conf'
-  default['php']['fpm_config_template']      = 'ubuntu-php-fpm.conf.erb'
-  default[:php][:fpm][:slowlog] = '/var/log/php5-fpm.log.slow'
+default[:php][:fpm][:pm] = 'ondemand'
+default[:php][:fpm][:process][:max] = 10
+default[:php][:fpm][:catch_workers_output] = 'yes'
+
+default[:php][:session][:gc_probability] = 1
+
+case node['platform']
+when 'centos', 'redhat', 'fedora', 'amazon'
+    default[:php][:conf_dir] = '/etc'
+    default[:php][:ext_conf_dir] = '/etc/php.d'
+    default[:php][:ext_dir] = "/usr/#{lib_dir}/php/modules"
+    default[:php][:fpm][:group] = 'nobody'
+    default[:php][:fpm][:slowlog] = '/var/log/php-fpm/www-slow.log'
+    default[:php][:fpm][:user] = 'nobody'
+    default[:php][:fpm_config] = '/etc/php-fpm.conf'
+    default[:php][:fpm_config_template] = 'redhat-php-fpm.conf.erb'
+    default[:php][:fpm_packages] = %w{ php-fpm php-cli }
+    default[:php][:fpm_pool_config] = '/etc/php-fpm.d/www.conf'
+    default[:php][:fpm_service] = 'php-fpm'
+when 'debian', 'ubuntu'
+    default[:php][:conf_dir] = '/etc/php5/fpm'
+    default[:php][:ext_conf_dir] = '/etc/php5/conf.d'
+    default[:php][:fpm][:group] = 'www-data'
+    default[:php][:fpm][:slowlog] = '/var/log/php5-fpm.log.slow'
+    default[:php][:fpm][:user] = 'www-data'
+    default[:php][:fpm_config] = '/etc/php5/fpm/php-fpm.conf'
+    default[:php][:fpm_config_template] = 'ubuntu-php-fpm.conf.erb'
+    default[:php][:fpm_packages] = %w{ php5-fpm php5-cli }
+    default[:php][:fpm_pool_config] = '/etc/php5/fpm/pool.d/www.conf'
+    default[:php][:fpm_service] = 'php5-fpm'
+    default[:php][:session][:gc_probability] = 0
 end
 
 default['php']['url'] = 'http://us.php.net/distributions'
@@ -90,11 +100,3 @@ default['php']['configure_options'] = %W{--prefix=#{php['prefix_dir']}
                                           --with-sqlite3
                                           --with-pdo-mysql
                                           --with-pdo-sqlite}
-
-default[:php][:post_max_size] = "8M"
-default[:php][:upload_max_filesize] = "2M"
-default[:php][:timezone] = 'UTC'
-
-default[:php][:fpm][:pm] = 'ondemand'
-default[:php][:fpm][:process][:max] = 10
-default[:php][:fpm][:catch_workers_output] = 'yes'
