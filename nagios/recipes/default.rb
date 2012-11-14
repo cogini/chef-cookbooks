@@ -40,6 +40,6 @@ template '/etc/nagios/nrpe.cfg' do
 end
 
 
-unless node[:platform] = 'ubuntu' && node[:platform_version].to_f <= 8.04
+unless node[:platform] == 'ubuntu' && node[:platform_version].to_f <= 8.04
     include_recipe 'logwarn'
 end
