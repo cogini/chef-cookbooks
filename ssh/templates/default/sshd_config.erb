@@ -1,8 +1,9 @@
+<% ssh = node[:ssh] -%>
 # Chef generated configuration file
 # See the sshd_config(5) manpage for details
 
 # What ports, IPs and protocols we listen for
-<% node[:ssh][:ports].each do |port| -%>
+<% ssh[:ports].each do |port| -%>
 Port <%= port %>
 <% end -%>
 
@@ -11,7 +12,7 @@ Port <%= port %>
 #ListenAddress 0.0.0.0
 Protocol 2
 # HostKeys for protocol version 2
-<% node[:ssh][:hostkeys].each do |hostkey| -%>
+<% ssh[:hostkeys].each do |hostkey| -%>
 HostKey <%= hostkey %>
 <% end -%>
 #Privilege Separation is turned on for security
@@ -51,7 +52,7 @@ PermitEmptyPasswords no
 ChallengeResponseAuthentication no
 
 # Change to no to disable tunnelled clear text passwords
-<% unless node[:ssh][:enable_password] -%>
+<% unless ssh[:enable_password] -%>
 PasswordAuthentication no
 <% else -%>
 PasswordAuthentication yes
@@ -80,8 +81,9 @@ TCPKeepAlive yes
 # Allow client to pass locale environment variables
 AcceptEnv LANG LC_*
 
-Subsystem sftp /usr/lib/openssh/sftp-server
+<% ssh[:subsystems].each do |name, command| -%>
+Subsystem <%= name %> <%= command %>
+<% end -%>
 
 UsePAM yes
-
 AllowGroups sshusers

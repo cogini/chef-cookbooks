@@ -4,6 +4,7 @@ default[:ssh][:hostkeys] = %w{
     /etc/ssh/ssh_host_dsa_key
 }
 default[:ssh][:ports] = [22]
+default[:ssh][:subsystems] = { 'sftp' => '/usr/lib/openssh/sftp-server' }
 default[:ssh][:users] = []
 
 case node[:platform]
