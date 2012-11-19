@@ -7,21 +7,12 @@ default[:basics][:package_mask] = []
 default[:basics][:package_unmask] = []
 default[:aliases] = {}
 
-default[:ssh][:ports] = [22]
-default[:ssh][:enable_password] = false
-default[:ssh][:hostkeys] = %w{
-    /etc/ssh/ssh_host_rsa_key
-    /etc/ssh/ssh_host_dsa_key
-}
-
 default[:sudoers] = []
-default[:sshusers] = []
 
 case node[:platform]
 
 when 'redhat', 'centos', 'amazon'
     default[:admin_group] = 'wheel'
-    default[:ssh][:service] = 'sshd'
     default[:basics][:packages] = %w(
         bind-utils
         byobu
@@ -59,7 +50,6 @@ when 'redhat', 'centos', 'amazon'
 
 when 'ubuntu'
     default[:admin_group] = 'admin'
-    default[:ssh][:service] = 'ssh'
     default[:basics][:package_mask] = %w{
         apt-listchanges
         consolekit
@@ -95,12 +85,5 @@ when 'ubuntu'
     }
     if node[:platform_version].to_f <= 8.4
         default[:basics][:packages] -= %w{ byobu tmux }
-    end
-    if node[:platform_version].to_f >= 12.04
-        default[:ssh][:hostkeys] = %w{
-            /etc/ssh/ssh_host_rsa_key
-            /etc/ssh/ssh_host_dsa_key
-            /etc/ssh/ssh_host_ecdsa_key
-        }
     end
 end

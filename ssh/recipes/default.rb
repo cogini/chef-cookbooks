@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-sshusers = node[:sshusers] | node[:admin_users] | node[:sudoers]
+sshusers = node[:ssh][:users] | node[:admin_users] | node[:sudoers]
 
 service node[:ssh][:service] do
     supports :restart => true
@@ -28,7 +28,7 @@ group 'sshusers' do
 end
 
 template '/etc/ssh/sshd_config' do
-    source 'sshd-config.erb'
+    source 'sshd_config.erb'
     mode '0644'
     notifies :restart, "service[#{node[:ssh][:service]}]"
 end

@@ -18,7 +18,7 @@ end
 include_recipe 'basics::hostname'
 include_recipe 'basics::aliases'
 include_recipe 'basics::unicode'
-include_recipe 'basics::sshusers'
+include_recipe 'ssh'
 include_recipe 'basics::sudoers'
 include_recipe 'basics::rotate_mail'
 include_recipe 'localbackup'
