@@ -1,8 +1,10 @@
+default[:ssh][:allow_groups] = %w{ sshusers }
 default[:ssh][:enable_password] = false
 default[:ssh][:hostkeys] = %w{
     /etc/ssh/ssh_host_rsa_key
     /etc/ssh/ssh_host_dsa_key
 }
+default[:ssh][:matches] = {}
 default[:ssh][:ports] = [22]
 default[:ssh][:subsystems] = { 'sftp' => '/usr/lib/openssh/sftp-server' }
 default[:ssh][:users] = []

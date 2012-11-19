@@ -81,9 +81,16 @@ TCPKeepAlive yes
 # Allow client to pass locale environment variables
 AcceptEnv LANG LC_*
 
-<% ssh[:subsystems].each do |name, command| -%>
+<% node[:ssh][:subsystems].each do |name, command| -%>
 Subsystem <%= name %> <%= command %>
 <% end -%>
 
 UsePAM yes
-AllowGroups sshusers
+AllowGroups <%= ssh[:allow_groups].join(' ') %>
+
+<% node[:ssh][:matches].each do |criteria, options| -%>
+Match <%= criteria %>
+    <% options.each do |key, value| -%>
+    <%= key %> <%= value %>
+    <% end -%>
+<% end -%>
