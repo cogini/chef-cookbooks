@@ -5,32 +5,31 @@
 
 alias_database = hash:/etc/aliases
 alias_maps = hash:/etc/aliases
-
 append_dot_mydomain = no
 biff = no
 disable_dns_lookups = <%= postfix[:disable_dns_lookups] %>
-
 inet_interfaces = all
 inet_protocols = <%= postfix[:inet_protocols] %>
-
 mailbox_size_limit = 0
-
 mydestination = <%= postfix[:myhostname] %>, <%= node[:hostname] %>, localhost.localdomain, localhost
-<% if postfix[:mydomain] -%>
-mydomain = <%= postfix[:mydomain] %>
-<% end -%>
 myhostname = <%= postfix[:myhostname] %>
 mynetworks = <%= postfix[:mail_relay_networks].join(', ') %>
 myorigin = <%= postfix[:myorigin] %>
-
 recipient_delimiter = +
-
 relay_domains = <%= postfix[:relay_domains].join(', ') %>
 relay_recipient_maps = <%= postfix[:relay_recipient_maps] %>
 relayhost = <%= postfix[:relayhost] %>
-
 smtp_sasl_auth_enable = <%= postfix[:smtp_sasl_auth_enable] %>
 smtp_tls_session_cache_database = btree:${queue_directory}/smtp_scache
+smtpd_banner = $myhostname ESMTP $mail_name
+smtpd_recipient_restrictions = <%= postfix[:smtpd_recipient_restrictions].join(', ') %>
+smtpd_use_tls = <%= postfix[:smtpd_use_tls] %>
+transport_maps = <%= postfix[:transport_maps_file] %>
+
+<% if postfix[:mydomain] -%>
+mydomain = <%= postfix[:mydomain] %>
+<% end -%>
+
 <% if postfix[:smtp_sasl_auth_enable] == 'yes' -%>
 smtp_sasl_password_maps = <%= postfix[:smtp_sasl_password_maps] %>
 smtp_sasl_security_options = <%= postfix[:smtp_sasl_security_options] %>
@@ -38,13 +37,8 @@ smtp_tls_CAfile = <%= postfix[:smtp_tls_cafile] %>
 smtp_use_tls = <%= postfix[:smtp_use_tls] %>
 <% end -%>
 
-smtpd_banner = $myhostname ESMTP $mail_name
-smtpd_recipient_restrictions = <%= postfix[:smtpd_recipient_restrictions].join(', ') %>
-smtpd_use_tls = <%= postfix[:smtpd_use_tls] %>
 <% if postfix[:smtpd_use_tls] == 'yes' -%>
 smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
 smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
 smtpd_tls_session_cache_database = btree:${queue_directory}/smtpd_scache
 <% end -%>
-
-transport_maps = <%= postfix[:transport_maps_file] %>
