@@ -20,6 +20,8 @@ relay_domains = <%= postfix[:relay_domains].join(', ') %>
 relay_recipient_maps = <%= postfix[:relay_recipient_maps] %>
 relayhost = <%= postfix[:relayhost] %>
 smtp_sasl_auth_enable = <%= postfix[:smtp_sasl_auth_enable] %>
+smtp_tls_note_starttls_offer = <%= postfix[:smtp_tls_note_starttls_offer] %>
+smtp_tls_security_level = <%= postfix[:smtp_tls_security_level] %>
 smtp_tls_session_cache_database = btree:${queue_directory}/smtp_scache
 smtpd_banner = $myhostname ESMTP $mail_name
 smtpd_recipient_restrictions = <%= postfix[:smtpd_recipient_restrictions].join(', ') %>

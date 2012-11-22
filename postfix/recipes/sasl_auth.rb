@@ -18,6 +18,10 @@
 # limitations under the License.
 #
 
+postfix = node[:postfix]
+pw_maps = postfix[:smtp_sasl_password_maps]
+pw_file = pw_maps.sub('hash:', '')
+
 %w{ libsasl2-2 ca-certificates }.each do |pkg|
   package pkg do
     action :install
@@ -25,11 +29,11 @@
 end
 
 execute 'postmap-sasl_passwd' do
-  command 'postmap /etc/postfix/sasl_passwd'
+  command "postmap #{pw_file}"
   action :nothing
 end
 
-template '/etc/postfix/sasl_passwd' do
+template pw_file do
   source 'sasl_passwd.erb'
   owner 'root'
   group 'root'
