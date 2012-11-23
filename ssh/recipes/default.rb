@@ -7,13 +7,20 @@
 # All rights reserved - Do Not Redistribute
 #
 
-sshusers = node[:ssh][:users] | node[:admin_users] | node[:sudoers]
+sftp = node[:ssh][:sftp]
+ssh_users = node[:ssh][:users] | node[:admin_users] | node[:sudoers]
+sftp_users = sftp[:users]
+sftp_upload_dir = sftp[:upload_dir]
+
 
 service node[:ssh][:service] do
     supports :restart => true
 end
 
-sshusers.each do |username|
+
+# SSH users and group
+
+ssh_users.each do |username|
     user username do
         home "/home/#{username}"
         shell '/bin/bash'
@@ -22,10 +29,32 @@ sshusers.each do |username|
     end
 end
 
-group 'sshusers' do
-    members sshusers
+group node[:ssh][:group] do
+    members ssh_users
     action :create
 end
+
+
+# SFTP users and group
+
+sftp_users.each do |sftp_user|
+    user sftp_user do
+        home "/#{sftp_upload_dir}"
+        shell '/usr/sbin/nologin'
+        action :create
+    end
+    directory "#{sftp[:dir]}/#{sftp_user}/#{sftp_upload_dir}" do
+        action :create
+        recursive true
+        owner sftp_user
+    end
+end
+
+group sftp[:group] do
+    members sftp_users
+    action :create
+end
+
 
 template '/etc/ssh/sshd_config' do
     source 'sshd_config.erb'
