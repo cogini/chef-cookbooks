@@ -1,3 +1,5 @@
+<% nagios_config = node[:nagios] -%>
+<% total_procs = nagios_config[:total_procs] -%>
 #############################################################################
 # Sample NRPE Config File
 # Written by: Ethan Galstad (nagios@nagios.org)
@@ -22,7 +24,7 @@ log_facility=daemon
 # number.  The file is only written if the NRPE daemon is started by the root
 # user and is running in standalone mode.
 
-pid_file=<%= node[:nagios][:pid_file] %>
+pid_file=<%= nagios_config[:pid_file] %>
 
 
 
@@ -75,7 +77,7 @@ nrpe_group=nagios
 #
 # NOTE: This option is ignored if NRPE is running under either inetd or xinetd
 
-allowed_hosts=<%= node[:nagios][:allowed_hosts].join(',') %>
+allowed_hosts=<%= nagios_config[:allowed_hosts].join(',') %>
 
 
 
@@ -198,20 +200,20 @@ connection_timeout=300
 command[check_users]=/usr/lib/nagios/plugins/check_users -w 5 -c 10
 command[check_load]=/usr/lib/nagios/plugins/check_load -w 15,10,5 -c 30,25,20
 command[check_zombie_procs]=/usr/lib/nagios/plugins/check_procs -w 5 -c 10 -s Z
-
-<% nagios_config = node[:nagios] %>
-<% total_procs = nagios_config[:total_procs] %>
-command[check_total_procs]=/usr/lib/nagios/plugins/check_procs -w <%= total_procs[:warning] %> -c <%= total_procs[:critical] %>
-
 command[check_root]=/usr/lib/nagios/plugins/check_disk -w 10% -c 5% -x none
 command[check_logwarn_email]=/usr/lib/nagios/plugins/check_logwarn -p /var/log/mail.log '^.* localhost postfix/.* status=(bounced|deferred)'
+command[check_total_procs]=/usr/lib/nagios/plugins/check_procs -w <%= total_procs[:warning] %> -c <%= total_procs[:critical] %>
 
-<% pgsql = node[:nagios][:pgsql] -%>
+<% if node[:platform] == 'ubuntu' -%>
+command[check_reboot]=<%= nagios_config[:plugin_dir] %>/check_reboot
+<% end -%>
+
+<% pgsql = nagios_config[:pgsql] -%>
 <% if pgsql[:enable] -%>
 command[check_pgsql]=/usr/lib/nagios/plugins/check_pgsql -H <%= pgsql[:host] %> -l <%= pgsql[:username] %> -p <%= pgsql[:password] %>
 <% end -%>
 
-<% mysql = node[:nagios][:mysql] -%>
+<% mysql = nagios_config[:mysql] -%>
 <% if mysql[:enable] -%>
 command[check_mysqld]=/usr/lib/nagios/plugins/check_mysql_query -q 'select 1+2' -H <%= mysql[:host] %> -u <%= mysql[:username] %> -p '<%= mysql[:password] %>' -w 3:3 -c 3:3
 <% end -%>

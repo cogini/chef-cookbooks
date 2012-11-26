@@ -15,6 +15,7 @@ when 'redhat', 'centos'
     default[:nagios][:recipe] = 'nagios::redhat'
     default[:nagios][:service] = 'nrpe'
 when 'ubuntu'
+    default[:nagios][:plugin_dir] = '/usr/lib/nagios/plugins/local'
     default[:nagios][:recipe] = 'nagios::ubuntu'
     default[:nagios][:service] = 'nagios-nrpe-server'
     if node['platform_version'].to_f >= 10.04
