@@ -25,18 +25,6 @@ default['nginx']['dir'] = '/etc/nginx'
 default['nginx']['log_dir'] = '/var/log/nginx'
 default['nginx']['binary'] = '/usr/sbin/nginx'
 
-case node['platform']
-when 'debian','ubuntu'
-  default['nginx']['user']       = 'www-data'
-  default['nginx']['init_style'] = 'runit'
-when 'redhat','centos','scientific','amazon','oracle','fedora'
-  default['nginx']['user']       = 'nginx'
-  default['nginx']['init_style'] = 'init'
-else
-  default['nginx']['user']       = 'www-data'
-  default['nginx']['init_style'] = 'init'
-end
-
 default['nginx']['pid'] = '/var/run/nginx.pid'
 
 default['nginx']['gzip']              = 'on'
@@ -66,3 +54,19 @@ default['nginx']['disable_access_log'] = false
 default['nginx']['install_method'] = 'package'
 
 default[:nginx][:client_max_body_size] = '1M'
+default[:nginx][:types_hash_max_size] = '1024'
+
+case node['platform']
+when 'ubuntu'
+    default['nginx']['user'] = 'www-data'
+    default['nginx']['init_style'] = 'runit'
+    if node[:platform_version].to_f >= 12.04
+        default[:nginx][:types_hash_max_size] = 2048
+    end
+when 'redhat','centos','scientific','amazon','oracle','fedora'
+    default['nginx']['user']       = 'nginx'
+    default['nginx']['init_style'] = 'init'
+else
+    default['nginx']['user']       = 'www-data'
+    default['nginx']['init_style'] = 'init'
+end
