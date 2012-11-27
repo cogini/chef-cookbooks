@@ -3,4 +3,4 @@
 	url = git://github.com/phunehehe/erlang-cookbook.git
 [submodule "elasticsearch"]
 	path = elasticsearch
-	url = https://github.com/karmi/cookbook-elasticsearch
+	url = https://github.com/phunehehe/cookbook-elasticsearch
