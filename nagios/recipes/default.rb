@@ -10,6 +10,11 @@
 include_recipe node[:nagios][:recipe]
 
 
+Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
+node.set_unless[:nagios][:mysql][:password] = secure_password
+node.set_unless[:nagios][:pgsql][:password] = secure_password
+
+
 mysql_config = node[:nagios][:mysql]
 if mysql_config[:enable] and mysql_config[:host] == 'localhost'
     mysql_user mysql_config[:username] do
