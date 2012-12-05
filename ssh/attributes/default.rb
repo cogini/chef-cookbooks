@@ -34,8 +34,10 @@ end
 case node[:platform]
 when 'redhat', 'centos', 'amazon'
     default[:ssh][:service] = 'sshd'
+    default[:ssh][:sftp][:shell] = '/sbin/nologin'
 when 'ubuntu'
     default[:ssh][:service] = 'ssh'
+    default[:ssh][:sftp][:shell] = '/usr/sbin/nologin'
     if node[:platform_version].to_f >= 12.04
         default[:ssh][:hostkeys] = %w{
             /etc/ssh/ssh_host_rsa_key

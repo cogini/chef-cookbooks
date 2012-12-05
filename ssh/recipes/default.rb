@@ -40,7 +40,7 @@ end
 sftp_users.each do |sftp_user|
     user sftp_user do
         home "/#{sftp_upload_dir}"
-        shell '/usr/sbin/nologin'
+        shell sftp[:shell]
         action :create
     end
     directory "#{sftp[:dir]}/#{sftp_user}/#{sftp_upload_dir}" do
