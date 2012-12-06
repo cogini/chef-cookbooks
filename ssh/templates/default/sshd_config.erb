@@ -84,7 +84,7 @@ Subsystem <%= name %> <%= command %>
 UsePAM yes
 AllowGroups <%= ssh[:allow_groups].join(' ') %>
 
-<% if ssh[:sftp][:users] -%>
+<% if node[:ssh][:sftp][:users] -%>
 Match Group <%= ssh[:sftp][:group] %>
     PasswordAuthentication yes
     ChrootDirectory "<%= ssh[:sftp][:dir] %>/%u"
