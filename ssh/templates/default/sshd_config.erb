@@ -52,11 +52,7 @@ PermitEmptyPasswords no
 ChallengeResponseAuthentication no
 
 # Change to no to disable tunnelled clear text passwords
-<% unless ssh[:enable_password] -%>
-PasswordAuthentication no
-<% else -%>
-PasswordAuthentication yes
-<% end -%>
+PasswordAuthentication <%= ssh[:enable_password] ? 'yes' : 'no' %>
 
 # Kerberos options
 #KerberosAuthentication no
@@ -88,7 +84,14 @@ Subsystem <%= name %> <%= command %>
 UsePAM yes
 AllowGroups <%= ssh[:allow_groups].join(' ') %>
 
-<% node[:ssh][:matches].each do |criteria, options| -%>
+<% if ssh[:sftp][:users] -%>
+Match Group <%= ssh[:sftp][:group] %>
+    PasswordAuthentication yes
+    ChrootDirectory "<%= ssh[:sftp][:dir] %>/%u"
+    ForceCommand internal-sftp
+<% end -%>
+
+<% ssh[:matches].each do |criteria, options| -%>
 Match <%= criteria %>
     <% options.each do |key, value| -%>
     <%= key %> <%= value %>

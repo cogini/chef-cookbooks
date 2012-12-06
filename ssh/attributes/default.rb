@@ -21,16 +21,6 @@ default[:ssh][:allow_groups] = [
     sftp_group,
 ]
 
-if node[:ssh][:sftp][:users]
-    default[:ssh][:matches] = {
-        "Group #{sftp_group}" => {
-            'ChrootDirectory' => "#{node[:ssh][:sftp][:dir]}/%u",
-            'ForceCommand' => 'internal-sftp',
-            'PasswordAuthentication' => 'yes',
-        }
-    }
-end
-
 case node[:platform]
 when 'redhat', 'centos', 'amazon'
     default[:ssh][:service] = 'sshd'
