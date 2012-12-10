@@ -1,4 +1,4 @@
-default[:tarsnap][:version] = '1.0.32'
+default[:tarsnap][:version] = '1.0.33'
 
 case node[:platform]
 when 'ubuntu'
