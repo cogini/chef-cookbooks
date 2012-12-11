@@ -23,7 +23,7 @@ tar_dir() {
     # Replace / with _
     out_base="${the_dir//\//_}"
     out_file="$backup_dir/$out_base-$date_stamp.tar.gz"
-    /bin/tar -Pczf "$out_file" "$the_dir"
+    /bin/tar --exclude access.log -Pczf "$out_file" "$the_dir"
     rotate "$out_base"
 }
 
@@ -45,6 +45,7 @@ rotate mysql
 
 for thing in $(echo <%= node[:localbackup][:dirs].join(' ') %>)
 do
+    thing="$(readlink -f $thing)"
     echo "Backing up $thing..."
     tar_dir "$thing"
 done
