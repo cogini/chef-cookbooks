@@ -164,7 +164,7 @@ LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combine
 LogFormat "%h %l %u %t \"%r\" %>s %b" common
 LogFormat "%{Referer}i -> %U" referer
 LogFormat "%{User-agent}i" agent
-LogFormat "{\"remote_host\": \"%h\", \"remote_logname\": \"%l\", \"remote_user\": \"%u\", \"time\": \"%t\", \"request\": \"%r\", \"status\": %>s, \"response_size\": %b, \"referer\": \"%{Referer}i\", \"user_agent\": \"%{User-Agent}i\", \"response_time\": %D}" json
+LogFormat "{\"remote_host\": \"%h\", \"remote_logname\": \"%l\", \"remote_user\": \"%u\", \"time\": \"%t\", \"request\": \"%r\", \"status\": %>s, \"response_size\": \"%b\", \"referer\": \"%{Referer}i\", \"user_agent\": \"%{User-Agent}i\", \"response_time\": %D}" json
 #
 
 # Customizable error responses come in three flavors:
