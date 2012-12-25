@@ -7,13 +7,20 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe "yum::epel"
+execute 'chkconfig --level 2345 atop on' do
+    action :run
+    only_if 'test -f /etc/init.d/atop'
+end
+
 
 # Default shared memory is too low to be useful
-template "/etc/sysctl.conf" do
-    mode "0644"
-    source "redhat-sysctl.conf.erb"
+template '/etc/sysctl.conf' do
+    mode '0644'
+    source 'redhat-sysctl.conf.erb'
 end
+
+
+include_recipe 'yum::epel'
 
 node.basics.epel_packages.each do |pkg|
     package pkg do
