@@ -12,7 +12,7 @@ do
     # Name of archive is like cogini-prod1_20120812-190027_opt-cogini
     archive="$(hostname)_$(date -u +%Y%m%d-%H%M%S)_$(echo "${dir}" | tr / -)"
 
-    nice $tarsnap --keyfile $write_key -c -C / --one-file-system -f "$archive" "$dir"
+    nice $tarsnap --keyfile $write_key -c -C / --one-file-system --exclude access.log -f "$archive" "$dir"
 done
 
 "$tarsnapdir/tarsnap-prune.sh"
