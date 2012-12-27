@@ -43,7 +43,7 @@ when 'redhat', 'centos', 'amazon'
         iftop
         tmux
     )
-    if node[:platform] = 'centos' && node[:platform_version].to_f >= 6
+    if node[:platform] == 'centos' && node[:platform_version].to_f >= 6
         # byobu not on centos6 yet
         default[:basics][:packages].delete('byobu')
     end
