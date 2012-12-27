@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-require_recipe 'git'
+include_recipe 'git'
 
 yii_path = node[:yii][:path]
 
