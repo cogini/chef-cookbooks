@@ -68,7 +68,7 @@ unless File.exists?(package_file)
 
     execute "build #{package_file}" do
         cwd build_dir
-        command "fpm -s dir -t #{node[:fpm][:package_type]} -n nodejs -v #{version} -p #{package_file} -c install ."
+        command "fpm --rpm-os linux -s dir -t #{node[:fpm][:package_type]} -n nodejs -v #{version} -p #{package_file} -C install ."
     end
 end
 
