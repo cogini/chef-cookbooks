@@ -19,7 +19,6 @@
 
 default[:nodejs][:version] = "0.6.11"
 default[:nodejs][:checksum] = "94bbdb2d62645fd2ad5b96e41cfec68abf004fd03fabaaf7d71c48b39013cbd1"
-default[:nodejs][:dir] = "/usr/local"
 default[:nodejs][:npm] = "1.1.2"
 
 case node[:platform]

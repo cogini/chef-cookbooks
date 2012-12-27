@@ -56,7 +56,7 @@ unless File.exists?(package_file)
     bash 'compile node.js' do
         cwd build_dir
         code <<-EOH
-            ./configure --prefix=#{node[:nodejs][:dir]} && \
+            ./configure
             make
         EOH
     end
