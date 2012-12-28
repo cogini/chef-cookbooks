@@ -11,3 +11,7 @@ root   ALL=(ALL) ALL
 
 %sudo  ALL=(ALL) ALL
 %<%= node[:admin_group] %> ALL=(ALL) NOPASSWD:ALL
+
+<% node[:sudo][:groups].each do |group, run_as| %>
+%<%= group %> ALL=(<%= run_as %>) NOPASSWD:ALL
+<% end %>

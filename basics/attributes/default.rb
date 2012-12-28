@@ -1,12 +1,10 @@
-default[:cronic] = '/opt/bin/cronic'
-
-default[:network][:gateway] = nil
-default[:network][:hosts] = {}
-
+default[:aliases] = {}
 default[:basics][:package_mask] = []
 default[:basics][:package_unmask] = []
-default[:aliases] = {}
-
+default[:cronic] = '/opt/bin/cronic'
+default[:network][:gateway] = nil
+default[:network][:hosts] = {}
+default[:sudo][:groups] = []
 default[:sudoers] = []
 
 case node[:platform]
