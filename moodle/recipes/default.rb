@@ -8,12 +8,13 @@
 #
 
 include_recipe 'git'
-include_recipe 'php::module_soap'
+include_recipe 'php::module_curl'
 include_recipe 'php::module_dom'
-include_recipe 'php::module_mbstring'
-include_recipe 'php::module_xmlrpc'
 include_recipe 'php::module_gd'
 include_recipe 'php::module_intl'
+include_recipe 'php::module_mbstring'
+include_recipe 'php::module_soap'
+include_recipe 'php::module_xmlrpc'
 include_recipe 'basics::cronic'
 
 
