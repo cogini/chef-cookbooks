@@ -17,13 +17,13 @@ key = "#{node.platform}#{node.platform_version.to_i}-#{system('uname -m | grep 6
 
 case key
 when 'centos6-64', 'redhat6-64'
-    url = 'http://dl.atrpms.net/all/atrpms-repo-6-5.el6.x86_64.rpm'
+    url = 'http://dl.atrpms.net/all/atrpms-repo-6-6.el6.x86_64.rpm'
 when 'centos6-32', 'redhat6-32'
-    url = 'http://dl.atrpms.net/all/atrpms-repo-6-5.el6.i686.rpm'
+    url = 'http://dl.atrpms.net/all/atrpms-repo-6-6.el6.i686.rpm'
 when 'centos5-64', 'redhat5-64'
-    url = 'http://dl.atrpms.net/all/atrpms-repo-5-5.el5.x86_64.rpm'
+    url = 'http://dl.atrpms.net/all/atrpms-repo-5-6.el5.x86_64.rpm'
 when 'centos5-32', 'redhat5-32'
-    url = 'http://dl.atrpms.net/all/atrpms-repo-5-5.el5.i386.rpm'
+    url = 'http://dl.atrpms.net/all/atrpms-repo-5-6.el5.i386.rpm'
 else
     raise NotImplementedError
 end
