@@ -19,6 +19,9 @@
 # limitations under the License.
 #
 
+node.set[:postgresql][:dir] = '/var/lib/pgsql/9.1/data'
+
+
 ::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
 
 include_recipe "yum::postgresql91"
