@@ -1,5 +1,5 @@
-def yii_default_path(version)
-    return "/opt/yii-#{version}"
+class Chef::Recipe
+    include YiiLibrary
 end
 
 
