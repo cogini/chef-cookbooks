@@ -1,3 +1,6 @@
 [submodule "elasticsearch"]
 	path = elasticsearch
 	url = git://github.com/phunehehe/cookbook-elasticsearch
+[submodule "mongodb"]
+	path = mongodb
+	url = https://github.com/edelight/chef-mongodb
