@@ -1,4 +1,6 @@
 #
+# DEPRECATED, USE yii_framework INSTEAD
+#
 # Cookbook Name:: yii
 # Recipe:: default
 #

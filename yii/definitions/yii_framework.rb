@@ -1,7 +1,12 @@
+def yii_default_path(version)
+    return "/opt/yii-#{version}"
+end
+
+
 define :yii_framework do
 
     yii_version = params[:name]
-    yii_path = params[:path] || "/opt/yii-#{yii_version}"
+    yii_path = params[:path] || yii_default_path(yii_version)
 
     directory File.dirname(yii_path) do
         action :create
