@@ -23,7 +23,7 @@ end
 
 %w{ check_reboot check_updates }.each do |plugin|
     template "#{plugin_dir}/#{plugin}" do
-        source plugin
+        source "ubuntu-#{plugin}.erb"
         mode '0775'
     end
 end
