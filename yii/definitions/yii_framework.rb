@@ -5,20 +5,26 @@ end
 
 define :yii_framework do
 
-    yii_version = params[:name]
-    yii_path = params[:path] || yii_default_path(yii_version)
+    version = params[:name]
+    path = params[:path] || yii_default_path(version)
+    symlink = params[:symlink]
 
-    directory File.dirname(yii_path) do
+    directory File.dirname(path) do
         action :create
         recursive true
     end
 
     bash 'install-yii' do
         code <<-EOH
-            [[ -d #{yii_path} ]] || git clone https://github.com/yiisoft/yii.git #{yii_path}
-            cd #{yii_path}
+            [[ -d #{path} ]] || git clone https://github.com/yiisoft/yii.git #{path}
+            cd #{path}
             git fetch
-            git checkout #{yii_version}
+            git checkout #{version}
         EOH
+    end
+
+    link symlink do
+        to path
+        only_if { symlink }
     end
 end
