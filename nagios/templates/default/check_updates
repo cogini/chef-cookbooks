@@ -17,5 +17,5 @@ then
     [[ "$packages" -gt "$critical" ]] && exit 2
     exit 1
 else
-    echo 'Quite up-to-date'
+    echo "$packages packages need upgrading."
 fi
