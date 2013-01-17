@@ -64,11 +64,14 @@ when "fedora","suse"
   package "postgresql-server"
 end
 
+
+pgsql_dir = node[:postgresql][:dir]
+
 execute "/sbin/service postgresql-9.1 initdb" do
-  not_if { ::FileTest.exist?(File.join(node.postgresql.dir, "PG_VERSION")) }
+  not_if { ::FileTest.exist?(File.join(pgsql_dir, "PG_VERSION")) }
 end
 
-template "#{node[:postgresql][:dir]}/postgresql.conf" do
+template "#{pgsql_dir}/postgresql.conf" do
   source "redhat.postgresql.conf.erb"
   owner "postgres"
   group "postgres"
@@ -79,7 +82,7 @@ end
 archive_dir = node.postgresql.config.archive_dir
 
 if node.postgresql.is_slave
-    template "#{node.postgresql.dir}/recovery.conf" do
+    template "#{pgsql_dir}/recovery.conf" do
       source "recovery.conf.erb"
       owner "postgres"
       group "postgres"
