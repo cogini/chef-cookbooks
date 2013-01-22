@@ -9,23 +9,34 @@
 
 include_recipe 'basics::cronic'
 
-script_dir = '/root/scripts'
 
-[node[:localbackup][:destination], script_dir].each do |dir|
+[
+    node[:localbackup][:script_dir],
+    node[:localbackup][:destination],
+].each do |dir|
     directory dir do
         action 'create'
         recursive true
     end
 end
 
-template "#{script_dir}/make_backup.sh" do
+
+file node[:localbackup][:ignore_file] do
+    content node[:localbackup][:ignore].join("\n")
+end
+
+
+backup_script = "#{node[:localbackup][:script_file]}"
+
+
+template backup_script do
     source 'make_backup.sh.erb'
-    action 'create'
     mode '0700'
 end
+
 
 cron 'local backup' do
     hour node[:localbackup][:cron_time]
     minute '0'
-    command "#{node[:cronic]} #{script_dir}/make_backup.sh"
+    command "#{node[:cronic]} #{backup_script}"
 end
