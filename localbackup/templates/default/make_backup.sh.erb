@@ -6,7 +6,7 @@ backups_to_keep=5
 
 cd /tmp
 umask 0077
-date_stamp=$(date +%Y%m%d%H%M%S)
+timestamp=$(date +%Y%m%d%H%M%S)
 
 # Remove old versions
 rotate() {
@@ -22,7 +22,7 @@ tar_dir() {
     the_dir="$1"
     # Replace / with _
     out_base="${the_dir//\//_}"
-    out_file="$backup_dir/$out_base-$date_stamp.tar.gz"
+    out_file="$backup_dir/$out_base-$timestamp.tar.gz"
     /bin/tar --exclude-from <%= node[:localbackup][:ignore_file] %> -Pczf "$out_file" "$the_dir"
     rotate "$out_base"
 }
@@ -31,7 +31,7 @@ tar_dir() {
 # Make backup of PostgreSQL
 echo Backing up PostgreSQL...
 su postgres -c "/usr/bin/pg_dumpall -cO" |
-    gzip > "$backup_dir/postgresql-$date_stamp.sql.gz"
+    gzip > "$backup_dir/postgresql-$timestamp.sql.gz"
 rotate postgresql
 <% end -%>
 
@@ -39,7 +39,7 @@ rotate postgresql
 # Make backup of MySQL
 echo Backing up MySQL...
 /usr/bin/mysqldump -u<%= node[:localbackup][:mysql][:user] %> -p<%= node[:localbackup][:mysql][:password] %> --all-databases \
-    | gzip > "$backup_dir/mysql-$date_stamp.sql.gz"
+    | gzip > "$backup_dir/mysql-$timestamp.sql.gz"
 rotate mysql
 <% end -%>
 
