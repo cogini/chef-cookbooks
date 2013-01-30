@@ -54,12 +54,3 @@ template "nginx.conf" do
   mode "0644"
   notifies :reload, 'service[nginx]', :immediately
 end
-
-template "#{node['nginx']['dir']}/sites-available/default" do
-  source "default-site.erb"
-  owner "root"
-  group "root"
-  mode 0644
-end
-
-nginx_site 'default'
