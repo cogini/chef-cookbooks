@@ -34,7 +34,7 @@ end
 
 template "/etc/init.d/supervisord" do
     source "_etc_init.d_supervisord.erb"
-    mode "0744"
+    mode "0755"
 end
 
 template "/etc/supervisord.conf" do
