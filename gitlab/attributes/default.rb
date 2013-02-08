@@ -11,3 +11,9 @@ default[:gitlab][:gitlab_user][:shell] = "/bin/bash"
 default[:gitlab][:gitlab_user][:home] = "/home/gitlab"
 
 default[:gitlab][:group] = "git"
+
+default[:gitlab][:dir] = "/home/gitlab/gitlab"
+
+set[:gitlab][:dbName] = "gitlab_production"
+set[:gitlab][:dbUsername] = "gitlab"
+set[:gitlab][:dbPassword] = "gitlab"

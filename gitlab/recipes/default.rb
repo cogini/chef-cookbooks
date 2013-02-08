@@ -113,7 +113,7 @@ pgsql_user node[:gitlab][:gitlab_user][:name] do
   password "gitlab"
 end
 
-pgsql_db "gitlab_production" do
+pgsql_db node[:gitlab][:dbName] do
   owner node[:gitlab][:gitlab_user][:name]
 end
 
