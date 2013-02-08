@@ -101,7 +101,7 @@ bash "Install gitolite" do
     cd #{gitolite_path}
     git fetch
     git checkout gl-v320
-    gitolite/install -ln #{git_bin_dir}
+    ./install -ln #{git_bin_dir}
   EOH
 end
 
