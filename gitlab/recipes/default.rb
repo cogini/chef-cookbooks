@@ -11,6 +11,7 @@ include_recipe "build-essential"
 include_recipe "postfix::vanilla"
 include_recipe "git"
 include_recipe "nginx"
+include_recipe "postgresql::client"
 # XXX Do we really need python?
 include_recipe "python"
 
