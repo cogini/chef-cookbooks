@@ -12,6 +12,7 @@ set[:gitlab][:dependencies] = %w{
   libyaml-dev
   redis-server
   ruby1.9.3
+  ruby1.9.1-dev
   zlib1g-dev
 }
 

@@ -48,13 +48,11 @@ end
 
 
 # Install bundler gem
-gem_package "bundler" do
-  action :install
-end
-
-gem_package "charlock_holmes" do
-  action :install
-  version "0.6.0"
+bash "install gems" do
+  code <<-EOH
+    gem install bundler
+    gem install charlock_holmes --version '0.6.9'
+  EOH
 end
 
 
