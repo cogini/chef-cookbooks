@@ -15,9 +15,10 @@ set[:gitlab][:dependencies] = %w{
   zlib1g-dev
 }
 
-set[:gitlab][:dbName] = "gitlab_production"
-set[:gitlab][:dbUsername] = "gitlab"
-#set[:gitlab][:dbPassword] = "gitlab"
+default[:gitlab][:dbHost] = "localhost"
+default[:gitlab][:dbName] = "gitlab_production"
+default[:gitlab][:dbUsername] = "gitlab"
+#default[:gitlab][:dbPassword] = "gitlab"
 
 # Users info
 default[:gitlab][:git_user][:name] = "git"

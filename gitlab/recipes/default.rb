@@ -11,9 +11,23 @@ include_recipe "build-essential"
 include_recipe "postfix::vanilla"
 include_recipe "git"
 include_recipe "nginx"
-include_recipe "postgresql::server"
 # XXX Do we really need python?
 include_recipe "python"
+
+
+if node[:gitlab][:dbHost] == "localhost"
+
+    include_recipe "postgresql::server"
+    db_user = node[:gitlab][:dbUsername]
+
+    pgsql_user db_user do
+      password node[:gitlab][:dbPassword]
+    end
+
+    pgsql_db node[:gitlab][:dbName] do
+      owner db_user
+    end
+end
 
 
 git_user = node[:gitlab][:git_user][:name]
@@ -130,17 +144,6 @@ execute "Add domains to list of known hosts" do
   user gitlab_user
   command "ssh -o StrictHostKeyChecking=no git@localhost"
   action :run
-end
-
-
-db_user = node[:gitlab][:dbUsername]
-
-pgsql_user db_user do
-  password node[:gitlab][:dbPassword]
-end
-
-pgsql_db node[:gitlab][:dbName] do
-  owner db_user
 end
 
 
