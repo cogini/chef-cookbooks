@@ -17,3 +17,6 @@ default[:gitlab][:dir] = "/home/gitlab/gitlab"
 set[:gitlab][:dbName] = "gitlab_production"
 set[:gitlab][:dbUsername] = "gitlab"
 set[:gitlab][:dbPassword] = "gitlab"
+
+default[:gitlab][:ssh_host] = "localhost"
+default[:gitlab][:ssh_port] = "22"

@@ -114,8 +114,8 @@ gitolite:
   upload_pack: true
   receive_pack: true
   ssh_user: git
-  ssh_host: localhost
-  # ssh_port: 22
+  ssh_host: <%= node.gitlab.ssh_host %>
+  ssh_port: <%= node.gitlab.ssh_port %>
   # config_file: gitolite.conf
 
   # Uncomment and customize if you can't use the default group to own the repositories and run Gitolite (default: same as the 'ssh_user' above)
