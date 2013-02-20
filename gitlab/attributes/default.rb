@@ -34,7 +34,7 @@ default[:gitlab][:group] = "git"
 default[:gitlab][:dir] = "/home/gitlab/gitlab"
 
 default[:gitlab][:ssh_host] = "localhost"
-default[:gitlab][:ssh_port] = "22"
+default[:gitlab][:ssh_port] = 22
 
 default[:gitlab][:host] = "localhost"
-default[:gitlab][:port] = "80"
+default[:gitlab][:port] = 80
