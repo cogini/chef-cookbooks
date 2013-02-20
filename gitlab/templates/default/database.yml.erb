@@ -8,7 +8,6 @@ production:
   pool: 5
   username: <%= node.gitlab.dbUsername %>
   password: <%= node.gitlab.dbPassword %>
-  # host: localhost
-  # port: 5432 
+  host: <%= node.gitlab.dbHost %>
+  # port: 5432
   # socket: /tmp/postgresql.sock
-

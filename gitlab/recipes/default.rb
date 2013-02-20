@@ -6,19 +6,46 @@
 # Email: nhan@cogini.com
 #
 
-# Update
 include_recipe "apt"
-
-# Install require dependencies
+include_recipe "build-essential"
 include_recipe "postfix::vanilla"
 include_recipe "git"
 include_recipe "nginx"
+include_recipe "postgresql::client"
+# XXX Do we really need python?
 include_recipe "python"
+
+
+if node[:gitlab][:dbHost] == "localhost"
+
+    include_recipe "postgresql::server"
+    db_user = node[:gitlab][:dbUsername]
+
+    pgsql_user db_user do
+      password node[:gitlab][:dbPassword]
+    end
+
+    pgsql_db node[:gitlab][:dbName] do
+      owner db_user
+    end
+end
+
+
+git_user = node[:gitlab][:git_user][:name]
+git_home = node[:gitlab][:git_user][:home]
+git_bin_dir = "#{git_home}/bin"
+gitlab_user = node[:gitlab][:gitlab_user][:name]
+gitlab_home = node[:gitlab][:gitlab_user][:home]
+gitlab_group = node[:gitlab][:group]
+gitlab_dir = node[:gitlab][:dir]
+
+
 node[:gitlab][:dependencies].each do |pkg|
   package pkg do
     action :install
   end
 end
+
 
 # Install bundler gem
 bash "install gems" do
@@ -28,160 +55,147 @@ bash "install gems" do
   EOH
 end
 
+
 # Create users for Git and Gitolite
-user node[:gitlab][:git_user][:name] do
+user git_user do
   system true
   shell node[:gitlab][:git_user][:shell]
   comment "Git Version Control"
-  home node[:gitlab][:git_user][:home]
+  home git_home
   supports :manage_home => true
 end
 
-user node[:gitlab][:gitlab_user][:name] do
+user gitlab_user do
   comment "GitLab"
-  home node[:gitlab][:gitlab_user][:home]
+  home gitlab_home
   shell node[:gitlab][:gitlab_user][:shell]
   supports :manage_home => true
-end 
-
-group node[:gitlab][:group] do
-  group_name node[:gitlab][:group]
-  members [ node[:gitlab][:git_user][:name], node[:gitlab][:gitlab_user][:name] ]
 end
+
+group gitlab_group do
+  group_name gitlab_group
+  members [
+    git_user,
+    gitlab_user
+  ]
+end
+
 
 execute "ssh-keygen" do
-  user node[:gitlab][:gitlab_user][:name]
-  command "ssh-keygen -q -N '' -t rsa -f #{node[:gitlab][:gitlab_user][:home]}/.ssh/id_rsa"
+  user gitlab_user
+  command "ssh-keygen -q -N '' -t rsa -f #{gitlab_home}/.ssh/id_rsa"
   action :run
-  not_if { File.exist?("#{node[:gitlab][:gitlab_user][:home]}/.ssh/id_rsa") }
+  not_if { File.exist?("#{gitlab_home}/.ssh/id_rsa") }
 end
+
 
 # Install gitolite
 bash "Copy gitlab user's SSH key" do
   code <<-EOH
-    cp #{node[:gitlab][:gitlab_user][:home]}/.ssh/id_rsa.pub #{node[:gitlab][:git_user][:home]}/gitlab.pub
-    chmod 0444 #{node[:gitlab][:git_user][:home]}/gitlab.pub
+    cp #{gitlab_home}/.ssh/id_rsa.pub #{git_home}/gitlab.pub
+    chmod 0444 #{git_home}/gitlab.pub
   EOH
-  not_if { File.exist?("#{node[:gitlab][:git_user][:home]}/gitlab.pub") }
+  not_if { File.exist?("#{git_home}/gitlab.pub") }
 end
 
-directory "#{node[:gitlab][:git_user][:home]}/bin" do
-  owner node[:gitlab][:git_user][:name]
-  group node[:gitlab][:group]
+directory git_bin_dir do
+  owner git_user
+  group gitlab_group
   mode 0755
   action :create
-  not_if { File.exist?("#{node[:gitlab][:git_user][:home]}/bin") }
+  recursive true
 end
 
+gitolite_path = "/home/git/gitolite"
 bash "Install gitolite" do
-  user node[:gitlab][:git_user][:name]
-  cwd node[:gitlab][:git_user][:home]
-  group node[:gitlab][:group]
+  user git_user
+  cwd git_home
+  group gitlab_group
   code <<-EOH
-    git clone --branch gl-v320 https://github.com/gitlabhq/gitolite.git /home/git/gitolite
-    gitolite/install -ln /home/git/bin
+    [[ -d #{gitolite_path} ]] || git clone https://github.com/gitlabhq/gitolite.git #{gitolite_path}
+    cd #{gitolite_path}
+    git fetch
+    git checkout gl-v320
+    ./install -ln #{git_bin_dir}
   EOH
 end
 
 execute "Setup gitolite" do
-  user node[:gitlab][:git_user][:name]
-  group node[:gitlab][:group]
-  cwd node[:gitlab][:git_user][:home]
-  environment ({"HOME" => "#{node[:gitlab][:git_user][:home]}"})
-  command "PATH=#{node[:gitlab][:git_user][:home]}/bin:$PATH; gitolite setup -pk #{node[:gitlab][:git_user][:home]}/gitlab.pub"
+  user git_user
+  group gitlab_group
+  cwd git_home
+  environment ({"HOME" => "#{git_home}"})
+  command "PATH=#{git_bin_dir}:$PATH; gitolite setup -pk #{git_home}/gitlab.pub"
   action :run
 end
 
 bash "Change gitolite config dir owner to git" do
   code <<-EOH
-    chmod 750 #{node[:gitlab][:git_user][:home]}/.gitolite/
-    chown -R #{node[:gitlab][:git_user][:name]}:#{node[:gitlab][:group]} #{node[:gitlab][:git_user][:home]}/.gitolite
-    chmod -R ug+rwXs,o-rwx #{node[:gitlab][:git_user][:home]}/repositories/
-    chown -R git:git #{node[:gitlab][:git_user][:home]}/repositories/
+    chmod 750 #{git_home}/.gitolite/
+    chown -R #{git_user}:#{gitlab_group} #{git_home}/.gitolite
+    chmod -R ug+rwXs,o-rwx #{git_home}/repositories/
+    chown -R git:git #{git_home}/repositories/
   EOH
 end
 
+
 execute "Add domains to list of known hosts" do
-  user node[:gitlab][:gitlab_user][:name]
+  user gitlab_user
   command "ssh -o StrictHostKeyChecking=no git@localhost"
   action :run
 end
 
-# Install database using Postgresql
-include_recipe "postgresql::server"
-pgsql_user node[:gitlab][:gitlab_user][:name] do
-  password "gitlab"
-end
-
-pgsql_db node[:gitlab][:dbName] do
-  owner node[:gitlab][:gitlab_user][:name]
-end
 
 # Install gitlab
 # Clone gitlab repo and checkout latest stable version (4.1)
 bash "Checkout gitlab 4.1" do
-  user node[:gitlab][:gitlab_user][:name]
-  cwd node[:gitlab][:gitlab_user][:home]
+  user gitlab_user
+  cwd gitlab_home
   code <<-EOH
-    [[ -d #{node[:gitlab][:dir]} ]] || git clone https://github.com/gitlabhq/gitlabhq.git #{node[:gitlab][:dir]}
-    cd #{node[:gitlab][:dir]}
+    [[ -d #{gitlab_dir} ]] || git clone https://github.com/gitlabhq/gitlabhq.git #{gitlab_dir}
+    cd #{gitlab_dir}
     git fetch
     git checkout 4-1-stable
   EOH
 end
 
-# Configure gitlab and gitlab DB
-template "#{node[:gitlab][:dir]}/config/gitlab.yml" do
-  source "gitlab.yml.erb"
-  owner node[:gitlab][:gitlab_user][:name]
-end
-
-template "#{node[:gitlab][:dir]}/config/unicorn.rb" do
-  source "unicorn.rb.erb"
-  owner node[:gitlab][:gitlab_user][:name]
-end
-
-template "#{node[:gitlab][:dir]}/config/database.yml" do
-  source "database.yml.erb"
-  owner node[:gitlab][:gitlab_user][:name]
+%w{ gitlab.yml unicorn.rb database.yml }.each do |item|
+  template "#{gitlab_dir}/config/#{item}" do
+    source "#{item}.erb"
+    owner gitlab_user
+  end
 end
 
 bash "Change permission to let gitlab write to the log/ and tmp/ directories" do
-  cwd node[:gitlab][:dir]
+  cwd gitlab_dir
   code <<-EOH
-    chown -R #{node[:gitlab][:gitlab_user][:name]} log/
-    chown -R #{node[:gitlab][:gitlab_user][:name]} tmp/
+    chown -R #{gitlab_user} log/
+    chown -R #{gitlab_user} tmp/
     chmod -R u+rwX log/
     chmod -R u+rwX tmp/
   EOH
 end
 
-directory "#{node[:gitlab][:gitlab_user][:home]}/gitlab-satellites" do
-  owner node[:gitlab][:gitlab_user][:name]
-  group node[:gitlab][:group]
-  mode 0755
-  action :create
-  not_if { File.exists?("#{node[:gitlab][:gitlab_user][:home]}/gitlab-satellites") }
-end
-
-directory "#{node[:gitlab][:dir]}/tmp/pids" do
-  owner node[:gitlab][:gitlab_user][:name]
-  group node[:gitlab][:group]
-  mode 0755
-  action :create
-  not_if { File.exists?("#{node[:gitlab][:dir]}/tmp/pids") }
+["#{gitlab_home}/gitlab-satellites", "#{gitlab_dir}/tmp/pids"].each do |dir|
+  directory "#{gitlab_home}/gitlab-satellites" do
+    owner gitlab_user
+    group gitlab_group
+    mode 0755
+    action :create
+    recursive true
+  end
 end
 
 execute "bundle install" do
-  cwd node[:gitlab][:dir]
+  cwd gitlab_dir
   command "bundle install --deployment --without development test mysql"
   action :run
 end
 
 bash "git config" do
-  user node[:gitlab][:gitlab_user][:name]
-  cwd node[:gitlab][:gitlab_user][:home]
-  environment ({"HOME" => node[:gitlab][:gitlab_user][:home]})
+  user gitlab_user
+  cwd gitlab_home
+  environment ({"HOME" => gitlab_home})
   code <<-EOH
     git config --global user.name "GitLab"
     git config --global user.email "gitlab@localhost"
@@ -191,27 +205,27 @@ end
 # Setup gitlab hooks
 bash "Setup gitlab hooks" do
   code <<-EOH
-    cp #{node[:gitlab][:dir]}/lib/hooks/post-receive #{node[:gitlab][:git_user][:home]}/.gitolite/hooks/common/post-receive
-    chown #{node[:gitlab][:git_user][:name]}:#{node[:gitlab][:group]} #{node[:gitlab][:git_user][:home]}/.gitolite/hooks/common/post-receive
+    cp #{gitlab_dir}/lib/hooks/post-receive #{git_home}/.gitolite/hooks/common/post-receive
+    chown #{git_user}:#{gitlab_group} #{git_home}/.gitolite/hooks/common/post-receive
   EOH
 end
 
 # Initialize DB and activate advanced features
 execute "bundle exec rake gitlab:setup RAILS_ENV=production" do
-  user node[:gitlab][:gitlab_user][:name]
-  group node[:gitlab][:group]
-  environment ({"HOME" => node[:gitlab][:gitlab_user][:home]})
-  cwd node[:gitlab][:dir]
+  user gitlab_user
+  group gitlab_group
+  environment ({"HOME" => gitlab_home})
+  cwd gitlab_dir
   command "yes yes | bundle exec rake gitlab:setup RAILS_ENV=production && touch .gitlab-setup"
   action :run
-  not_if { File.exists?("#{node[:gitlab][:dir]}/.gitlab-setup") }
+  not_if { File.exists?("#{gitlab_dir}/.gitlab-setup") }
 end
 
 execute "bundle exec rake gitlab:enable_automerge RAILS_ENV=production" do
-  user node[:gitlab][:gitlab_user][:name]
-  group node[:gitlab][:group]
-  environment ({"HOME" => node[:gitlab][:gitlab_user][:home]})
-  cwd node[:gitlab][:dir]
+  user gitlab_user
+  group gitlab_group
+  environment ({"HOME" => gitlab_home})
+  cwd gitlab_dir
   action :run
 end
 
@@ -235,9 +249,8 @@ nginx_site "gitlab" do
   action :enable
 end
 
-execute "rm -R /etc/nginx/sites-enabled/default" do
-  action :run
-  only_if { File.exist?("/etc/nginx/sites-enabled/default") }
+nginx_site "default" do
+  action :disable
 end
 
 service "nginx" do

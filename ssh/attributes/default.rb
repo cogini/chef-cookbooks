@@ -8,12 +8,10 @@ default[:ssh][:ports] = [22]
 default[:ssh][:subsystems] = { 'sftp' => '/usr/lib/openssh/sftp-server' }
 default[:ssh][:users] = []
 default[:ssh][:group] = 'sshusers'
-default[:ssh][:sftp] = {
-    :dir => '/srv/sftp',
-    :group => 'sftpusers',
-    :users => [],
-    :upload_dir => 'uploads',
-}
+default[:ssh][:sftp][:dir] = '/srv/sftp'
+default[:ssh][:sftp][:group] = 'sftpusers'
+default[:ssh][:sftp][:users] = []
+default[:ssh][:sftp][:upload_dir] = 'uploads'
 
 sftp_group = node[:ssh][:sftp][:group]
 default[:ssh][:allow_groups] = [

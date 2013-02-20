@@ -14,14 +14,16 @@ when 'redhat', 'centos', 'amazon'
     default[:basics][:packages] = %w(
         bind-utils
         byobu
+        iotop
         iptraf
-        mlocate
+        lftp
         logrotate
         logwatch
         lsof
         make
         man
         man-pages
+        mlocate
         mutt
         ntp
         perl-Error
@@ -63,7 +65,9 @@ when 'ubuntu'
         fortune-mod
         htop
         iftop
+        iotop
         iptraf
+        lftp
         locate
         logrotate
         logwatch
