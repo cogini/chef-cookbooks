@@ -18,9 +18,20 @@
 # limitations under the License.
 #
 
+
+default_interpreter = 'python2.6'
+
+case node[:platform]
+when 'ubuntu'
+    if node[:platform_version].to_f >= 12.04
+        default_interpreter = 'python2.7'
+    end
+end
+
+
 actions :create, :delete
 
 attribute :path, :kind_of => String, :name_attribute => true
-attribute :interpreter, :default => 'python2.6'
+attribute :interpreter, :default => default_interpreter
 attribute :owner, :regex => Chef::Config[:user_valid_regex]
 attribute :group, :regex => Chef::Config[:group_valid_regex]
