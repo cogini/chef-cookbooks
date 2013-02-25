@@ -7,4 +7,7 @@ when 'debian', 'ubuntu'
   end
 when 'centos'
   include_recipe 'yum::epel'
+  package 'redis' do
+    action :install
+  end
 end
