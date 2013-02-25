@@ -1,5 +1,3 @@
-include_recipe 'redisio::default'
-
 case node.platform
 when 'debian', 'ubuntu'
   package 'redis-server' do
