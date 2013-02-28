@@ -15,8 +15,8 @@ ACCEPT	net:<%= host %>	$FW
 
 # Allow connection from A:any to server:B
 <% node[:shorewall][:allowed_connections].each do |connection|
-    ip = connection[0].split(' ').join(',')
-    port = connection[1].split(' ').join(',') -%>
+    ip = connection[0]
+    port = connection[1] -%>
 ACCEPT	net:<%= ip %>	$FW	tcp	<%= port %>
 <% end -%>
 
