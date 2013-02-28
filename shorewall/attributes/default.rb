@@ -5,3 +5,10 @@ default[:shorewall][:allowed_ports] = [
 ]
 default[:shorewall][:blocked_ports] = []
 default[:shorewall][:allowed_hosts] = []
+
+# Allow connections from A:any to server:B
+# [
+#   ["source ip", "dest port"],
+#   ...
+# ]
+default[:shorewall][:allowed_connections] = []
