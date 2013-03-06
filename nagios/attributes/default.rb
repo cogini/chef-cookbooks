@@ -1,6 +1,7 @@
 default[:nagios][:mysql][:enable] = false
 default[:nagios][:mysql][:host] = 'localhost'
 default[:nagios][:mysql][:username] = 'nagiosCheck'
+default[:nagios][:nrpe_local_config] = []
 default[:nagios][:pgsql][:enable] = false
 default[:nagios][:pgsql][:host] = 'localhost'
 default[:nagios][:pgsql][:username] = 'nagiosCheck'
