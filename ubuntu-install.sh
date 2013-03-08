@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt-get install build-essential zlib1g-dev
+sudo apt-get install build-essential zlib1g-dev libssl-dev
 
 # Taken from https://github.com/jedi4ever/veewee/blob/master/templates/ubuntu-12.04.2-server-i386/postinstall.sh
 
