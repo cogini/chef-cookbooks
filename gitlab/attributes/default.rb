@@ -14,7 +14,10 @@ set[:gitlab][:dependencies] = %w{
   ruby1.9.3
   ruby1.9.1-dev
   zlib1g-dev
+  curl
 }
+
+default[:gitlab][:version] = "4-2-stable"
 
 default[:gitlab][:dbHost] = "localhost"
 default[:gitlab][:dbName] = "gitlab_production"
