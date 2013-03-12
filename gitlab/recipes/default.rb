@@ -38,7 +38,14 @@ gitlab_user = node[:gitlab][:gitlab_user][:name]
 gitlab_home = node[:gitlab][:gitlab_user][:home]
 gitlab_group = node[:gitlab][:group]
 gitlab_dir = node[:gitlab][:dir]
+gitlab_version = node[:gitlab][:version]
 
+# Stop service gitlab if already installed
+if (File.exist?("/etc/init.d/gitlab") == true)
+  service "gitlab" do
+    action :stop
+  end
+end
 
 node[:gitlab][:dependencies].each do |pkg|
   package pkg do
@@ -122,8 +129,8 @@ end
 
 execute "Setup gitolite" do
   user git_user
-  group gitlab_group
   cwd git_home
+  group gitlab_group
   environment ({"HOME" => "#{git_home}"})
   command "PATH=#{git_bin_dir}:$PATH; gitolite setup -pk #{git_home}/gitlab.pub"
   action :run
@@ -133,11 +140,11 @@ bash "Change gitolite config dir owner to git" do
   code <<-EOH
     chmod 750 #{git_home}/.gitolite/
     chown -R #{git_user}:#{gitlab_group} #{git_home}/.gitolite
-    chmod -R ug+rwXs,o-rwx #{git_home}/repositories/
-    chown -R git:git #{git_home}/repositories/
+    chmod -R ug+rwX,o-rwx #{git_home}/repositories/
+    chown -R #{git_user}:#{git_user} #{git_home}/repositories/
+    find /home/git/repositories -type d -print0 | xargs -0 chmod g+s
   EOH
 end
-
 
 execute "Add domains to list of known hosts" do
   user gitlab_user
@@ -147,15 +154,17 @@ end
 
 
 # Install gitlab
-# Clone gitlab repo and checkout latest stable version (4.1)
-bash "Checkout gitlab 4.1" do
+# Clone gitlab repo and checkout selected version
+bash "Checkout gitlab #{gitlab_version}" do
   user gitlab_user
+  group gitlab_group
+  environment ({"HOME" => "#{git_home}"})
   cwd gitlab_home
   code <<-EOH
     [[ -d #{gitlab_dir} ]] || git clone https://github.com/gitlabhq/gitlabhq.git #{gitlab_dir}
     cd #{gitlab_dir}
     git fetch
-    git checkout 4-1-stable
+    git checkout -f #{gitlab_version}
   EOH
 end
 
@@ -221,6 +230,15 @@ execute "bundle exec rake gitlab:setup RAILS_ENV=production" do
   not_if { File.exists?("#{gitlab_dir}/.gitlab-setup") }
 end
 
+# Update DB in case updating to newer version
+execute "bundle exec rake db:migrate RAILS_ENV=production" do
+  user gitlab_user
+  group gitlab_group
+  environment ({"HOME" => gitlab_home})
+  cwd gitlab_dir
+end
+
+# Enable automerge
 execute "bundle exec rake gitlab:enable_automerge RAILS_ENV=production" do
   user gitlab_user
   group gitlab_group
@@ -230,9 +248,15 @@ execute "bundle exec rake gitlab:enable_automerge RAILS_ENV=production" do
 end
 
 # Install init script and make gitlab start on boot
-template "/etc/init.d/gitlab" do
-  source "gitlab.erb"
-  mode 0755
+#template "/etc/init.d/gitlab" do
+#  source "gitlab.erb"
+#  mode 0755
+#end
+bash "Install init script" do
+  code <<-EOH
+    curl --output /etc/init.d/gitlab https://raw.github.com/gitlabhq/gitlab-recipes/#{gitlab_version}/init.d/gitlab
+    chmod +x /etc/init.d/gitlab
+  EOH
 end
 
 service "gitlab" do

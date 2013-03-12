@@ -1,9 +1,10 @@
 #!/bin/bash
 
+sudo apt-get install build-essential zlib1g-dev libssl-dev
+
 # Taken from https://github.com/jedi4ever/veewee/blob/master/templates/ubuntu-12.04.2-server-i386/postinstall.sh
 
-# Install Ruby from source in /opt so that users of Vagrant
-# can install their own Rubies using packages or however.
+# Install Ruby from source in /opt
 wget http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.2-p290.tar.gz
 tar xvzf ruby-1.9.2-p290.tar.gz
 cd ruby-1.9.2-p290
@@ -21,10 +22,9 @@ cd rubygems-1.8.11
 cd ..
 rm -rf rubygems-1.8.11
 
-# Installing chef & Puppet
+# Installing Chef
 /opt/ruby/bin/gem install chef --no-ri --no-rdoc
-#/opt/ruby/bin/gem install puppet --no-ri --no-rdoc
 
 # Add /opt/ruby/bin to the global path as the last resort so
-# Ruby, RubyGems, and Chef/Puppet are visible
+# Ruby, RubyGems, and Chef are visible
 echo 'PATH=$PATH:/opt/ruby/bin/'> /etc/profile.d/vagrantruby.sh
