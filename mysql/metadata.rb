@@ -9,12 +9,11 @@ recipe            "mysql::client", "Installs packages required for mysql clients
 recipe            "mysql::server", "Installs packages required for mysql servers w/o manual intervention"
 recipe            "mysql::server_ec2", "Performs EC2-specific mountpoint manipulation"
 
-%w{ debian ubuntu centos suse fedora redhat scientific amazon freebsd windows }.each do |os|
+%w{ debian ubuntu centos suse fedora redhat scientific amazon freebsd }.each do |os|
   supports os
 end
 
 depends "openssl"
-depends "windows"
 
 attribute "mysql/server_root_password",
   :display_name => "MySQL Server Root Password",
