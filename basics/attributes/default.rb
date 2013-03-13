@@ -14,6 +14,7 @@ when 'redhat', 'centos', 'amazon'
     default[:basics][:packages] = %w(
         bind-utils
         byobu
+        cronie
         iotop
         iptraf
         lftp
