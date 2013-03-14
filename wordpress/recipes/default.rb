@@ -17,7 +17,6 @@
 # limitations under the License.
 #
 
-include_recipe "mysql::server"
 include_recipe "php::module_mysql"
 
 if node.has_key?("ec2")
@@ -52,12 +51,20 @@ execute "untar-wordpress" do
 end
 
 
-mysql_user node[:wordpress][:db][:user] do
-    password node[:wordpress][:db][:password]
-end
+db = node[:wordpress][:db]
 
-mysql_db node[:wordpress][:db][:database] do
-    owner node[:wordpress][:db][:user]
+if db[:host] == 'localhost'
+
+    include_recipe 'mysql::server'
+    db_user = db[:user]
+
+    mysql_user db_user do
+        password db[:password]
+    end
+
+    mysql_db db[:database] do
+        owner db_user
+    end
 end
 
 
@@ -82,6 +89,7 @@ template "#{node['wordpress']['dir']}/wp-config.php" do
   mode "0644"
   variables(
     :database        => node['wordpress']['db']['database'],
+    :host            => node['wordpress']['db']['host'],
     :user            => node['wordpress']['db']['user'],
     :password        => node['wordpress']['db']['password'],
     :auth_key        => node['wordpress']['keys']['auth'],
