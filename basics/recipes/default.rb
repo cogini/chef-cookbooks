@@ -21,8 +21,8 @@ include_recipe 'basics::unicode'
 include_recipe 'ssh'
 include_recipe 'basics::sudoers'
 include_recipe 'basics::rotate_mail'
-include_recipe 'localbackup'
 include_recipe 'basics::packages'
+include_recipe 'localbackup'
 
 
 case node.platform
