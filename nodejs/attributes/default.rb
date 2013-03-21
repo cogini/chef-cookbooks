@@ -22,10 +22,10 @@ default[:nodejs][:checksum] = "94bbdb2d62645fd2ad5b96e41cfec68abf004fd03fabaaf7d
 default[:nodejs][:npm] = "1.1.2"
 
 case node[:platform]
-when 'redhat', 'centos':
+when 'redhat', 'centos'
     default[:nodejs][:package_file] = "nodejs-#{node[:nodejs][:version]}.rpm"
     default[:nodejs][:dependencies] = %w{ openssl-devel }
-when 'ubuntu':
+when 'ubuntu'
     default[:nodejs][:package_file] = "nodejs-#{node[:nodejs][:version]}.deb"
     default[:nodejs][:dependencies] = %w{ libssl-dev }
 end
