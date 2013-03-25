@@ -1,3 +1,4 @@
+<% php = node[:php] -%>
 [PHP]
 engine = On
 short_open_tag = On
@@ -19,10 +20,10 @@ safe_mode_protected_env_vars = LD_LIBRARY_PATH
 disable_functions =
 disable_classes =
 expose_php = On
-max_execution_time = 30
+max_execution_time = <%= php[:max_execution_time] %>
 max_input_time = 60
 memory_limit = 128M
-error_reporting = E_ALL & ~E_DEPRECATED
+error_reporting = <%= php[:error_reporting] %>
 display_errors = Off
 display_startup_errors = Off
 log_errors = On
@@ -36,7 +37,7 @@ register_globals = Off
 register_long_arrays = Off
 register_argc_argv = Off
 auto_globals_jit = On
-post_max_size = <%= node[:php][:post_max_size] %>
+post_max_size = <%= php[:post_max_size] %>
 magic_quotes_gpc = Off
 magic_quotes_runtime = Off
 magic_quotes_sybase = Off
@@ -46,13 +47,13 @@ default_mimetype = "text/html"
 doc_root =
 user_dir =
 file_uploads = On
-upload_max_filesize = <%= node[:php][:upload_max_filesize] %>
+upload_max_filesize = <%= php[:upload_max_filesize] %>
 max_file_uploads = 20
 allow_url_fopen = On
 allow_url_include = Off
 default_socket_timeout = 60
 [Date]
-date.timezone = <%= node[:php][:timezone] %>
+date.timezone = <%= php[:timezone] %>
 [Syslog]
 define_syslog_variables  = Off
 [mail function]
@@ -117,7 +118,7 @@ session.cookie_lifetime = 0
 session.cookie_path = /
 session.cookie_domain =
 session.serialize_handler = php
-session.gc_probability = <%= node[:php][:session][:gc_probability] %>
+session.gc_probability = <%= php[:session][:gc_probability] %>
 session.gc_divisor = 1000
 session.gc_maxlifetime = 1440
 session.bug_compat_42 = Off
