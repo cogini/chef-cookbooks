@@ -8,7 +8,6 @@ max_connections = 100
 unix_socket_directory = '/var/run/postgresql'
 <% if node.postgresql.ssl -%>
 ssl = true
-<% else -%>
 <% end -%>
 shared_buffers = 24MB
 <% if node['postgresql']['version'].to_f < 8.4 -%>
@@ -18,3 +17,4 @@ log_line_prefix = '%t '
 datestyle = 'iso, mdy'
 default_text_search_config = 'pg_catalog.english'
 listen_addresses = '<%= pg_config[:listen_addresses].join(',') %>'
+log_min_duration_statement = <%= pg_config[:log_min_duration_statement] %>

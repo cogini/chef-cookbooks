@@ -1,23 +1,24 @@
 <% pg_config = node[:postgresql][:config] -%>
 listen_addresses = '<%= pg_config[:listen_addresses].join(',') %>'
-max_connections = 100                   # (change requires restart)
-shared_buffers = 32MB                   # min 128kB
-logging_collector = on                  # Enable capturing of stderr and csvlog
-log_directory = 'pg_log'                # directory where log files are written,
-log_filename = 'postgresql-%a.log'      # log file name pattern,
-log_truncate_on_rotation = on           # If on, an existing log file of the
-log_rotation_age = 1d                   # Automatic rotation of logfiles will
-log_rotation_size = 0                   # Automatic rotation of logfiles will
+max_connections = 100              # (change requires restart)
+shared_buffers = 32MB              # min 128kB
+logging_collector = on             # Enable capturing of stderr and csvlog
+log_directory = 'pg_log'           # directory where log files are written,
+log_filename = 'postgresql-%a.log' # log file name pattern,
+log_truncate_on_rotation = on      # If on, an existing log file of the
+log_rotation_age = 1d              # Automatic rotation of logfiles will
+log_rotation_size = 0              # Automatic rotation of logfiles will
 datestyle = 'iso, mdy'
-lc_messages = 'en_US.UTF-8'                     # locale for system error message
-lc_monetary = 'en_US.UTF-8'                     # locale for monetary formatting
-lc_numeric = 'en_US.UTF-8'                      # locale for number formatting
-lc_time = 'en_US.UTF-8'                         # locale for time formatting
+lc_messages = 'en_US.UTF-8'        # locale for system error message
+lc_monetary = 'en_US.UTF-8'        # locale for monetary formatting
+lc_numeric = 'en_US.UTF-8'         # locale for number formatting
+lc_time = 'en_US.UTF-8'            # locale for time formatting
 default_text_search_config = 'pg_catalog.english'
 
-wal_level       = <%= pg_config[:wal_level] %>
-archive_mode    = <%= pg_config[:archive_mode] %>
-archive_command = 'cp %p <%= pg_config[:archive_dir] %>/%f'
-archive_timeout = <%= pg_config[:archive_timeout] %>
-max_wal_senders = <%= pg_config[:max_wal_senders] %>
-hot_standby     = <%= pg_config[:hot_standby] %>
+wal_level                  = <%= pg_config[:wal_level] %>
+archive_mode               = <%= pg_config[:archive_mode] %>
+archive_command            = 'cp %p <%= pg_config[:archive_dir] %>/%f'
+archive_timeout            = <%= pg_config[:archive_timeout] %>
+max_wal_senders            = <%= pg_config[:max_wal_senders] %>
+hot_standby                = <%= pg_config[:hot_standby] %>
+log_min_duration_statement = <%= pg_config[:log_min_duration_statement] %>
