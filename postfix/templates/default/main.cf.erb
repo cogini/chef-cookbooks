@@ -51,8 +51,8 @@ smtpd_helo_required = yes
 smtpd_delay_reject = yes
 disable_vrfy_command = yes
 
-alias_database = hash:/etc/aliases
 alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
 
 # this specifies where the virtual mailbox folders will be located
 virtual_mailbox_base = /var/spool/mail/virtual
@@ -63,15 +63,15 @@ virtual_alias_maps = mysql:/etc/postfix/mysql_alias.cf
 # and this is for domain lookups
 virtual_mailbox_domains = mysql:/etc/postfix/mysql_domains.cf
 # this is how to connect to the domains (all virtual, but the option is there)
-transport_maps = <%= postfix[:transport_maps_file] %>
+# transport_maps = mysql:/etc/postfix/mysql_transport.cf
 
 virtual_uid_maps = static:5000
 virtual_gid_maps = static:5000
-append_dot_mydomain = no
-biff = no
 
 mailbox_size_limit = <%= postfix[:mailbox_size_limit] %>
 message_size_limit = <%= postfix[:message_size_limit] %>
+
+content_filter = amavis:[127.0.0.1]:10024
 
 # SMTP Authentication (SASL)
 smtpd_sasl_auth_enable = yes
@@ -83,40 +83,41 @@ smtpd_sasl_local_domain =
 recipient_delimiter = +
 
 <% if postfix[:smtp_sasl_auth_enable] == 'yes' -%>
-smtp_sasl_auth_enable = <%= postfix[:smtp_sasl_auth_enable] %>
-smtp_sasl_password_maps = <%= postfix[:smtp_sasl_password_maps] %>
-smtp_sasl_security_options = <%= postfix[:smtp_sasl_security_options] %>
+#smtp_sasl_auth_enable = <%= postfix[:smtp_sasl_auth_enable] %>
+#smtp_sasl_password_maps = <%= postfix[:smtp_sasl_password_maps] %>
+#smtp_sasl_security_options = <%= postfix[:smtp_sasl_security_options] %>
 smtp_tls_CAfile = <%= postfix[:smtp_tls_cafile] %>
 <% end -%>
 
 <% if postfix[:smtpd_use_tls] == 'yes' -%>
 smtp_use_tls = <%= postfix[:smtp_use_tls] %>
-smtpd_use_tls = <%= postfix[:smtpd_use_tls] %>
-smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
-smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
-smtpd_tls_session_cache_database = btree:${queue_directory}/smtpd_scache
-smtp_tls_session_cache_database = btree:${queue_directory}/smtp_scache
 smtpd_tls_security_level = <%= postfix[:smtpd_tls_security_level] %>
 smtp_tls_security_level = <%= postfix[:smtp_tls_security_level] %>
+smtpd_use_tls = <%= postfix[:smtpd_use_tls] %>
 smtp_tls_note_starttls_offer = <%= postfix[:smtp_tls_note_starttls_offer] %>
-<% end -%>
-
 smtpd_tls_loglevel = 1
 smtpd_tls_received_header = yes
 smtpd_tls_session_cache_timeout = 3600s
 tls_random_source = dev:/dev/urandom
+smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+#smtpd_tls_session_cache_database = btree:${queue_directory}/smtpd_scache
+#smtp_tls_session_cache_database = btree:${queue_directory}/smtp_scache
+<% end -%>
+
 
 # Force incoming mail to go through Amavis
-content_filter = amavis:[127.0.0.1]:10024
 receive_override_options = no_address_mappings
 
 
 # disable_dns_lookups = <%= postfix[:disable_dns_lookups] %>
 # inet_protocols = <%= postfix[:inet_protocols] %>
-# relay_domains = <%= postfix[:relay_domains].join(', ') %>
+#relay_domains = <%= postfix[:relay_domains].join(', ') %>
 # relay_recipient_maps = <%= postfix[:relay_recipient_maps] %>
 
 <% if postfix[:mydomain] -%>
 mydomain = <%= postfix[:mydomain] %>
 <% end -%>
 
+append_dot_mydomain = no
+biff = no
