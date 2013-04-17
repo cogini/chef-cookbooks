@@ -63,7 +63,7 @@ virtual_alias_maps = mysql:/etc/postfix/mysql_alias.cf
 # and this is for domain lookups
 virtual_mailbox_domains = mysql:/etc/postfix/mysql_domains.cf
 # this is how to connect to the domains (all virtual, but the option is there)
-# transport_maps = mysql:/etc/postfix/mysql_transport.cf
+transport_maps = mysql:/etc/postfix/mysql_transport.cf
 
 virtual_uid_maps = static:5000
 virtual_gid_maps = static:5000
@@ -77,8 +77,8 @@ content_filter = amavis:[127.0.0.1]:10024
 smtpd_sasl_auth_enable = yes
 broken_sasl_auth_clients = no
 smtpd_sasl_security_options = noanonymous
-#smtpd_sasl_local_domain = $myhostname
-smtpd_sasl_local_domain =
+smtpd_sasl_local_domain = $myhostname
+#smtpd_sasl_local_domain =
 
 recipient_delimiter = +
 
@@ -112,7 +112,7 @@ receive_override_options = no_address_mappings
 
 # disable_dns_lookups = <%= postfix[:disable_dns_lookups] %>
 # inet_protocols = <%= postfix[:inet_protocols] %>
-#relay_domains = <%= postfix[:relay_domains].join(', ') %>
+relay_domains = <%= postfix[:relay_domains].join(', ') %>
 # relay_recipient_maps = <%= postfix[:relay_recipient_maps] %>
 
 <% if postfix[:mydomain] -%>
