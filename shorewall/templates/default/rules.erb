@@ -17,7 +17,7 @@ ACCEPT  net:<%= host %> $FW
 <% node[:shorewall][:allowed_connections].each do |connection|
   connection[:hosts].each do |host|
     connection[:ports].each do |port| -%>
-ACCEPT	net:<%= host %>$FWtcp<%= port %>
+ACCEPT	net:<%= host %>$FW<%= port %>
     <% end -%>
   <% end -%>
 <% end -%>

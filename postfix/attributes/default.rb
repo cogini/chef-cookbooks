@@ -22,6 +22,7 @@ default[:postfix] = {
     :inet_protocols => 'all',
     :mail_relay_networks => ['127.0.0.0/8'],
     :mail_type => 'client',
+    :mailbox_size_limit => 51200000,
     :message_size_limit => 10240000,
     :multi_environment_relay => false,
     :mydomain => node[:domain],
