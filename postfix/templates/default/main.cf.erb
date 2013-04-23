@@ -77,8 +77,8 @@ content_filter = <%= postfix[:conten_filter] %>
 smtpd_sasl_auth_enable = yes
 broken_sasl_auth_clients = no
 smtpd_sasl_security_options = noanonymous
-#smtpd_sasl_local_domain = $myhostname
-smtpd_sasl_local_domain =
+smtpd_sasl_local_domain = $myhostname
+#smtpd_sasl_local_domain =
 
 recipient_delimiter = +
 
@@ -112,7 +112,7 @@ receive_override_options = <%= postfix[:receive_override_options] %>
 
 # disable_dns_lookups = <%= postfix[:disable_dns_lookups] %>
 # inet_protocols = <%= postfix[:inet_protocols] %>
-#relay_domains = <%= postfix[:relay_domains].join(', ') %>
+relay_domains = <%= postfix[:relay_domains].join(', ') %>
 # relay_recipient_maps = <%= postfix[:relay_recipient_maps] %>
 
 <% if postfix[:mydomain] -%>
