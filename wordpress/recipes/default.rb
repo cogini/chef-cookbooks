@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
+::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
+
 include_recipe "php::module_mysql"
 
 if node.has_key?("ec2")

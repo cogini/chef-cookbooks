@@ -13,7 +13,7 @@ include_recipe 'fpm'
 
 tarsnap_version = node["tarsnap"]["version"]
 chef_cache = Chef::Config[:file_cache_path]
-tarsnap_dir = "/root/tarsnap"
+tarsnap_dir = node[:tarsnap][:script_dir]
 
 
 pkgs = value_for_platform(
@@ -83,7 +83,6 @@ end
 
 %w{
     tarsnap-env.sh
-    tarsnap-backup.sh
     tarsnap-list.sh
     tarsnap-prune.sh
     tarsnap-register-machine.sh
@@ -99,9 +98,22 @@ file "#{tarsnap_dir}/tarsnap-dirs" do
     content node[:tarsnap][:dirs].join("\n")
 end
 
+file node[:tarsnap][:ignore_file] do
+    content node[:tarsnap][:ignore].join("\n")
+end
+
+%w{
+    tarsnap-backup.sh
+}.each do |script|
+    template "#{tarsnap_dir}/#{script}" do
+        source "#{script}.erb"
+        mode "0700"
+    end
+end
+
 
 cron 'tarsnap_backup' do
     hour node[:tarsnap][:cron_time]
     minute '0'
-    command "#{node[:cronic]} /root/tarsnap/tarsnap-backup.sh"
+    command "#{node[:cronic]} #{tarsnap_dir}/tarsnap-backup.sh"
 end

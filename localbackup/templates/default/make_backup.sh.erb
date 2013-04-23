@@ -23,7 +23,8 @@ tar_dir() {
     # Replace / with _
     out_base="${the_dir//\//_}"
     out_file="$backup_dir/$out_base-$timestamp.tar.gz"
-    /bin/tar --exclude-from <%= node[:localbackup][:ignore_file] %> -Pczf "$out_file" "$the_dir"
+    /bin/tar --exclude-from <%= node[:localbackup][:ignore_file] %> \
+             -Pczf "$out_file" "$the_dir"
     rotate "$out_base"
 }
 
