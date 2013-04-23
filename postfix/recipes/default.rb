@@ -48,6 +48,8 @@ end
   end
 end
 
+include_recipe 'postfix::transport_maps'
+
 service "postfix" do
   action :start
 end
