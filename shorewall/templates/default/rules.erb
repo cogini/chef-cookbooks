@@ -13,6 +13,21 @@ ACCEPT net                 $FW tcp <%= port %>
 ACCEPT  net:<%= host %> $FW
 <% end -%>
 
+# Allow connections from host A to port B
+<% node[:shorewall][:allowed_connections].each do |connection|
+  connection[:hosts].each do |host|
+    connection[:ports].each do |port| -%>
+ACCEPT	net:<%= host %>$FW<%= port %>
+    <% end -%>
+  <% end -%>
+<% end -%>
+
+# Allow services
+<% node[:shorewall][:allowed_services].each do |service| %>
+<%= service %>/ACCEPT	net	$FW
+<% end %>
+
+
 # Drop stuff without logging
 
 # Popup spam
