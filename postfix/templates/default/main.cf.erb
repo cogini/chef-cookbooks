@@ -57,13 +57,13 @@ alias_database = hash:/etc/aliases
 # this specifies where the virtual mailbox folders will be located
 virtual_mailbox_base = /var/spool/mail/virtual
 # this is for the mailbox location for each user
-virtual_mailbox_maps = mysql:/etc/postfix/mysql_mailbox.cf
+virtual_mailbox_maps = <%= postfix[:virtual_mailbox_maps] %>
 # and this is for aliases
-virtual_alias_maps = mysql:/etc/postfix/mysql_alias.cf
+virtual_alias_maps = <%= postfix[:virtual_alias_maps] %>
 # and this is for domain lookups
-virtual_mailbox_domains = mysql:/etc/postfix/mysql_domains.cf
+virtual_mailbox_domains = <%= postfix[:virtual_mailbox_domains] %>
 # this is how to connect to the domains (all virtual, but the option is there)
-# transport_maps = mysql:/etc/postfix/mysql_transport.cf
+transport_maps = <%= postfix[:transport_maps] %>
 
 virtual_uid_maps = static:5000
 virtual_gid_maps = static:5000
@@ -71,7 +71,7 @@ virtual_gid_maps = static:5000
 mailbox_size_limit = <%= postfix[:mailbox_size_limit] %>
 message_size_limit = <%= postfix[:message_size_limit] %>
 
-content_filter = amavis:[127.0.0.1]:10024
+content_filter = <%= postfix[:conten_filter] %>
 
 # SMTP Authentication (SASL)
 smtpd_sasl_auth_enable = yes
@@ -107,7 +107,7 @@ smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
 
 
 # Force incoming mail to go through Amavis
-receive_override_options = no_address_mappings
+receive_override_options = <%= postfix[:receive_override_options] %>
 
 
 # disable_dns_lookups = <%= postfix[:disable_dns_lookups] %>
