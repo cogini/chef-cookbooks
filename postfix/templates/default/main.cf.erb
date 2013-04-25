@@ -55,7 +55,7 @@ alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
 
 # this specifies where the virtual mailbox folders will be located
-virtual_mailbox_base = /var/spool/mail/virtual
+virtual_mailbox_base = <%= postfix[:virtual_mailbox_base] %>
 # this is for the mailbox location for each user
 virtual_mailbox_maps = <%= postfix[:virtual_mailbox_maps] %>
 # and this is for aliases
@@ -65,8 +65,8 @@ virtual_mailbox_domains = <%= postfix[:virtual_mailbox_domains].join(', ') %>
 # this is how to connect to the domains (all virtual, but the option is there)
 transport_maps = <%= postfix[:transport_maps_file] %>
 
-virtual_uid_maps = static:5000
-virtual_gid_maps = static:5000
+virtual_uid_maps = static:<%= postfix[:virtual_uid_static] %>
+virtual_gid_maps = static:<%= postfix[:virtual_gid_static] %>
 
 mailbox_size_limit = <%= postfix[:mailbox_size_limit] %>
 message_size_limit = <%= postfix[:message_size_limit] %>

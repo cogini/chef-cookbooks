@@ -50,6 +50,40 @@ end
 
 include_recipe 'postfix::transport_maps'
 
+
+postfix = node[:postfix]
+virtual_alias_maps = postfix[:virtual_alias_maps]
+virtual_mailbox_maps = postfix[:virtual_mailbox_maps]
+
+[virtual_alias_maps, virtual_mailbox_maps].each do |map|
+    execute "postmap #{map}" do
+        only_if { map }
+    end
+end
+
+
+virtual_mailbox_base = postfix[:virtual_mailbox_base]
+
+directory virtual_mailbox_base do
+    action :create
+    recursive true
+    owner postfix[:virtual_uid_static]
+    group postfix[:virtual_gid_static]
+    mode '0770'
+    only_if { virtual_mailbox_base }
+end
+
+postfix[:virtual_mailbox_domains].each do |domain|
+    directory "#{virtual_mailbox_base}/#{domain}" do
+        action :create
+        recursive true
+        owner postfix[:virtual_uid_static]
+        group postfix[:virtual_gid_static]
+        mode '0770'
+    end
+end
+
+
 service "postfix" do
   action :start
 end
