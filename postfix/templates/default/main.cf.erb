@@ -61,7 +61,7 @@ virtual_mailbox_maps = <%= postfix[:virtual_mailbox_maps] %>
 # and this is for aliases
 virtual_alias_maps = <%= postfix[:virtual_alias_maps] %>
 # and this is for domain lookups
-virtual_mailbox_domains = <%= postfix[:virtual_mailbox_domains] %>
+virtual_mailbox_domains = <%= postfix[:virtual_mailbox_domains].join(', ') %>
 # this is how to connect to the domains (all virtual, but the option is there)
 transport_maps = <%= postfix[:transport_maps_file] %>
 

@@ -51,6 +51,6 @@ default[:postfix] = {
     :transport_maps => {},
     :transport_maps_file => 'hash:/etc/postfix/transport',
     :virtual_alias_maps => '',
-    :virtual_mailbox_domains => '',
+    :virtual_mailbox_domains => [],
     :virtual_mailbox_maps => ''
 }
