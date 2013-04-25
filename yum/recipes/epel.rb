@@ -20,15 +20,11 @@ end
 
 rpm_file = "#{Chef::Config[:file_cache_path]}/#{File.basename(url)}"
 
-package 'epel-release' do
-    action :remove
-end
-
 remote_file rpm_file do
     source url
     action :create_if_missing
 end
 
-execute 'install epel' do
-    command "rpm -i #{rpm_file}"
+package 'epel-release' do
+    source rpm_file
 end
