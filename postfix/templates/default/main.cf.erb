@@ -74,11 +74,12 @@ message_size_limit = <%= postfix[:message_size_limit] %>
 content_filter = <%= postfix[:conten_filter] %>
 
 # SMTP Authentication (SASL)
-smtpd_sasl_auth_enable = yes
+smtpd_sasl_auth_enable = <%= postfix[:smtpd_sasl_auth_enable] %>
 broken_sasl_auth_clients = no
 smtpd_sasl_security_options = noanonymous
 smtpd_sasl_local_domain = $myhostname
-#smtpd_sasl_local_domain =
+smtpd_sasl_type = <%= postfix[:smtpd_sasl_type] %>
+smtpd_sasl_path = <%= postfix[:smtpd_sasl_path] %>
 
 recipient_delimiter = +
 

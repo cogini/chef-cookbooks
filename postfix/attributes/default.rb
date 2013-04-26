@@ -17,9 +17,9 @@
 
 case platform
 when "ubuntu"
-    set[:postfix][:virtual_mailbox_base] = '/var/spool/mail/virtual'
+    default[:postfix][:virtual_mailbox_base] = '/var/spool/mail/virtual'
 else
-    set[:postfix][:virtual_mailbox_base] = ''
+    default[:postfix][:virtual_mailbox_base] = ''
 end
 
 default[:postfix] = {
@@ -49,10 +49,13 @@ default[:postfix] = {
     :smtp_tls_cafile => '/etc/postfix/cacert.pem',
     :smtp_tls_note_starttls_offer => 'no',
     :smtp_tls_security_level => '',
-    :smtp_use_tls => 'yes',
+    :smtp_use_tls => 'no',
     :smtpd_data_restrictions => [],
     :smtpd_helo_restrictions => [],
     :smtpd_recipient_restrictions => %w{ permit_mynetworks reject_unauth_destination },
+    :smtpd_sasl_auth_enable => 'no',
+    :smtpd_sasl_path => 'smtpd',
+    :smtpd_sasl_type => 'cyrus',
     :smtpd_sender_restrictions => [],
     :smtpd_use_tls => 'yes',
     :transport_maps => {},
