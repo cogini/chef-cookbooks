@@ -89,17 +89,18 @@ smtp_tls_CAfile = <%= postfix[:smtp_tls_cafile] %>
 
 <% smtpd_tls_security_level = postfix[:smtpd_tls_security_level] -%>
 <% if (! smtpd_tls_security_level.empty?) && (smtpd_tls_security_level != 'none') -%>
-smtp_use_tls = <%= postfix[:smtp_use_tls] %>
 smtpd_tls_security_level = <%= smtpd_tls_security_level %>
-smtp_tls_security_level = <%= postfix[:smtp_tls_security_level] %>
-smtp_tls_note_starttls_offer = <%= postfix[:smtp_tls_note_starttls_offer] %>
 smtpd_tls_loglevel = 1
 smtpd_tls_received_header = yes
 smtpd_tls_session_cache_timeout = 3600s
-tls_random_source = dev:/dev/urandom
-smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
-smtpd_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+smtpd_tls_cert_file = <%= postfix[:smtpd_tls_cert_file] %>
+smtpd_tls_key_file = <%= postfix[:smtpd_tls_key_file] %>
+smtpd_tls_auth_only = <%= postfix[:smtpd_tls_auth_only] %>
 <% end -%>
+
+smtp_use_tls = <%= postfix[:smtp_use_tls] %>
+smtp_tls_security_level = <%= postfix[:smtp_tls_security_level] %>
+smtp_tls_note_starttls_offer = <%= postfix[:smtp_tls_note_starttls_offer] %>
 
 
 # Force incoming mail to go through Amavis

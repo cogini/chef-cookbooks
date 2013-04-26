@@ -57,6 +57,7 @@ default[:postfix] = {
     :smtpd_sasl_type => 'cyrus',
     :smtpd_sender_restrictions => [],
     :smtpd_tls_security_level => '',
+    :smtpd_tls_auth_only => 'no',
     :transport_maps => {},
     :transport_maps_file => 'hash:/etc/postfix/transport',
     :virtual_alias_maps => '',
