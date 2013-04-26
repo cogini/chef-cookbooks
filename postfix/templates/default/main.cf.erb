@@ -84,9 +84,6 @@ smtpd_sasl_path = <%= postfix[:smtpd_sasl_path] %>
 recipient_delimiter = +
 
 <% if postfix[:smtp_sasl_auth_enable] == 'yes' -%>
-#smtp_sasl_auth_enable = <%= postfix[:smtp_sasl_auth_enable] %>
-#smtp_sasl_password_maps = <%= postfix[:smtp_sasl_password_maps] %>
-#smtp_sasl_security_options = <%= postfix[:smtp_sasl_security_options] %>
 smtp_tls_CAfile = <%= postfix[:smtp_tls_cafile] %>
 <% end -%>
 
