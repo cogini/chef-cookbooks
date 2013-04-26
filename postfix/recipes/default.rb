@@ -57,12 +57,23 @@ virtual_mailbox_maps = postfix[:virtual_mailbox_maps]
 
 [virtual_alias_maps, virtual_mailbox_maps].each do |map|
     execute "postmap #{map}" do
-        only_if { map }
+        not_if { map.empty? }
     end
 end
 
 
 virtual_mailbox_base = postfix[:virtual_mailbox_base]
+
+group "virtual" do
+  gid postfix[:virtual_gid_static]
+  system true
+end
+
+user "virtual" do
+  gid postfix[:virtual_gid_static]
+  uid postfix[:virtual_uid_static]
+  system true
+end
 
 directory virtual_mailbox_base do
     action :create
