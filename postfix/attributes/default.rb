@@ -15,6 +15,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+case platform
+when "ubuntu"
+    set[:postfix][:virtual_mailbox_base] = '/var/spool/mail/virtual'
+else
+    set[:postfix][:virtual_mailbox_base] = ''
+end
+
 default[:postfix] = {
     :aliases => {},
     :content_filter => '',
@@ -52,7 +59,6 @@ default[:postfix] = {
     :transport_maps_file => 'hash:/etc/postfix/transport',
     :virtual_alias_maps => '',
     :virtual_gid_static => 5000,
-    :virtual_mailbox_base => '',
     :virtual_mailbox_domains => [],
     :virtual_mailbox_maps => '',
     :virtual_uid_static => 5000,
