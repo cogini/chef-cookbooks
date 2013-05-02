@@ -80,7 +80,7 @@ directory virtual_mailbox_base do
     recursive true
     owner postfix[:virtual_uid_static]
     group postfix[:virtual_gid_static]
-    mode '0770'
+    mode '0700'
     only_if { virtual_mailbox_base }
 end
 
@@ -90,7 +90,7 @@ postfix[:virtual_mailbox_domains].each do |domain|
         recursive true
         owner postfix[:virtual_uid_static]
         group postfix[:virtual_gid_static]
-        mode '0770'
+        mode '0700'
     end
 end
 
