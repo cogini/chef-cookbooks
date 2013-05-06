@@ -6,8 +6,8 @@ set[:localbackup][:script_file] = "#{script_dir}/make_backup.sh"
 default[:localbackup][:destination] = '/usr/local/backups'
 default[:localbackup][:ignore] = []
 
-default[:localbackup][:mysql][:enable] = File.exists?('/usr/bin/mysqldump')
-default[:localbackup][:pgsql][:enable] = File.exists?('/usr/bin/pg_dump')
+default[:localbackup][:mysql][:enable] = File.exists?('/etc/init.d/mysql')
+default[:localbackup][:pgsql][:enable] = File.exists?('/etc/init.d/postgresql')
 
 case node[:platform]
 when 'ubuntu'
