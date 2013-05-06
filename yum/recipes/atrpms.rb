@@ -7,12 +7,6 @@
 # All rights reserved - Do Not Redistribute
 #
 
-package_name = 'atrpms-repo'
-
-package package_name do
-    action :remove
-end
-
 key = "#{node.platform}#{node.platform_version.to_i}-#{system('uname -m | grep 64') ? 64 : 32}"
 
 case key
@@ -35,6 +29,6 @@ remote_file rpm_file do
     action :create_if_missing
 end
 
-execute 'install atrpms' do
-    command "yum install -y #{rpm_file}"
+package 'atrpms-repo' do
+    source rpm_file
 end

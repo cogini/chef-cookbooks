@@ -18,17 +18,13 @@ end
 
 rpm_file = "#{Chef::Config[:file_cache_path]}/#{File.basename(url)}"
 
-package 'pgdg-centos91' do
-    action :remove
-end
-
 remote_file rpm_file do
     source url
     action :create_if_missing
 end
 
-execute 'install pgdg-centos91' do
-    command "rpm -i #{rpm_file}"
+package 'pgdg-centos91' do
+    source rpm_file
 end
 
 template '/etc/yum.repos.d/CentOS-Base.repo' do
