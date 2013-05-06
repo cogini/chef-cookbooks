@@ -20,10 +20,3 @@ else
         /etc
     }
 end
-
-if node[:localbackup][:mysql][:enable]
-    default[:localbackup][:mysql][:user] = 'root'
-    if node[:mysql] && node[:mysql][:server_root_password]
-        default[:localbackup][:mysql][:password] = node[:mysql][:server_root_password]
-    end
-end

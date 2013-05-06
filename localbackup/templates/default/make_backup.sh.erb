@@ -39,8 +39,10 @@ rotate postgresql
 <% if node[:localbackup][:mysql][:enable] -%>
 # Make backup of MySQL
 echo Backing up MySQL...
-/usr/bin/mysqldump -u<%= node[:localbackup][:mysql][:user] %> -p<%= node[:localbackup][:mysql][:password] %> --all-databases \
-    | gzip > "$backup_dir/mysql-$timestamp.sql.gz"
+/usr/bin/mysqldump --events --all-databases \
+    -uroot \
+    -p<%= node[:mysql][:server_root_password] %> |
+    gzip > "$backup_dir/mysql-$timestamp.sql.gz"
 rotate mysql
 <% end -%>
 
