@@ -17,9 +17,11 @@
 
 case platform
 when "ubuntu"
-    default[:postfix][:virtual_mailbox_base] = '/var/spool/mail/virtual'
+    default[:postfix][:smtp_tls_cafile] = '/etc/postfix/cacert.pem'
+when "centos"
+    default[:postfix][:smtp_tls_cafile] = '/etc/pki/tls/certs/ca-bundle.crt'
 else
-    default[:postfix][:virtual_mailbox_base] = ''
+    raise NotImplementedError
 end
 
 default[:postfix][:aliases] = {}
@@ -44,7 +46,6 @@ default[:postfix][:smtp_sasl_auth_enable] = 'no'
 default[:postfix][:smtp_sasl_passwd] = ''
 default[:postfix][:smtp_sasl_password_maps] = ''
 default[:postfix][:smtp_sasl_user_name] = ''
-default[:postfix][:smtp_tls_cafile] = '/etc/postfix/cacert.pem'
 default[:postfix][:smtp_tls_note_starttls_offer] = 'no'
 default[:postfix][:smtp_tls_security_level] = ''
 default[:postfix][:smtp_use_tls] = 'no'

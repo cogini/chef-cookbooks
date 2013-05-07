@@ -1,8 +1,8 @@
-default[:nagios][:mysql][:enable] = false
+default[:nagios][:mysql][:enable] = File.exists?('/etc/init.d/mysql')
 default[:nagios][:mysql][:host] = 'localhost'
 default[:nagios][:mysql][:username] = 'nagiosCheck'
 default[:nagios][:nrpe_local_config] = []
-default[:nagios][:pgsql][:enable] = false
+default[:nagios][:pgsql][:enable] = File.exists?('/etc/init.d/postgresql')
 default[:nagios][:pgsql][:host] = 'localhost'
 default[:nagios][:pgsql][:username] = 'nagiosCheck'
 default[:nagios][:plugin_dir] = '/usr/lib/nagios/plugins/local'
