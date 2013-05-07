@@ -42,10 +42,8 @@ apt_repository 'ppa_ubuntugis_ubuntugis-unstable' do
   keyserver 'keyserver.ubuntu.com'
   key '314DF160'
   deb_src true
-  #cache_rebuild true
+  cache_rebuild true
 end
-
-execute 'apt-get update'
 
 package 'python-software-properties'
 package 'postgresql-9.1-postgis2'
