@@ -58,6 +58,7 @@ virtual_mailbox_maps = postfix[:virtual_mailbox_maps]
 [virtual_alias_maps, virtual_mailbox_maps].each do |map|
     execute "postmap #{map}" do
         not_if { map.empty? }
+        not_if { map.split(":")[0] == "mysql" }
     end
 end
 
@@ -81,7 +82,7 @@ directory virtual_mailbox_base do
     owner postfix[:virtual_uid_static]
     group postfix[:virtual_gid_static]
     mode '0700'
-    only_if { virtual_mailbox_base }
+    not_if { virtual_mailbox_base.empty? }
 end
 
 postfix[:virtual_mailbox_domains].each do |domain|
@@ -91,6 +92,7 @@ postfix[:virtual_mailbox_domains].each do |domain|
         owner postfix[:virtual_uid_static]
         group postfix[:virtual_gid_static]
         mode '0700'
+        not_if { domain.split(":")[0] == "mysql" }
     end
 end
 
