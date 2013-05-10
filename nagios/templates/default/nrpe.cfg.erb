@@ -200,7 +200,7 @@ connection_timeout=300
 command[check_users]=/usr/lib/nagios/plugins/check_users -w 5 -c 10
 command[check_load]=/usr/lib/nagios/plugins/check_load -w 15,10,5 -c 30,25,20
 command[check_zombie_procs]=/usr/lib/nagios/plugins/check_procs -w 5 -c 10 -s Z
-command[check_root]=/usr/lib/nagios/plugins/check_disk -w 10% -c 5% -x none
+command[check_root]=/usr/lib/nagios/plugins/check_disk -w 10% -c 5% -X none
 command[check_logwarn_email]=/usr/lib/nagios/plugins/check_logwarn -p /var/log/mail.log '^.* localhost postfix/.* status=(bounced|deferred)'
 command[check_total_procs]=/usr/lib/nagios/plugins/check_procs -w <%= total_procs[:warning] %> -c <%= total_procs[:critical] %>
 
