@@ -20,6 +20,10 @@
 
 include_recipe 'postfix::vanilla'
 
+
+excluded_maps = %w{ mysql pgsql }
+
+
 service "postfix" do
   supports :status => true, :restart => true, :reload => true
   action :enable
@@ -57,7 +61,7 @@ virtual_mailbox_maps = postfix[:virtual_mailbox_maps]
 
 [virtual_alias_maps, virtual_mailbox_maps].each do |map|
     execute "postmap #{map}" do
-        not_if { map.empty? or (map.split(":")[0] == "mysql") }
+        not_if { map.empty? or excluded_maps.include?(map.split(":")[0]) }
     end
 end
 
@@ -91,7 +95,7 @@ postfix[:virtual_mailbox_domains].each do |domain|
         owner postfix[:virtual_uid_static]
         group postfix[:virtual_gid_static]
         mode '0700'
-        not_if { domain.split(":")[0] == "mysql" }
+        not_if { excluded_maps.include?(domain.split(":")[0]) }
     end
 end
 
