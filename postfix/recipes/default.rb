@@ -21,7 +21,7 @@
 include_recipe 'postfix::vanilla'
 
 
-excluded_maps = %w{ mysql pgsql }
+excluded_maps = %w{ mysql pgsql proxy }
 
 
 service "postfix" do
