@@ -62,6 +62,7 @@ default[:postfix][:transport_maps] = {}
 default[:postfix][:transport_maps_file] = 'hash:/etc/postfix/transport'
 default[:postfix][:virtual_alias_maps] = ''
 default[:postfix][:virtual_gid_static] = 5000
+default[:postfix][:virtual_mailbox_base] = ''
 default[:postfix][:virtual_mailbox_domains] = []
 default[:postfix][:virtual_mailbox_maps] = ''
 default[:postfix][:virtual_uid_static] = 5000
