@@ -70,7 +70,6 @@ end
 # Install gitlab shell
 bash "Clone gitlab-shell" do
   user git_user
-  #environment ({"HOME" => "#{git_home}"})
   cwd git_home
   code <<-EOH
     [[ -d #{gitlab_shell_dir} ]] || git clone https://github.com/gitlabhq/gitlab-shell.git
@@ -128,7 +127,7 @@ end
 bash "git config" do
   user git_user
   cwd git_home
-  #environment ({"HOME" => git_home})
+  environment ({"HOME" => git_home})
   code <<-EOH
     git config --global user.name "GitLab"
     git config --global user.email "gitlab@localhost"
@@ -139,8 +138,6 @@ end
 # Initialize DB and activate advanced features
 execute "bundle exec rake gitlab:setup RAILS_ENV=production" do
   user git_user
-  group git_group
-  #environment ({"HOME" => git_home})
   cwd gitlab_dir
   command "yes yes | bundle exec rake gitlab:setup RAILS_ENV=production && touch .gitlab-setup"
   action :run
@@ -149,17 +146,13 @@ end
 
 # Update DB in case updating to newer version
 execute "bundle exec rake db:migrate RAILS_ENV=production" do
-  user gitlab_user
-  group gitlab_group
-  #environment ({"HOME" => git_home})
+  user git_user
   cwd gitlab_dir
 end
 
 # Enable automerge
 execute "bundle exec rake gitlab:enable_automerge RAILS_ENV=production" do
-  user gitlab_user
-  group gitlab_group
-  #environment ({"HOME" => git_home})
+  user git_user
   cwd gitlab_dir
   action :run
 end
