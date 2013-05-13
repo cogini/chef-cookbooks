@@ -42,7 +42,7 @@ default[:gitlab][:gitlab_shell][:version] = "v1.3.0"
 #default[:gitlab][:group] = "git"
 default[:gitlab][:dir] = "/home/git/gitlab"
 
-default[:gitlab][:ssh_host] = "localhost"
+#default[:gitlab][:ssh_host] = "localhost"
 default[:gitlab][:ssh_port] = 22
 
 default[:gitlab][:host] = "localhost"
