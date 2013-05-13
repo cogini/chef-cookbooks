@@ -5,7 +5,6 @@ default[:ssh][:hostkeys] = %w{
 }
 default[:ssh][:matches] = {}
 default[:ssh][:ports] = [22]
-default[:ssh][:subsystems] = { 'sftp' => '/usr/lib/openssh/sftp-server' }
 default[:ssh][:users] = []
 default[:ssh][:group] = 'sshusers'
 default[:ssh][:sftp][:dir] = '/srv/sftp'
@@ -23,9 +22,11 @@ case node[:platform]
 when 'redhat', 'centos', 'amazon'
     default[:ssh][:service] = 'sshd'
     default[:ssh][:sftp][:shell] = '/sbin/nologin'
+    default[:ssh][:subsystems] = { 'sftp' => '/usr/libexec/openssh/sftp-server' }
 when 'ubuntu'
     default[:ssh][:service] = 'ssh'
     default[:ssh][:sftp][:shell] = '/usr/sbin/nologin'
+    default[:ssh][:subsystems] = { 'sftp' => '/usr/lib/openssh/sftp-server' }
     if node[:platform_version].to_f >= 12.04
         default[:ssh][:hostkeys] = %w{
             /etc/ssh/ssh_host_rsa_key
