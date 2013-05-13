@@ -150,13 +150,6 @@ execute "bundle exec rake db:migrate RAILS_ENV=production" do
   cwd gitlab_dir
 end
 
-# Enable automerge
-execute "bundle exec rake gitlab:enable_automerge RAILS_ENV=production" do
-  user git_user
-  cwd gitlab_dir
-  action :run
-end
-
 bash "Install init script" do
   code <<-EOH
     curl --output /etc/init.d/gitlab https://raw.github.com/gitlabhq/gitlabhq/master/lib/support/init.d/gitlab
