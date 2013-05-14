@@ -92,26 +92,39 @@ bash "Clone gitlab" do
   EOH
 end
 
+bash "Change directories ownership" do
+  code <<-EOH
+    chown -R #{git_user}:#{git_user} #{gitlab_shell_dir}
+    chown -R #{git_user}:#{git_user} #{gitlab_dir}
+  EOH
+end
+
 %w{ gitlab.yml puma.rb database.yml }.each do |item|
   template "#{gitlab_dir}/config/#{item}" do
     source "#{item}.erb"
     owner git_user
+    group git_user
   end
 end
 
 bash "Change permission to let gitlab write to the log/ and tmp/ directories" do
   cwd gitlab_dir
   code <<-EOH
-    chown -R #{git_user} log/
-    chown -R #{git_user} tmp/
+    chown -R #{git_user}:#{git_user} #{git_home}/repositories/
+    chmod -R ug+rwX,o-rwx #{git_home}/repositories/
+    chmod -R ug-s #{git_home}/repositories/
+    find /home/git/repositories/ -type d -print0 | xargs -0 chmod g+s
+    chown -R #{git_user}:#{git_user} log/
+    chown -R #{git_user}:#{git_user} tmp/
     chmod -R u+rwX log/
     chmod -R u+rwX tmp/
   EOH
 end
 
-["#{git_home}/gitlab-satellites", "#{gitlab_dir}/tmp/pids" "#{gitlab_dir}/tmp/sockets" "#{gitlab_dir}/public/uploads"].each do |dir|
+["#{git_home}/gitlab-satellites", "#{gitlab_dir}/tmp/pids", "#{gitlab_dir}/tmp/sockets", "#{gitlab_dir}/public/uploads"].each do |dir|
   directory dir do
     owner git_user
+    group git_user
     mode 0755
     action :create
     recursive true
@@ -152,7 +165,7 @@ end
 
 bash "Install init script" do
   code <<-EOH
-    curl --output /etc/init.d/gitlab https://raw.github.com/gitlabhq/gitlabhq/master/lib/support/init.d/gitlab
+    curl --output /etc/init.d/gitlab https://raw.github.com/gitlabhq/gitlab-recipes/5-1-stable/init.d/gitlab
     chmod +x /etc/init.d/gitlab
   EOH
 end
