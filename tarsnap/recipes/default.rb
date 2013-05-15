@@ -104,6 +104,7 @@ end
 
 %w{
     tarsnap-backup.sh
+    run.sh
 }.each do |script|
     template "#{tarsnap_dir}/#{script}" do
         source "#{script}.erb"

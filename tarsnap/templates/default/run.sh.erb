@@ -4,7 +4,7 @@
 # Written by Tim Bishop, 2009.
 
 # Directories to backup
-DIRS="/home /etc /usr/local/etc"
+DIRS="<%= node[:tarsnap][:dirs].join(' ') %>"
 
 # Number of daily backups to keep
 DAILY=7
@@ -25,6 +25,10 @@ MONTHLY_DAY=01
 #TARSNAP="/home/tdb/tarsnap/tarsnap.pl"
 TARSNAP="/usr/local/bin/tarsnap"
 
+DIR="$(cd "$(dirname "$0")"; pwd)"
+KEY="$DIR/$(hostname -s)-tarsnap.key"
+CACHE_DIR="$DIR/cachedir"
+
 # end of config
 
 # day of week: 1-7, monday = 1
@@ -40,26 +44,26 @@ TIME=`date +%H%M%S`
 
 # Backup name
 if [ X"$DOM" = X"$MONTHLY_DAY" ]; then
-	# monthly backup
-	BACKUP="$YEAR$MOY$DOM-$TIME-monthly"
+    # monthly backup
+    BACKUP="$YEAR$MOY$DOM-$TIME-monthly"
 elif [ X"$DOW" = X"$WEEKLY_DAY" ]; then
-	# weekly backup
-	BACKUP="$YEAR$MOY$DOM-$TIME-weekly"
+    # weekly backup
+    BACKUP="$YEAR$MOY$DOM-$TIME-weekly"
 else
-	# daily backup
-	BACKUP="$YEAR$MOY$DOM-$TIME-daily"
+    # daily backup
+    BACKUP="$YEAR$MOY$DOM-$TIME-daily"
 fi
 
 # Do backups
 for dir in $DIRS; do
-	# nasty bodge for my large /home :-)
-	EXTRA_FLAGS=
-	if [ X"$dir" = X"/home" ]; then
-		EXTRA_FLAGS="--lowmem"
-	fi
+    # nasty bodge for my large /home :-)
+    EXTRA_FLAGS=
+    if [ X"$dir" = X"/home" ]; then
+        EXTRA_FLAGS="--lowmem"
+    fi
 
-	echo "==> create $BACKUP-$dir"
-	$TARSNAP $EXTRA_FLAGS -c -f $BACKUP-$dir $dir
+    echo "==> create $BACKUP-$dir"
+    $TARSNAP --keyfile $KEY --cachedir $CACHE_DIR $EXTRA_FLAGS -c -f $BACKUP-$dir $dir
 done
 
 # Backups done, time for cleaning up old archives
@@ -75,17 +79,17 @@ MONTHLY=`expr $MONTHLY + 1`
 TMPFILE=/tmp/tarsnap.archives.$$
 $TARSNAP --list-archives > $TMPFILE
 for dir in $DIRS; do
-	for i in `grep -E "^[[:digit:]]{8}-[[:digit:]]{6}-daily-$dir" $TMPFILE | sort -rn | tail -n +$DAILY`; do
-		echo "==> delete $i"
-		$TARSNAP -d -f $i
-	done
-	for i in `grep -E "^[[:digit:]]{8}-[[:digit:]]{6}-weekly-$dir" $TMPFILE | sort -rn | tail -n +$WEEKLY`; do
-		echo "==> delete $i"
-		$TARSNAP -d -f $i
-	done
-	for i in `grep -E "^[[:digit:]]{8}-[[:digit:]]{6}-monthly-$dir" $TMPFILE | sort -rn | tail -n +$MONTHLY`; do
-		echo "==> delete $i"
-		$TARSNAP -d -f $i
-	done
+    for i in `grep -E "^[[:digit:]]{8}-[[:digit:]]{6}-daily-$dir" $TMPFILE | sort -rn | tail -n +$DAILY`; do
+        echo "==> delete $i"
+        $TARSNAP -d -f $i
+    done
+    for i in `grep -E "^[[:digit:]]{8}-[[:digit:]]{6}-weekly-$dir" $TMPFILE | sort -rn | tail -n +$WEEKLY`; do
+        echo "==> delete $i"
+        $TARSNAP -d -f $i
+    done
+    for i in `grep -E "^[[:digit:]]{8}-[[:digit:]]{6}-monthly-$dir" $TMPFILE | sort -rn | tail -n +$MONTHLY`; do
+        echo "==> delete $i"
+        $TARSNAP -d -f $i
+    done
 done
 rm $TMPFILE
