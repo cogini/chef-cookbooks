@@ -1,56 +1,45 @@
 #!/bin/bash
 set -e
 
-backup_dir=<%= node[:localbackup][:destination] %>
-backups_to_keep=5
 
-cd /tmp
+backup_dir=<%= node[:localbackup][:destination] %>
+backups_to_keep=7
 umask 0077
+
 timestamp=$(date +%Y%m%d%H%M%S)
 
-# Remove old versions
-rotate() {
-    base_name="$1"
-    find $backup_dir -type f -name "$base_name-*" \
-        | sort -r \
-        | tail -n+$(( backups_to_keep + 1 )) \
-        | xargs rm -f
-}
 
-# Make backup of directory
-tar_dir() {
-    the_dir="$1"
-    # Replace / with _
-    out_base="${the_dir//\//_}"
-    out_file="$backup_dir/$out_base-$timestamp.tar.gz"
-    /bin/tar --exclude-from <%= node[:localbackup][:ignore_file] %> \
-             -Pczf "$out_file" "$the_dir"
-    rotate "$out_base"
-}
+dump_dir="$backup_dir/db_dumps"
+mkdir -p "$dump_dir"
 
 <% if node[:localbackup][:pgsql][:enable] -%>
-# Make backup of PostgreSQL
 echo Backing up PostgreSQL...
-su postgres -c "/usr/bin/pg_dumpall -cO" |
-    gzip > "$backup_dir/postgresql-$timestamp.sql.gz"
-rotate postgresql
+sudo -iu postgres /usr/bin/pg_dumpall -cO |
+    gzip > "$dump_dir/postgresql-$timestamp.sql.gz"
 <% end -%>
 
 <% if node[:localbackup][:mysql][:enable] -%>
-# Make backup of MySQL
 echo Backing up MySQL...
 /usr/bin/mysqldump --events --all-databases \
     -uroot \
     -p<%= node[:mysql][:server_root_password] %> |
-    gzip > "$backup_dir/mysql-$timestamp.sql.gz"
-rotate mysql
+    gzip > "$dump_dir/mysql-$timestamp.sql.gz"
 <% end -%>
 
-for thing in $(echo <%= node[:localbackup][:dirs].join(' ') %>)
+
+for thing in <%= node[:localbackup][:dirs].join(' ') %>
 do
     thing="$(readlink -f $thing)"
     echo "Backing up $thing..."
-    tar_dir "$thing"
+    # Replace / with _
+    out_base="${thing//\//_}"
+    out_file="$backup_dir/$out_base-$timestamp.tar.gz"
+    /bin/tar --exclude-from <%= node[:localbackup][:ignore_file] %> -Pczf "$out_file" "$thing"
 done
 
-echo "Backup complete"
+
+echo "Removing old backups..."
+find "$backup_dir" -mtime +$backups_to_keep -delete
+
+
+echo "Done"
