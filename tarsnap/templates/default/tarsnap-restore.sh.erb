@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Restore a backup
+
+. "$(dirname "$0")/tarsnap-env.sh"
+
+BACKUP_NAME=$1
+# Path in archive to restore
+PATH=$2
+
+$TARSNAP --cachedir $CACHE_DIR -x -f $BACKUP_NAME $PATH
