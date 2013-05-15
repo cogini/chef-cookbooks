@@ -15,6 +15,7 @@ directory Chef::Config[:file_cache_path] do
 end
 
 
+include_recipe 'user'
 include_recipe 'basics::hostname'
 include_recipe 'basics::aliases'
 include_recipe 'basics::unicode'

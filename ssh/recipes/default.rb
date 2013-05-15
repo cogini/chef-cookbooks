@@ -7,6 +7,8 @@
 # All rights reserved - Do Not Redistribute
 #
 
+include_recipe "user"
+
 sftp = node[:ssh][:sftp]
 ssh_users = node[:ssh][:users] | node[:admin_users] | node[:sudoers]
 sftp_users = sftp[:users]
@@ -20,17 +22,23 @@ end
 
 # SSH users and group
 
-ssh_users.each do |username|
-    user username do
-        home "/home/#{username}"
-        shell '/bin/bash'
-        supports :manage_home => true
+ssh_users.each do |user|
+    user_account user[:username] do
+        ssh_keys user[:ssh_keys]
+        manage_home true
+        home "/home/#{user[:username]}"
+        ssh_keygen false
         action :create
     end
 end
 
+ssh_members = []
+ssh_users.each do |user|
+  ssh_members.push(user[:username])
+end
+
 group node[:ssh][:group] do
-    members ssh_users
+    members ssh_members
     action :create
 end
 
