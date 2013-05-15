@@ -82,9 +82,6 @@ directory "#{tarsnap_dir}/cachedir" do
 end
 
 %w{
-    tarsnap-env.sh
-    tarsnap-list.sh
-    tarsnap-prune.sh
     tarsnap-register-machine.sh
     tarsnap-restore.sh
 }.each do |script|
@@ -104,7 +101,9 @@ end
 
 %w{
     tarsnap-backup.sh
-    run.sh
+    tarsnap-env.sh
+    tarsnap-list.sh
+    tarsnap-prune.sh
 }.each do |script|
     template "#{tarsnap_dir}/#{script}" do
         source "#{script}.erb"
