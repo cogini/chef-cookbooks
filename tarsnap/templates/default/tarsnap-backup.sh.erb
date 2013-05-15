@@ -37,7 +37,10 @@ for dir in $DIRS; do
     fi
 
     echo "==> create $BACKUP-$dir"
-    $TARSNAP --keyfile $KEY --cachedir $CACHE_DIR $EXTRA_FLAGS -c -f $BACKUP-$dir $dir
+    $TARSNAP --keyfile $KEY \
+             --exclude-from "$DIR/ignore" \
+             --cachedir $CACHE_DIR \
+             $EXTRA_FLAGS -c -f $BACKUP-$dir $dir
 done
 
 # Backups done, time for cleaning up old archives
