@@ -19,20 +19,25 @@ TMPFILE=/tmp/tarsnap.archives.$$
 $TARSNAP --list-archives > $TMPFILE
 
 
+delete() {
+    DIR=$1
+    TYPE=$2
+    KEEP=$3
+    for i in $(grep -E "^$DATETIME_REGEX-$TYPE-$DIR" $TMPFILE |
+               sort -rn |
+               tail -n +$KEEP)
+    do
+        echo "Deleting $i..."
+        $TARSNAP --cachedir $CACHE_DIR -d -f $i
+    done
+}
+
+
 # Do deletes
 for dir in $DIRS; do
-    for i in `grep -E "^$DATETIME_REGEX-daily-$dir" $TMPFILE | sort -rn | tail -n +$DAILY`; do
-        echo "==> delete $i"
-        $TARSNAP -d -f $i
-    done
-    for i in `grep -E "^$DATETIME_REGEX-weekly-$dir" $TMPFILE | sort -rn | tail -n +$WEEKLY`; do
-        echo "==> delete $i"
-        $TARSNAP -d -f $i
-    done
-    for i in `grep -E "^$DATETIME_REGEX-monthly-$dir" $TMPFILE | sort -rn | tail -n +$MONTHLY`; do
-        echo "==> delete $i"
-        $TARSNAP -d -f $i
-    done
+    delete $dir daily $DAILY
+    delete $dir weekly $WEEKLY
+    delete $dir monthly $MONTHLY
 done
 
 
@@ -42,10 +47,10 @@ echoerr() {
     echo "$@" 1>&2
 }
 
-WEIRD=$(grep -Ev "^$DATETIME_REGEX-(daily|weekly|monthly)-(<%= node[:tarsnap][:dirs].join('|') %>)" $TMPFILE)
+WEIRD=$(grep -Ev "^$DATETIME_REGEX-(daily|weekly|monthly)-(${DIRS// /|})" $TMPFILE)
 if [ -n "$WEIRD" ]
 then
-    echoerr "Unrecognized backups found:"
+    echoerr "Unrecognized backup(s) found:"
     for i in $WEIRD
     do
         echoerr " - $i" >&2

@@ -22,10 +22,10 @@ MONTHLY=3
 # 01-31 (leading 0 is important)
 MONTHLY_DAY=01
 
-# Path to tarsnap
-#TARSNAP="/home/tdb/tarsnap/tarsnap.pl"
-TARSNAP="/usr/local/bin/tarsnap"
-
 DIR="$(cd "$(dirname "$0")"; pwd)"
 KEY="$DIR/$(hostname -s)-tarsnap.key"
 CACHE_DIR="$DIR/cachedir"
+
+# Path to tarsnap
+#TARSNAP="/home/tdb/tarsnap/tarsnap.pl"
+TARSNAP="/usr/local/bin/tarsnap --keyfile $KEY"

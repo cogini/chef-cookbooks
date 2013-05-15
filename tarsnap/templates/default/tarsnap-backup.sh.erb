@@ -30,18 +30,15 @@ fi
 
 # Do backups
 for dir in $DIRS; do
-    # nasty bodge for my large /home :-)
-    EXTRA_FLAGS=
-    if [ X"$dir" = X"/home" ]; then
-        EXTRA_FLAGS="--lowmem"
-    fi
-
-    echo "==> create $BACKUP-$dir"
-    $TARSNAP --keyfile $KEY \
-             --exclude-from "$DIR/ignore" \
-             --cachedir $CACHE_DIR \
-             $EXTRA_FLAGS -c -f $BACKUP-$dir $dir
+    echo "Backing up $BACKUP-$dir..."
+    nice $TARSNAP --exclude-from "$DIR/ignore" \
+                  --cachedir $CACHE_DIR \
+                  -f $BACKUP-$dir \
+                  $EXTRA_FLAGS \
+                  -P -c $dir
 done
 
-# Backups done, time for cleaning up old archives
+echo "Cleaning old backups..."
 "$DIR/tarsnap-prune.sh"
+
+echo "Done"
