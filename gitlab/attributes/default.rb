@@ -19,7 +19,6 @@ set[:gitlab][:dependencies] = %w{
   zlib1g-dev
 }
 
-
 default[:gitlab][:version] = "5-1-stable"
 
 default[:gitlab][:dbHost] = "localhost"

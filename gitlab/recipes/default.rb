@@ -12,6 +12,7 @@ include_recipe "postgresql::client"
 # XXX Do we really need python?
 include_recipe "python"
 
+
 if node[:gitlab][:dbHost] == "localhost"
 
     include_recipe "postgresql::server"
@@ -121,7 +122,12 @@ bash "Change permission to let gitlab write to the log/ and tmp/ directories" do
   EOH
 end
 
-["#{git_home}/gitlab-satellites", "#{gitlab_dir}/tmp/pids", "#{gitlab_dir}/tmp/sockets", "#{gitlab_dir}/public/uploads"].each do |dir|
+[
+  "#{git_home}/gitlab-satellites",
+  "#{gitlab_dir}/tmp/pids",
+  "#{gitlab_dir}/tmp/sockets",
+  "#{gitlab_dir}/public/uploads",
+].each do |dir|
   directory dir do
     owner git_user
     group git_user
