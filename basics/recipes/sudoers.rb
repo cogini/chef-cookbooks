@@ -7,8 +7,6 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe "user"
-
 case node[:platform]
 when 'ubuntu', 'centos', 'amazon'
 else

@@ -7,8 +7,6 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe "user"
-
 sftp = node[:ssh][:sftp]
 ssh_users = node[:ssh][:users] | node[:admin_users] | node[:sudoers]
 sftp_users = sftp[:users]
