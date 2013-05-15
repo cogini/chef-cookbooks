@@ -31,8 +31,8 @@ default[:gitlab][:git_user][:name] = "git"
 default[:gitlab][:git_user][:shell] = "/bin/bash"
 default[:gitlab][:git_user][:home] = "/home/git"
 
-default[:gitlab][:gitlab_shell][:dir] = "/home/git/gitlab-shell"
-default[:gitlab][:gitlab_shell][:version] = "v1.3.0"
+default[:gitlab][:shell][:dir] = "/home/git/gitlab-shell"
+default[:gitlab][:shell][:version] = "v1.3.0"
 
 default[:gitlab][:dir] = "/home/git/gitlab"
 

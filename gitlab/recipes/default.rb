@@ -30,8 +30,8 @@ end
 git_user = node[:gitlab][:git_user][:name]
 git_home = node[:gitlab][:git_user][:home]
 gitlab_version = node[:gitlab][:version]
-gitlab_shell_dir = node[:gitlab][:gitlab_shell][:dir]
-gitlab_shell_version = node[:gitlab][:gitlab_shell][:version]
+gitlab_shell_dir = node[:gitlab][:shell][:dir]
+gitlab_shell_version = node[:gitlab][:shell][:version]
 gitlab_dir = node[:gitlab][:dir]
 
 
@@ -49,12 +49,12 @@ node[:gitlab][:dependencies].each do |pkg|
 end
 
 
-# install bundler gem
+# Install bundler gem
 bash "install gems" do
-  code <<-eoh
+  code <<-EOH
     gem install bundler
     gem install charlock_holmes --version '0.6.9.4'
-  eoh
+  EOH
 end
 
 
