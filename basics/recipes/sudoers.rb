@@ -25,25 +25,18 @@ users.each do |user|
         ssh_keys user[:ssh_keys]
         manage_home true
         home "/home/#{user[:username]}"
-        ssh_keygen false
         action :create
     end
 end
 
-sudo_members = []
-sudoers.each do |user|
-  sudo_members.push(user[:username])
-end
+sudo_members = sudoers.collect { |u| u[:username] }
 
 group 'sudo' do
     members sudo_members
     action :create
 end
 
-admin_members = []
-admin_users.each do |user|
-  admin_members.push(user[:username])
-end
+admin_members = admin_users.collect { |u| u[:username] }
 
 group node[:admin_group] do
     members admin_members

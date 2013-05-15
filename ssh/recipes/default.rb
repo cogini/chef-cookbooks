@@ -27,15 +27,11 @@ ssh_users.each do |user|
         ssh_keys user[:ssh_keys]
         manage_home true
         home "/home/#{user[:username]}"
-        ssh_keygen false
         action :create
     end
 end
 
-ssh_members = []
-ssh_users.each do |user|
-  ssh_members.push(user[:username])
-end
+ssh_members = ssh_users.collect { |u| u[:username] }
 
 group node[:ssh][:group] do
     members ssh_members
