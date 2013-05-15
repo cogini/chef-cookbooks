@@ -7,7 +7,7 @@ default[:localbackup][:destination] = '/usr/local/backups'
 default[:localbackup][:ignore] = []
 
 default[:localbackup][:mysql][:enable] = File.exists?('/etc/init.d/mysql')
-default[:localbackup][:pgsql][:enable] = File.exists?('/etc/init.d/postgresql')
+default[:localbackup][:pgsql][:enable] = (not Dir.glob('/etc/init.d/postgresql*').empty?)
 
 case node[:platform]
 when 'ubuntu'
