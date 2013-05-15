@@ -24,10 +24,14 @@ default[:php][:install_method] = 'package'
 default[:php][:post_max_size] = "8M"
 default[:php][:timezone] = 'UTC'
 default[:php][:upload_max_filesize] = "2M"
+default[:php][:max_execution_time] = 30
+default[:php][:error_reporting] = 'E_ALL & ~E_DEPRECATED'
 
 default[:php][:fpm][:pm] = 'ondemand'
 default[:php][:fpm][:process][:max] = 10
 default[:php][:fpm][:catch_workers_output] = 'yes'
+default[:php][:fpm][:max_children] = 10
+default[:php][:fpm][:request_terminate_timeout] = 5
 
 default[:php][:session][:gc_probability] = 1
 
