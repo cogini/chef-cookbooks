@@ -12,19 +12,19 @@ timestamp=$(date +%Y%m%d%H%M%S)
 dump_dir="$backup_dir/db_dumps"
 mkdir -p "$dump_dir"
 
-<% if node[:localbackup][:pgsql][:enable] -%>
+<%- if node[:localbackup][:pgsql][:enable] -%>
 echo Backing up PostgreSQL...
 sudo -iu postgres /usr/bin/pg_dumpall -cO |
     gzip > "$dump_dir/postgresql-$timestamp.sql.gz"
-<% end -%>
+<%- end -%>
 
-<% if node[:localbackup][:mysql][:enable] -%>
+<%- if node[:localbackup][:mysql][:enable] -%>
 echo Backing up MySQL...
 /usr/bin/mysqldump --events --all-databases \
     -uroot \
     -p<%= node[:mysql][:server_root_password] %> |
     gzip > "$dump_dir/mysql-$timestamp.sql.gz"
-<% end -%>
+<%- end -%>
 
 
 for thing in <%= node[:localbackup][:dirs].join(' ') %>
