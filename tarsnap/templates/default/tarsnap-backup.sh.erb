@@ -1,23 +1,44 @@
-#!/bin/bash
+#!/bin/sh
 
-# Make backup to tarsnap
+# Tarsnap backup script
+# Written by Tim Bishop, 2009.
 
-set -e
 . "$(dirname "$0")/tarsnap-env.sh"
 
-for dir in $(cat "$tarsnapdir/tarsnap-dirs")
-do
-    # Strip leading slash manually
-    dir="${dir#/}"
-    # Name of archive is like cogini-prod1_20120812-190027_opt-cogini
-    archive="$(hostname)_$(date -u +%Y%m%d-%H%M%S)_$(echo "${dir}" | tr / -)"
+# day of week: 1-7, monday = 1
+DOW=`date +%u`
+# day of month: 01-31
+DOM=`date +%d`
+# month of year: 01-12
+MOY=`date +%m`
+# year
+YEAR=`date +%Y`
+# time
+TIME=`date +%H%M%S`
 
-    nice $tarsnap --keyfile $write_key \
-                  --exclude-from <%= node[:tarsnap][:ignore_file] %> \
-                  -c -C / --one-file-system \
-                  -f "$archive" "$dir"
+# Backup name
+if [ X"$DOM" = X"$MONTHLY_DAY" ]; then
+    # monthly backup
+    BACKUP="$YEAR$MOY$DOM-$TIME-monthly"
+elif [ X"$DOW" = X"$WEEKLY_DAY" ]; then
+    # weekly backup
+    BACKUP="$YEAR$MOY$DOM-$TIME-weekly"
+else
+    # daily backup
+    BACKUP="$YEAR$MOY$DOM-$TIME-daily"
+fi
+
+# Do backups
+for dir in $DIRS; do
+    echo "Backing up $BACKUP-$dir..."
+    nice $TARSNAP --exclude-from "$DIR/ignore" \
+                  --cachedir $CACHE_DIR \
+                  -f $BACKUP-$dir \
+                  $EXTRA_FLAGS \
+                  -P -c $dir
 done
 
-"$tarsnapdir/tarsnap-prune.sh"
+echo "Cleaning old backups..."
+"$DIR/tarsnap-prune.sh"
 
-$tarsnap --keyfile $read_key --print-stats
+echo "Done"

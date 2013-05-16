@@ -4,10 +4,10 @@
 production:
   adapter: postgresql
   encoding: unicode
-  database: <%= node.gitlab.dbName %>
+  database: <%= node[:gitlab][:dbName] %>
   pool: 5
-  username: <%= node.gitlab.dbUsername %>
-  password: <%= node.gitlab.dbPassword %>
-  host: <%= node.gitlab.dbHost %>
+  username: <%= node[:gitlab][:dbUsername] %>
+  password: <%= node[:gitlab][:dbPassword] %>
+  host: <%= node[:gitlab][:dbHost] %>
   # port: 5432
   # socket: /tmp/postgresql.sock

@@ -6,11 +6,12 @@ listen.allowed_clients = 127.0.0.1
 user = <%= fpm_config[:user] %>
 group = <%= fpm_config[:group] %>
 pm = <%= fpm_config[:pm] %>
-pm.max_children = 10
+pm.max_children = <%= fpm_config[:max_children] %>
 pm.start_servers = 2
 pm.min_spare_servers = 1
 pm.max_spare_servers = 3
 request_slowlog_timeout = 5s
+request_terminate_timeout = <%= fpm_config[:request_terminate_timeout] %>
 slowlog = <%= fpm_config[:slowlog] %>
 chdir = /
 catch_workers_output = <%= node[:php][:fpm][:catch_workers_output] %>

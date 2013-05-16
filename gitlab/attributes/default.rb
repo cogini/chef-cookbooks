@@ -1,5 +1,6 @@
 # Required dependencies
 set[:gitlab][:dependencies] = %w{
+  curl
   libcurl4-openssl-dev
   libffi-dev
   libgdbm-dev
@@ -11,32 +12,27 @@ set[:gitlab][:dependencies] = %w{
   libxslt-dev
   libyaml-dev
   redis-server
-  ruby1.9.3
   ruby1.9.1-dev
+  ruby1.9.3
   zlib1g-dev
-  curl
 }
 
-default[:gitlab][:version] = "4-2-stable"
+default[:gitlab][:version] = "5-1-stable"
 
 default[:gitlab][:dbHost] = "localhost"
 default[:gitlab][:dbName] = "gitlab_production"
 default[:gitlab][:dbUsername] = "gitlab"
-#default[:gitlab][:dbPassword] = "gitlab"
 
 # Users info
 default[:gitlab][:git_user][:name] = "git"
 default[:gitlab][:git_user][:shell] = "/bin/bash"
 default[:gitlab][:git_user][:home] = "/home/git"
 
-default[:gitlab][:gitlab_user][:name] = "gitlab"
-default[:gitlab][:gitlab_user][:shell] = "/bin/bash"
-default[:gitlab][:gitlab_user][:home] = "/home/gitlab"
+default[:gitlab][:shell][:dir] = "/home/git/gitlab-shell"
+default[:gitlab][:shell][:version] = "v1.3.0"
 
-default[:gitlab][:group] = "git"
-default[:gitlab][:dir] = "/home/gitlab/gitlab"
+default[:gitlab][:dir] = "/home/git/gitlab"
 
-default[:gitlab][:ssh_host] = "localhost"
 default[:gitlab][:ssh_port] = 22
 
 default[:gitlab][:host] = "localhost"

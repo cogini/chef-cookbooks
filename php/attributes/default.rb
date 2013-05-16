@@ -24,10 +24,16 @@ default[:php][:install_method] = 'package'
 default[:php][:post_max_size] = "8M"
 default[:php][:timezone] = 'UTC'
 default[:php][:upload_max_filesize] = "2M"
+default[:php][:max_execution_time] = 30
+default[:php][:error_reporting] = 'E_ALL & ~E_DEPRECATED'
 
+default[:php][:fpm][:catch_workers_output] = 'yes'
+default[:php][:fpm][:log_dir] = '/var/log/php-fpm'
+default[:php][:fpm][:max_children] = 10
 default[:php][:fpm][:pm] = 'ondemand'
 default[:php][:fpm][:process][:max] = 10
-default[:php][:fpm][:catch_workers_output] = 'yes'
+default[:php][:fpm][:request_terminate_timeout] = 5
+default[:php][:fpm][:slowlog] = '/var/log/php-fpm/slow.log'
 
 default[:php][:session][:gc_probability] = 1
 
@@ -37,7 +43,6 @@ when 'centos', 'redhat', 'fedora', 'amazon'
     default[:php][:ext_conf_dir] = '/etc/php.d'
     default[:php][:ext_dir] = "/usr/#{lib_dir}/php/modules"
     default[:php][:fpm][:group] = 'nobody'
-    default[:php][:fpm][:slowlog] = '/var/log/php-fpm/www-slow.log'
     default[:php][:fpm][:user] = 'nobody'
     default[:php][:fpm_config] = '/etc/php-fpm.conf'
     default[:php][:fpm_config_template] = 'redhat-php-fpm.conf.erb'
@@ -48,7 +53,6 @@ when 'debian', 'ubuntu'
     default[:php][:conf_dir] = '/etc/php5/fpm'
     default[:php][:ext_conf_dir] = '/etc/php5/conf.d'
     default[:php][:fpm][:group] = 'www-data'
-    default[:php][:fpm][:slowlog] = '/var/log/php5-fpm.log.slow'
     default[:php][:fpm][:user] = 'www-data'
     default[:php][:fpm_config] = '/etc/php5/fpm/php-fpm.conf'
     default[:php][:fpm_config_template] = 'ubuntu-php-fpm.conf.erb'

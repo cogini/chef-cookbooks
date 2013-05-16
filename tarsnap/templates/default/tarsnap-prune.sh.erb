@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# Remove old backups
+
+
+. "$(dirname "$0")/tarsnap-env.sh"
+
+
+# Using tail to find archives to delete, but its
+# +n syntax is out by one from what we want to do
+# (also +0 == +1, so we're safe :-)
+DAILY=`expr $DAILY + 1`
+WEEKLY=`expr $WEEKLY + 1`
+MONTHLY=`expr $MONTHLY + 1`
+DATETIME_REGEX="[[:digit:]]{8}-[[:digit:]]{6}"
+
+
+TMPFILE=/tmp/tarsnap.archives.$$
+$TARSNAP --list-archives > $TMPFILE
+
+
+delete() {
+    DIR=$1
+    TYPE=$2
+    KEEP=$3
+    for i in $(grep -E "^$DATETIME_REGEX-$TYPE-$DIR" $TMPFILE |
+               sort -rn |
+               tail -n +$KEEP)
+    do
+        echo "Deleting $i..."
+        $TARSNAP --cachedir $CACHE_DIR -d -f $i
+    done
+}
+
+
+# Do deletes
+for dir in $DIRS; do
+    delete $dir daily $DAILY
+    delete $dir weekly $WEEKLY
+    delete $dir monthly $MONTHLY
+done
+
+
+# Look for unrecognized backups
+
+echoerr() {
+    echo "$@" 1>&2
+}
+
+WEIRD=$(grep -Ev "^$DATETIME_REGEX-(daily|weekly|monthly)-(${DIRS// /|})" $TMPFILE)
+if [ -n "$WEIRD" ]
+then
+    echoerr "Unrecognized backup(s) found:"
+    for i in $WEIRD
+    do
+        echoerr " - $i" >&2
+    done
+fi
+
+
+rm $TMPFILE

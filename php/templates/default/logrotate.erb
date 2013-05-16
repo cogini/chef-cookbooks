@@ -1,0 +1,11 @@
+<%= node[:php][:fpm][:log_dir] %>/*.log {
+    rotate 7
+    daily
+    minsize 10M
+    compress
+    create
+    sharedscripts
+    postrotate
+        [ ! -f /var/run/php5-fpm.pid ] || kill -USR1 $(cat /var/run/php5-fpm.pid)
+    endscript
+}
