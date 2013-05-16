@@ -18,21 +18,26 @@ admin_users = node[:admin_users]
 
 users = sudoers | admin_users
 
-users.each do |username|
-    user username do
-        home "/home/#{username}"
-        supports :manage_home => true
+users.each do |user|
+    user_account user[:username] do
+        ssh_keys user[:ssh_keys]
+        manage_home true
+        home "/home/#{user[:username]}"
         action :create
     end
 end
 
+sudo_members = sudoers.collect { |u| u[:username] }
+
 group 'sudo' do
-    members sudoers
+    members sudo_members
     action :create
 end
 
+admin_members = admin_users.collect { |u| u[:username] }
+
 group node[:admin_group] do
-    members admin_users
+    members admin_members
     action :create
 end
 

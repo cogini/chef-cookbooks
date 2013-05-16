@@ -20,17 +20,19 @@ end
 
 # SSH users and group
 
-ssh_users.each do |username|
-    user username do
-        home "/home/#{username}"
-        shell '/bin/bash'
-        supports :manage_home => true
+ssh_users.each do |user|
+    user_account user[:username] do
+        ssh_keys user[:ssh_keys]
+        manage_home true
+        home "/home/#{user[:username]}"
         action :create
     end
 end
 
+ssh_members = ssh_users.collect { |u| u[:username] }
+
 group node[:ssh][:group] do
-    members ssh_users
+    members ssh_members
     action :create
 end
 
