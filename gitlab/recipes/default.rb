@@ -123,7 +123,6 @@ bash "Change mode repositories" do
   code <<-EOH
     chown -R #{git_user}:#{git_user} #{git_home}/repositories/
     chmod -R ug+rwX,o-rwx #{git_home}/repositories/
-    chmod -R ug-s #{git_home}/repositories/
     find #{git_home}/repositories/ -type d -print0 | xargs -0 chmod g+s
   EOH
 end

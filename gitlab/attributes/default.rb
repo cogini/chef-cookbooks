@@ -1,6 +1,5 @@
 # Required dependencies
 set[:gitlab][:dependencies] = %w{
-  checkinstall
   curl
   libcurl4-openssl-dev
   libffi-dev
@@ -12,7 +11,6 @@ set[:gitlab][:dependencies] = %w{
   libxml2-dev
   libxslt-dev
   libyaml-dev
-  openssh-server
   redis-server
   ruby1.9.1-dev
   ruby1.9.3
