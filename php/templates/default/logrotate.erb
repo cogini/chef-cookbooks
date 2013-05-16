@@ -1,0 +1,9 @@
+/var/log/php-fpm/*.log {
+    daily
+    rotate 7
+    minsize 10M
+    compress
+    postrotate
+        [ ! -f /var/run/php5-fpm.pid ] || kill -USR1 $(cat /var/run/php5-fpm.pid)
+    endscript
+}

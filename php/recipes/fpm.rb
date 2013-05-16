@@ -46,3 +46,9 @@ end
 service node[:php][:fpm_service] do
     action [:enable, :restart]
 end
+
+
+template '/etc/logrotate.d/php-fpm' do
+    source 'logrotate.erb'
+    mode '644'
+end
