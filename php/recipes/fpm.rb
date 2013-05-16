@@ -28,6 +28,12 @@ node[:php][:fpm_packages].each do |pkg|
     end
 end
 
+
+directory node[:php][:fpm][:log_dir] do
+    action :create
+    mode '755'
+end
+
 template node[:php][:fpm_config] do
     source node[:php][:fpm_config_template]
     mode '0644'
@@ -42,6 +48,7 @@ template "#{node[:php][:conf_dir]}/php.ini" do
     source 'php.ini.erb'
     mode '0644'
 end
+
 
 service node[:php][:fpm_service] do
     action [:enable, :restart]

@@ -1,4 +1,4 @@
-/var/log/php-fpm/*.log {
+<%= node[:php][:fpm][:log_dir] %>/*.log {
     daily
     rotate 7
     minsize 10M

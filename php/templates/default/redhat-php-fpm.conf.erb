@@ -1,4 +1,4 @@
 include=/etc/php-fpm.d/*.conf
 [global]
 pid = /var/run/php-fpm/php-fpm.pid
-error_log = /var/log/php-fpm/error.log
+error_log = <%= node[:php][:fpm][:log_dir] %>/error.log
