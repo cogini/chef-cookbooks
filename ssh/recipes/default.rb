@@ -8,7 +8,6 @@
 #
 
 sftp = node[:ssh][:sftp]
-ssh_users = node[:ssh][:users] | node[:admin_users] | node[:sudoers]
 sftp_users = sftp[:users]
 sftp_upload_dir = sftp[:upload_dir]
 
@@ -18,21 +17,11 @@ service node[:ssh][:service] do
 end
 
 
-# SSH users and group
-
-ssh_users.each do |user|
-    user_account user[:username] do
-        ssh_keys user[:ssh_keys]
-        manage_home true
-        home "/home/#{user[:username]}"
-        action :create
-    end
-end
-
-ssh_members = ssh_users.collect { |u| u[:username] }
+sysadmins = node[:admin_users] | node[:sudoers]
+ssh_users = node[:ssh][:users] | sysadmins.collect { |u| u[:username] }
 
 group node[:ssh][:group] do
-    members ssh_members
+    members ssh_users
     action :create
 end
 
