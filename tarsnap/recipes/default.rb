@@ -83,7 +83,6 @@ end
 
 %w{
     tarsnap-register-machine.sh
-    tarsnap-restore.sh
 }.each do |script|
     cookbook_file "#{tarsnap_dir}/#{script}" do
         source script
@@ -104,6 +103,7 @@ end
     tarsnap-env.sh
     tarsnap-list.sh
     tarsnap-prune.sh
+    tarsnap-restore.sh
 }.each do |script|
     template "#{tarsnap_dir}/#{script}" do
         source "#{script}.erb"
