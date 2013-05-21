@@ -39,6 +39,8 @@ done
 
 
 echo "Removing old backups..."
+# Off by one
+backups_to_keep=$(($backups_to_keep - 1))
 find "$backup_dir" -mtime +$backups_to_keep -delete
 
 
