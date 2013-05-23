@@ -47,7 +47,9 @@ echoerr() {
     echo "$@" 1>&2
 }
 
-WEIRD=$(grep -Ev "^$DATETIME_REGEX-(daily|weekly|monthly)-(${DIRS// /|})" $TMPFILE)
+# `true` prevents exit on error
+WEIRD=$(grep -Ev "^$DATETIME_REGEX-(daily|weekly|monthly)-(${DIRS// /|})" $TMPFILE || true)
+
 if [ -n "$WEIRD" ]
 then
     echoerr "Unrecognized backup(s) found:"
