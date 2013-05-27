@@ -87,6 +87,7 @@ default[:postgresql][:config][:archive_timeout] = "60"
 default[:postgresql][:config][:max_wal_senders] = "0"
 default[:postgresql][:config][:hot_standby] = "off"
 default[:postgresql][:config][:log_min_duration_statement] = 250
+default[:postgresql][:config][:max_locks_per_transaction] = 64
 
 default[:postgresql][:master_host] = nil
 set[:postgresql][:is_slave] = node[:postgresql][:master_host]
