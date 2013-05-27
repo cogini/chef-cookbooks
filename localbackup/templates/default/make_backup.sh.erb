@@ -20,7 +20,7 @@ sudo -iu postgres /usr/bin/pg_dumpall -cO |
 
 <%- if node[:localbackup][:mysql][:enable] -%>
 echo Backing up MySQL...
-/usr/bin/mysqldump --events --all-databases \
+/usr/bin/mysqldump <%= node[:localbackup][:mysql][:extra_options] %> --all-databases \
     -uroot \
     -p<%= node[:mysql][:server_root_password] %> |
     gzip > "$dump_dir/mysql-$timestamp.sql.gz"
