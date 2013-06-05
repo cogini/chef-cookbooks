@@ -11,7 +11,7 @@ default[:amanda][:dependencies] = %w{
 }
 
 
-default[:amanda][:type] = "amanda-backup-client"
+default[:amanda][:type] = "client"
 default[:amanda][:version] = "3.3.3"
 
 default[:amanda][:backup_locations] = []

@@ -26,10 +26,10 @@ define tapetype GigabyteTape {
 define dumptype encrypt-tar-local {
   auth "local"
   program "GNUTAR"
-  encrypt client
-  client_encrypt "/usr/sbin/amcryptsimple"
-  client-decrypt-option "none"
-  server-decrypt-option "-d"
+#  encrypt client
+#  client_encrypt "/usr/sbin/amcryptsimple"
+#  client-decrypt-option "none"
+#  server-decrypt-option "-d"
 }
 
 holdingdisk hd {
