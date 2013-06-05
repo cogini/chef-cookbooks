@@ -74,8 +74,7 @@ unless File.exists?(pkg_file)
     end
 end
 
-package "ffmpeg" do
+package 'ffmpeg' do
     action :install
     source pkg_file
-    provider node[:fpm][:provider]
 end
