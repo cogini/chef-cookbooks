@@ -22,6 +22,7 @@ include_recipe 'postfix::vanilla'
 
 
 excluded_maps = %w{ mysql pgsql proxy }
+postfix = node[:postfix]
 
 
 service "postfix" do
@@ -55,48 +56,46 @@ end
 include_recipe 'postfix::transport_maps'
 
 
-postfix = node[:postfix]
-virtual_alias_maps = postfix[:virtual_alias_maps]
-virtual_mailbox_maps = postfix[:virtual_mailbox_maps]
+unless postfix[:virtual_mailbox_domains].empty?
 
-[virtual_alias_maps, virtual_mailbox_maps].each do |map|
+  virtual_mailbox_base = postfix[:virtual_mailbox_base]
+
+  [postfix[:virtual_alias_maps], postfix[:virtual_mailbox_maps]].each do |map|
     execute "postmap #{map}" do
-        not_if { map.empty? or excluded_maps.include?(map.split(":")[0]) }
+      not_if { map.empty? or excluded_maps.include?(map.split(":")[0]) }
     end
-end
+  end
 
+  group "virtual" do
+    gid postfix[:virtual_gid_static]
+    system true
+  end
 
-virtual_mailbox_base = postfix[:virtual_mailbox_base]
+  user "virtual" do
+    gid postfix[:virtual_gid_static]
+    uid postfix[:virtual_uid_static]
+    system true
+  end
 
-group "virtual" do
-  gid postfix[:virtual_gid_static]
-  system true
-end
-
-user "virtual" do
-  gid postfix[:virtual_gid_static]
-  uid postfix[:virtual_uid_static]
-  system true
-end
-
-directory virtual_mailbox_base do
+  directory virtual_mailbox_base do
     action :create
     recursive true
     owner postfix[:virtual_uid_static]
     group postfix[:virtual_gid_static]
     mode '0700'
     not_if { virtual_mailbox_base.empty? }
-end
+  end
 
-postfix[:virtual_mailbox_domains].each do |domain|
+  postfix[:virtual_mailbox_domains].each do |domain|
     directory "#{virtual_mailbox_base}/#{domain}" do
-        action :create
-        recursive true
-        owner postfix[:virtual_uid_static]
-        group postfix[:virtual_gid_static]
-        mode '0700'
-        not_if { excluded_maps.include?(domain.split(":")[0]) }
+      action :create
+      recursive true
+      owner postfix[:virtual_uid_static]
+      group postfix[:virtual_gid_static]
+      mode '0700'
+      not_if { excluded_maps.include?(domain.split(":")[0]) }
     end
+  end
 end
 
 
