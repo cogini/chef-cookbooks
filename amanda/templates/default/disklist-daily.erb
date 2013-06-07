@@ -4,6 +4,8 @@
   dumptype = "encrypt-tar-remote"
   if client[:hostname] == "localhost"
     dumptype = "encrypt-tar-local"
+  else
+    dumptype = "encrypt-tar-remote"
   end
   client[:locations].each do |location| -%>
 <%=client[:hostname]%> <%=location%> <%=dumptype%>

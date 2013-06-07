@@ -6,21 +6,23 @@
 include_recipe "apt"
 
 
+amanda = node[:amanda]
 amanda_home = "/var/lib/amanda"
-app_user = "amandabackup"
+key_dir = amanda[:key_dir]
+app_user = amanda[:app_user]
 app_group = "disk"
 config_dir = "/etc/amanda"
 dirs = [
-  node[:amanda][:dir][:backup_dir],
-  node[:amanda][:dir][:holding_dir],
-  node[:amanda][:dir][:index_dir],
-  node[:amanda][:dir][:info_dir],
-  node[:amanda][:dir][:log_dir],
-  node[:amanda][:dir][:vtapes_dir]
+  amanda[:dir][:backup_dir],
+  amanda[:dir][:holding_dir],
+  amanda[:dir][:index_dir],
+  amanda[:dir][:info_dir],
+  amanda[:dir][:log_dir],
+  amanda[:dir][:vtapes_dir]
 ]
 
 
-node[:amanda][:dependencies].each do |pkg|
+amanda[:dependencies].each do |pkg|
   package pkg
 end
 
@@ -29,13 +31,13 @@ end
 case node[:platform]
 when "ubuntu"
   arch = node[:kernel][:machine] =~ /x86_64/ ? "amd64" : "i386"
-  amanda_pkg = "amanda-backup-#{node[:amanda][:type]}_#{node[:amanda][:version]}-1Ubuntu1204_#{arch}.deb"
+  amanda_pkg = "amanda-backup-#{amanda[:type]}_#{amanda[:version]}-1Ubuntu1204_#{arch}.deb"
 else
   raise ArgumentError, "Platform #{node[:platform]} not supported"
 end
 
 remote_file "/tmp/#{amanda_pkg}" do
-  source "http://www.zmanda.com/downloads/community/Amanda/#{node[:amanda][:version]}/Ubuntu-12.04/#{amanda_pkg}"
+  source "http://www.zmanda.com/downloads/community/Amanda/#{amanda[:version]}/Ubuntu-12.04/#{amanda_pkg}"
   mode 0644
   not_if { File.exists?("#{amanda_home}/installed") }
 end
@@ -53,13 +55,12 @@ end
 
 
 # Set up amanda server
-if node[:amanda][:type] == "server"
+if amanda[:type] == "server"
   # Fix amrecover error
   template "/usr/libexec/amanda/amidxtaped" do
     source "amidxtaped.erb"
     mode 0755
   end
-
 
   directory "#{config_dir}/Daily" do
     owner app_user
@@ -90,15 +91,14 @@ if node[:amanda][:type] == "server"
     end
   end
 
-  for i in 1..node[:amanda][:tapecycle] do
-    directory "#{node[:amanda][:dir][:vtapes_dir]}/slot#{i}" do
+  for i in 1..amanda[:tapecycle] do
+    directory "#{amanda[:dir][:vtapes_dir]}/slot#{i}" do
       owner app_user
       group app_group
       mode 0755
       recursive true
     end
   end
-
 
   template "#{config_dir}/amanda-client.conf" do
     source "amanda-client.conf.erb"
@@ -107,10 +107,48 @@ if node[:amanda][:type] == "server"
     mode 0600
   end
 
+  template "/etc/hosts" do
+    source "hosts.erb"
+    mode 0644
+  end
+
+  template "#{key_dir}/config" do
+    owner app_user
+    group app_group
+    source "ssh-config.erb"
+    mode 0644
+  end
+
+  execute "Generate ssh key" do
+    user app_user
+    command "ssh-keygen -q -N '' -t rsa -f #{key_dir}/id_rsa"
+    not_if { File.exists?("#{key_dir}/id_rsa") }
+  end
+
+  amanda[:backup_locations].each do |client|
+    if client[:hostname] != "localhost"
+      execute "Add #{client[:hostname]} to list of known hosts" do
+        user app_user
+        command "ssh -o StrictHostKeyChecking=no #{client[:ip]}"
+        ignore_failure true
+      end
+    end
+  end
+
   cron "daily_backup" do
     hour "20"
     mailto "noc@cogini.com"
     user app_user
     command "/usr/sbin/amdump Daily"
+  end
+end
+
+
+# Set up amanda client
+if amanda[:type] == "client"
+  file "#{key_dir}/authorized_keys" do
+    owner app_user
+    group app_group
+    content amanda[:pub_key]
   end
 end

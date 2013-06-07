@@ -35,3 +35,11 @@ define dumptype encrypt-tar-local {
 holdingdisk hd {
   directory "<%= amanda_dir[:holding_dir] %>"
 }
+
+define dumptype encrypt-tar-remote {
+  auth "ssh"
+  ssh_keys "<%= amanda[:key_dir] %>/id_rsa"
+  program "GNUTAR"
+  # Add encryption later
+}
+

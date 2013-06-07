@@ -13,7 +13,12 @@ default[:amanda][:dependencies] = %w{
 
 default[:amanda][:type] = "client"
 default[:amanda][:version] = "3.3.3"
+default[:amanda][:app_user] = "amandabackup"
 
+# backup_locations
+#   hostname
+#   ip
+#   location []
 default[:amanda][:backup_locations] = []
 
 default[:amanda][:dir][:backup_dir] = "/amanda"
@@ -25,4 +30,6 @@ default[:amanda][:dir][:vtapes_dir] = "/amanda/vtapes"
 
 default[:amanda][:tapecycle] = 15
 default[:amanda][:dumpcycle] = 7
+
+default[:amanda][:key_dir] = "/var/lib/amanda/.ssh"
 
