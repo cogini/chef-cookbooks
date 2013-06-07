@@ -107,9 +107,14 @@ if amanda[:type] == "server"
     mode 0600
   end
 
-  template "/etc/hosts" do
-    source "hosts.erb"
-    mode 0644
+  ruby_block "Update hosts file" do
+    amanda[:backup_locations].each do |client|
+      block do
+        file = Chef::Util::FileEdit.new("/etc/hosts")
+        file.insert_line_if_no_match(client[:hostname], "#{client[:ip]} #{client[:hostname]}")
+        file.write_file
+      end
+    end
   end
 
   template "#{key_dir}/config" do
