@@ -134,7 +134,7 @@ if amanda[:type] == "server"
     if client[:hostname] != "localhost"
       execute "Add #{client[:hostname]} to list of known hosts" do
         user app_user
-        command "ssh -o StrictHostKeyChecking=no #{client[:ip]}"
+        command "ssh -o StrictHostKeyChecking=no #{client[:hostname]}"
         ignore_failure true
       end
     end
