@@ -6,6 +6,9 @@
   if client[:hostname] != "localhost" -%>
 Host <%= client[:hostname] %>
   Hostname <%= client[:ip] %>
+    <% if client[:port] -%>
+  Port     <%= client[:port] %>
+    <% end -%>
   User     <%= node[:amanda][:app_user] %>
 
   <% end

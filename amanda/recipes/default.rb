@@ -107,8 +107,8 @@ if amanda[:type] == "server"
     mode 0600
   end
 
-  ruby_block "Update hosts file" do
-    amanda[:backup_locations].each do |client|
+  amanda[:backup_locations].each do |client|
+    ruby_block "Insert #{client[:hostname]} into hosts file" do
       block do
         file = Chef::Util::FileEdit.new("/etc/hosts")
         file.insert_line_if_no_match(client[:hostname], "#{client[:ip]} #{client[:hostname]}")
