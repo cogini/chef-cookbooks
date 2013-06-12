@@ -13,7 +13,12 @@ mynetworks_style = <%= postfix[:mynetworks_style] %>
 
 # Set to empty if using virtual domain
 local_recipient_maps = <%= postfix[:local_recipient_maps] %>
-mydestination = <%= postfix[:myhostname] %>, <%= node[:hostname] %>, localhost.localdomain, localhost
+mydestination = <%= ([
+    postfix[:myhostname],
+    node[:hostname],
+    'localhost.localdomain',
+    'localhost'
+] + postfix[:mydestination]).join(', ') %>
 
 # how long if undelivered before sending warning update to sender
 delay_warning_time = 4h
@@ -71,8 +76,6 @@ virtual_gid_maps = static:<%= postfix[:virtual_gid_static] %>
 mailbox_size_limit = <%= postfix[:mailbox_size_limit] %>
 message_size_limit = <%= postfix[:message_size_limit] %>
 
-content_filter = <%= postfix[:conten_filter] %>
-
 # SMTP Authentication (SASL)
 smtpd_sasl_auth_enable = <%= postfix[:smtpd_sasl_auth_enable] %>
 broken_sasl_auth_clients = no
@@ -103,7 +106,7 @@ smtp_tls_security_level = <%= postfix[:smtp_tls_security_level] %>
 smtp_tls_note_starttls_offer = <%= postfix[:smtp_tls_note_starttls_offer] %>
 
 
-# Force incoming mail to go through Amavis
+content_filter = <%= postfix[:content_filter] %>
 receive_override_options = <%= postfix[:receive_override_options] %>
 
 
@@ -118,3 +121,5 @@ mydomain = <%= postfix[:mydomain] %>
 
 append_dot_mydomain = no
 biff = no
+
+mailbox_command = <%= postfix[:mailbox_command] %>

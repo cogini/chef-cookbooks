@@ -24,6 +24,7 @@ else
     raise NotImplementedError
 end
 
+default[:postfix][:mydestination] = []
 default[:postfix][:aliases] = {}
 default[:postfix][:content_filter] = ''
 default[:postfix][:disable_dns_lookups] = 'no'
@@ -66,3 +67,4 @@ default[:postfix][:virtual_mailbox_base] = ''
 default[:postfix][:virtual_mailbox_domains] = []
 default[:postfix][:virtual_mailbox_maps] = ''
 default[:postfix][:virtual_uid_static] = 5000
+default[:postfix][:mailbox_command] = ''
