@@ -34,7 +34,10 @@ do
     # Replace / with _
     out_base="${thing//\//_}"
     out_file="$backup_dir/$out_base-$timestamp.tar.gz"
-    /bin/tar --exclude-from <%= node[:localbackup][:ignore_file] %> -Pczf "$out_file" "$thing"
+    /bin/tar --exclude-from <%= node[:localbackup][:ignore_file] %> \
+             --warning=no-file-changed \
+             --warning=no-file-removed \
+             -Pczf "$out_file" "$thing"
 done
 
 
