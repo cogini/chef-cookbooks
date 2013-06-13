@@ -12,8 +12,8 @@ indexdir "<%= amanda_dir[:index_dir] %>"
 dumpuser "amandabackup"
 
 tpchanger "chg-disk:<%= amanda_dir[:vtapes_dir] %>"
-labelstr "Daily<% for i in 1..amanda[:tapecycle] do -%>[0-9]<% end -%>"
-autolabel "Daily<% for i in 1..amanda[:tapecycle] do -%>%<% end -%>" EMPTY VOLUME_ERROR
+labelstr "Daily<% for i in 1..amanda[:tapecycle].to_s().length do -%>[0-9]<% end -%>"
+autolabel "Daily<% for i in 1..amanda[:tapecycle].to_s().length do -%>%<% end -%>" EMPTY VOLUME_ERROR
 tapecycle <%= amanda[:tapecycle] %>
 dumpcycle <%= amanda[:dumpcycle] %> days
 amrecover_changer "changer"
