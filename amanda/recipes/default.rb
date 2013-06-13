@@ -18,7 +18,8 @@ dirs = [
   amanda[:dir][:index_dir],
   amanda[:dir][:info_dir],
   amanda[:dir][:log_dir],
-  amanda[:dir][:vtapes_dir]
+  amanda[:dir][:vtapes_dir],
+  amanda[:tape][:part_cache_dir]
 ]
 
 
