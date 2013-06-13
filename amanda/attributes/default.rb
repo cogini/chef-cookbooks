@@ -33,3 +33,9 @@ default[:amanda][:dumpcycle] = 7
 
 default[:amanda][:key_dir] = "/var/lib/amanda/.ssh"
 
+default[:amanda][:runtapes] = 10
+
+default[:amanda][:tape][:length] = 3
+default[:amanda][:tape][:part_size] = 300
+default[:amanda][:tape][:part_cache_type] = "disk"
+default[:amanda][:tape][:part_cache_max_size] = 300
