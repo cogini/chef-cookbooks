@@ -25,7 +25,7 @@ define tapetype GigabyteTape {
   length <%= tape[:length] %> gbytes
   filemark 4 kbytes
   part_size <%= tape[:part_size] %> mbytes
-  part_cache_type "<%= tape[:part_cache_type] %>"
+  part_cache_type <%= tape[:part_cache_type] %>
   part_cache_dir "<%= tape[:part_cache_dir] %>"
   part_cache_max_size <%= tape[:part_cache_max_size] %> mbytes
 }
