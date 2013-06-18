@@ -21,3 +21,4 @@ default[:shorewall][:allowed_hosts] = []
 
 default[:shorewall][:allowed_connections] = []
 default[:shorewall][:allowed_services] = []
+default[:shorewall][:interfaces] = %w{ eth0 }
