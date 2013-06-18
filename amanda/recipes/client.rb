@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: amanda
-# Recipe:: default
+# Recipe:: client
 #
 
 include_recipe 'apt'

@@ -1,42 +1,32 @@
-default[:amanda][:dependencies] = %w{
-  gettext
-  heirloom-mailx
-  libcroco3
-  libcurl3
-  libfile-copy-recursive-perl
-  libgettextpo0
-  libunistring0
-  update-inetd
-  xinetd
-}
-
-
-default[:amanda][:type] = "client"
-default[:amanda][:version] = "3.3.3"
 set[:amanda][:app_user] = "amandabackup"
 set[:amanda][:app_group] = "disk"
 
-# backup_locations
-#   hostname
-#   ip
-#   location []
+# "backup_locations": [
+#   {
+#     "hostname" : "localhost",
+#     "ip"       : "123.123.123.123",
+#     "locations": [
+#       "/etc",
+#       "/var/www"
+#     ]
+#   }
+# ]
 default[:amanda][:backup_locations] = []
 
-default[:amanda][:dir][:backup_dir] = "/amanda"
-default[:amanda][:dir][:holding_dir] = "/amanda/holding"
-default[:amanda][:dir][:index_dir] = "/amanda/state/index"
-default[:amanda][:dir][:info_dir] = "/amanda/state/curinfo"
-default[:amanda][:dir][:log_dir] = "/amanda/state/log"
-default[:amanda][:dir][:vtapes_dir] = "/amanda/vtapes"
-
-default[:amanda][:tapecycle] = 15
 default[:amanda][:dumpcycle] = 7
-
 default[:amanda][:key_dir] = "/var/lib/amanda/.ssh"
-
 default[:amanda][:runtapes] = 10
+default[:amanda][:tapecycle] = 15
+default[:amanda][:version] = "3.3.3"
+
+default[:amanda][:dir][:holding_dir] = "/srv/amanda/holding"
+default[:amanda][:dir][:index_dir] = "/srv/amanda/state/index"
+default[:amanda][:dir][:info_dir] = "/srv/amanda/state/curinfo"
+default[:amanda][:dir][:log_dir] = "/srv/amanda/state/log"
+default[:amanda][:dir][:vtapes_dir] = "/srv/amanda/vtapes"
 
 default[:amanda][:tape][:length] = 3
-default[:amanda][:tape][:part_size] = 300
-default[:amanda][:tape][:part_cache_type] = "disk"
+default[:amanda][:tape][:part_cache_dir] = "/srv/amanda/cache"
 default[:amanda][:tape][:part_cache_max_size] = 300
+default[:amanda][:tape][:part_cache_type] = "disk"
+default[:amanda][:tape][:part_size] = 300
