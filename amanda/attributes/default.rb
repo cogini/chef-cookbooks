@@ -13,7 +13,8 @@ default[:amanda][:dependencies] = %w{
 
 default[:amanda][:type] = "client"
 default[:amanda][:version] = "3.3.3"
-default[:amanda][:app_user] = "amandabackup"
+set[:amanda][:app_user] = "amandabackup"
+set[:amanda][:app_group] = "disk"
 
 # backup_locations
 #   hostname
