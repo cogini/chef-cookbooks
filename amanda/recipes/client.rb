@@ -4,6 +4,7 @@
 #
 
 include_recipe 'apt'
+include_recipe 'gdebi'
 
 
 amanda = node[:amanda]
@@ -23,7 +24,7 @@ remote_file pkg_file do
   action :create_if_missing
 end
 
-dpkg_package amanda_pkg do
+gdebi_package amanda_pkg do
   source pkg_file
   action :install
 end
