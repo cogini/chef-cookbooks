@@ -17,10 +17,10 @@ dumpuser "amandabackup"
 
 tpchanger         "chg-disk:<%= amanda_dir[:vtapes_dir] %>"
 labelstr          "Daily-[0-9]+"
-autolabel         "Daily-<%= '%' * tapecycle.to_s().length %>" EMPTY VOLUME_ERROR
+autolabel         "Daily-<%= '%' * tapecycle.to_s().length %>" EMPTY VOLUME-ERROR
 tapecycle         <%= tapecycle %>
 dumpcycle         <%= amanda[:dumpcycle] %> days
-amrecover_changer "changer"
+amrecover-changer "changer"
 
 runtapes <%= runtapes.nil? ? tapecycle : runtapes %>
 
@@ -28,17 +28,17 @@ tapetype "GigabyteTape"
 define tapetype GigabyteTape {
   length <%= tape[:length] %> gbytes
   filemark 4 kbytes
-  part_size <%= tape[:part_size] %> mbytes
-  part_cache_type <%= tape[:part_cache_type] %>
-  part_cache_dir "<%= tape[:part_cache_dir] %>"
-  part_cache_max_size <%= tape[:part_cache_max_size] %> mbytes
+  part-size <%= tape[:part_size] %> mbytes
+  part-cache-type <%= tape[:part_cache_type] %>
+  part-cache-dir "<%= tape[:part_cache_dir] %>"
+  part-cache-max-size <%= tape[:part_cache_max_size] %> mbytes
 }
 
 define dumptype encrypt-tar-local {
   auth "local"
   program "GNUTAR"
 #  encrypt client
-#  client_encrypt "/usr/sbin/amcryptsimple"
+#  client-encrypt "/usr/sbin/amcryptsimple"
 #  client-decrypt-option "none"
 #  server-decrypt-option "-d"
 }
@@ -49,7 +49,7 @@ holdingdisk hd {
 
 define dumptype encrypt-tar-remote {
   auth "ssh"
-  ssh_keys "<%= amanda[:key_dir] %>/id_rsa"
+  ssh-keys "<%= amanda[:key_dir] %>/id_rsa"
   program "GNUTAR"
   # Add encryption later
 }
