@@ -27,7 +27,3 @@ default[:amanda][:dir][:log_dir] = "/srv/amanda/state/log"
 default[:amanda][:dir][:vtapes_dir] = "/srv/amanda/vtapes"
 
 default[:amanda][:tape][:length] = 3
-default[:amanda][:tape][:part_cache_dir] = "/srv/amanda/cache"
-default[:amanda][:tape][:part_cache_max_size] = 300
-default[:amanda][:tape][:part_cache_type] = "disk"
-default[:amanda][:tape][:part_size] = 300

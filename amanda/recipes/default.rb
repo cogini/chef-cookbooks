@@ -47,7 +47,6 @@ end
   amanda[:dir][:info_dir],
   amanda[:dir][:log_dir],
   amanda[:dir][:vtapes_dir],
-  amanda[:tape][:part_cache_dir]
 ].each do |dir|
   directory dir do
     owner app_user
@@ -90,14 +89,6 @@ end
 
 
 amanda[:backup_locations].each do |client|
-
-  ruby_block "Insert #{client[:hostname]} into hosts file" do
-    block do
-      file = Chef::Util::FileEdit.new('/etc/hosts')
-      file.insert_line_if_no_match(client[:hostname], "#{client[:ip]} #{client[:hostname]}")
-      file.write_file
-    end
-  end
 
   execute "Add #{client[:hostname]} to list of known hosts" do
     user app_user

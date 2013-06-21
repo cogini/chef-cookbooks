@@ -26,25 +26,14 @@ runtapes <%= runtapes.nil? ? tapecycle : runtapes %>
 
 tapetype "GigabyteTape"
 define tapetype GigabyteTape {
-  length <%= tape[:length] %> gbytes
-  filemark 4 kbytes
-  part-size <%= tape[:part_size] %> mbytes
-  part-cache-type <%= tape[:part_cache_type] %>
-  part-cache-dir "<%= tape[:part_cache_dir] %>"
-  part-cache-max-size <%= tape[:part_cache_max_size] %> mbytes
+  length <%= tape[:length] %> gb
+  filemark 4 kb
 }
 
 define dumptype encrypt-tar-local {
   auth "local"
   program "GNUTAR"
-#  encrypt client
-#  client-encrypt "/usr/sbin/amcryptsimple"
-#  client-decrypt-option "none"
-#  server-decrypt-option "-d"
-}
-
-holdingdisk hd {
-  directory "<%= amanda_dir[:holding_dir] %>"
+  # Add encryption later
 }
 
 define dumptype encrypt-tar-remote {
@@ -54,3 +43,6 @@ define dumptype encrypt-tar-remote {
   # Add encryption later
 }
 
+holdingdisk hd {
+  directory "<%= amanda_dir[:holding_dir] %>"
+}
