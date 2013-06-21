@@ -89,11 +89,10 @@ end
 
 
 amanda[:backup_locations].each do |client|
-
   execute "Add #{client[:hostname]} to list of known hosts" do
     user app_user
     command "ssh -o StrictHostKeyChecking=no #{client[:hostname]}"
-    ignore_failure true
+    not_if { client[:hostname] == 'localhost' }
   end
 end
 
