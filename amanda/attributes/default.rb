@@ -14,7 +14,7 @@ set[:amanda][:app_group] = "disk"
 # ]
 default[:amanda][:backup_locations] = []
 
-default[:amanda][:dumpcycle] = 7
+default[:amanda][:daily_dumpcycle] = 7
 default[:amanda][:key_dir] = "/var/lib/amanda/.ssh"
 default[:amanda][:runtapes] = nil
 default[:amanda][:tapecycle] = 15

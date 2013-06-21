@@ -11,7 +11,6 @@ amanda = node[:amanda]
 key_dir = amanda[:key_dir]
 app_user = amanda[:app_user]
 app_group = amanda[:app_group]
-config_dir = '/etc/amanda'
 arch = node[:kernel][:machine] =~ /x86_64/ ? 'amd64' : 'i386'
 
 
@@ -66,8 +65,15 @@ for i in 1..amanda[:tapecycle] do
 end
 
 
-template "#{config_dir}/amanda-client.conf" do
+template '/etc/amanda/amanda-client.conf' do
   source 'amanda-client.conf.erb'
+  owner app_user
+  group app_group
+  mode 0600
+end
+
+template '/etc/amanda/amanda.conf.inc' do
+  source 'amanda.conf.inc.erb'
   owner app_user
   group app_group
   mode 0600
@@ -99,20 +105,22 @@ end
 
 # Daily backups
 
-directory "#{config_dir}/Daily" do
+config_dir = '/etc/amanda/Daily'
+
+directory config_dir do
   owner app_user
   group app_group
   mode 0750
 end
 
-template "#{config_dir}/Daily/disklist" do
+template "#{config_dir}/disklist" do
   source 'disklist-daily.erb'
   owner app_user
   group app_group
   mode 0640
 end
 
-template "#{config_dir}/Daily/amanda.conf" do
+template "#{config_dir}/amanda.conf" do
   source 'amanda-daily.conf.erb'
   owner app_user
   group app_group
