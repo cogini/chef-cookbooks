@@ -7,4 +7,4 @@ includefile "/etc/amanda/amanda.conf.inc"
 org       "Daily"
 labelstr  "Daily-[0-9]+"
 autolabel "Daily-<%= '%' * amanda[:tapecycle].to_s().length %>" EMPTY VOLUME-ERROR
-dumpcycle <%= amanda[:daily_dumpcycle] %> days
+dumpcycle <%= amanda[:dumpcycle_daily] %>

@@ -103,33 +103,51 @@ amanda[:backup_locations].each do |client|
 end
 
 
-# Daily backups
+%w{ daily weekly monthly }.each do |backup_type|
 
-config_dir = '/etc/amanda/Daily'
+  config_dir = "/etc/amanda/#{backup_type}"
 
-directory config_dir do
-  owner app_user
-  group app_group
-  mode 0750
+  directory config_dir do
+    owner app_user
+    group app_group
+    mode 0750
+  end
+
+  template "#{config_dir}/disklist" do
+    source 'disklist.erb'
+    owner app_user
+    group app_group
+    mode 0640
+  end
+
+  template "#{config_dir}/amanda.conf" do
+    source "amanda-#{backup_type}.conf.erb"
+    owner app_user
+    group app_group
+    mode 0640
+  end
 end
 
-template "#{config_dir}/disklist" do
-  source 'disklist-daily.erb'
-  owner app_user
-  group app_group
-  mode 0640
-end
 
-template "#{config_dir}/amanda.conf" do
-  source 'amanda-daily.conf.erb'
-  owner app_user
-  group app_group
-  mode 0640
-end
-
-cron 'daily_backup' do
-  hour '20'
-  mailto 'noc@cogini.com'
+cron 'Amanda daily backup' do
+  minute 1
+  hour 20
   user app_user
-  command '/usr/sbin/amdump Daily'
+  command '/usr/sbin/amdump daily'
+end
+
+cron 'Amanda weekly backup' do
+  minute 1
+  hour 20
+  weekday 1
+  user app_user
+  command '/usr/sbin/amdump weekly'
+end
+
+cron 'Amanda monthly backup' do
+  minute 1
+  hour 20
+  day 1
+  user app_user
+  command '/usr/sbin/amdump monthly'
 end
