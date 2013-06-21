@@ -7,4 +7,5 @@ set[:ffmpeg][:dependencies][:atrpms] = %w{
 }
 set[:ffmpeg][:dependencies][:epel] = %w{
     yasm
+    yum-plugin-versionlock
 }

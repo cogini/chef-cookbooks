@@ -78,3 +78,7 @@ package 'ffmpeg' do
     action :install
     source pkg_file
 end
+
+execute 'yum versionlock add ffmpeg' do
+    not_if 'yum versionlock list | grep ffmpeg'
+end
