@@ -25,5 +25,3 @@ default[:amanda][:dir][:index_dir] = "/srv/amanda/state/index"
 default[:amanda][:dir][:info_dir] = "/srv/amanda/state/curinfo"
 default[:amanda][:dir][:log_dir] = "/srv/amanda/state/log"
 default[:amanda][:dir][:vtapes_dir] = "/srv/amanda/vtapes"
-
-default[:amanda][:tape][:length] = 3
