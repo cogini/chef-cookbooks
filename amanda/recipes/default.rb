@@ -131,14 +131,14 @@ end
 
 cron 'Amanda daily backup' do
   minute 1
-  hour 20
+  hour 0
   user app_user
   command '/usr/sbin/amdump daily'
 end
 
 cron 'Amanda weekly backup' do
   minute 1
-  hour 20
+  hour 2
   weekday 1
   user app_user
   command '/usr/sbin/amdump weekly'
@@ -146,7 +146,7 @@ end
 
 cron 'Amanda monthly backup' do
   minute 1
-  hour 20
+  hour 4
   day 1
   user app_user
   command '/usr/sbin/amdump monthly'
