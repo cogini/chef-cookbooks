@@ -6,6 +6,8 @@
 include_recipe 'apt'
 include_recipe 'gdebi'
 
+include_recipe 'amanda::common'
+
 
 amanda = node[:amanda]
 key_dir = amanda[:key_dir]
