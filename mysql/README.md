@@ -49,7 +49,7 @@ Performance tuning attributes, each corresponds to the same-named parameter in m
 * `mysql['tunable']['net_write_timeout']`   = "30"
 * `mysql['tunable']['net_write_timeout']`   = "30"
 * `mysql['tunable']['back_log']`            = "128"
-* `mysql['tunable']['table_cache']`         = "128"
+* `mysql['tunable']['table_open_cache']`    = "128"
 * `mysql['tunable']['max_heap_table_size']` = "32M"
 * `mysql['tunable']['expire_logs_days']`    = "10"
 * `mysql['tunable']['max_binlog_size']`     = "100M"

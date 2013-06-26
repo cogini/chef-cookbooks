@@ -69,8 +69,8 @@ attribute "mysql/tunable/back_log",
   :display_name => "MySQL Tunable Back Log",
   :default => "128"
 
-attribute "mysql/tunable/table_cache",
-  :display_name => "MySQL Tunable Table Cache for MySQL < 5.1.3",
+attribute "mysql/tunable/table_open_cache",
+  :display_name => "MySQL Tunable Table Cache for MySQL > 5.1.3",
   :default => "128"
 
 attribute "mysql/tunable/table_open_cache",

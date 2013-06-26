@@ -101,7 +101,6 @@ default['mysql']['tunable']['max_heap_table_size']  = "32M"
 default['mysql']['tunable']['myisam_recover']       = "BACKUP"
 default['mysql']['tunable']['net_read_timeout']     = "30"
 default['mysql']['tunable']['net_write_timeout']    = "30"
-default['mysql']['tunable']['table_cache']          = "128"
 default['mysql']['tunable']['table_open_cache']     = "128"
 default['mysql']['tunable']['thread_cache']         = "128"
 default['mysql']['tunable']['thread_cache_size']    = 8
