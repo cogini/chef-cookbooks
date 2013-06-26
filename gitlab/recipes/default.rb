@@ -37,9 +37,10 @@ gitlab_dir = node[:gitlab][:dir]
 
 
 # Stop service gitlab if already installed
-if (File.exist?("/etc/init.d/gitlab") == true)
-  service "gitlab" do
+if File.exist?('/etc/init.d/gitlab')
+  service 'gitlab' do
     action :stop
+    ignore_failure true
   end
 end
 
