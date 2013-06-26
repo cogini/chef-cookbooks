@@ -175,11 +175,9 @@ execute "bundle exec rake db:migrate RAILS_ENV=production" do
   cwd gitlab_dir
 end
 
-bash "Install init script" do
-  code <<-EOH
-    curl --output /etc/init.d/gitlab https://raw.github.com/gitlabhq/gitlab-recipes/#{gitlab_version}/init.d/gitlab
-    chmod +x /etc/init.d/gitlab
-  EOH
+file '/etc/init.d/gitlab' do
+    mode '755'
+    content IO.read("#{gitlab_dir}/lib/support/init.d/gitlab")
 end
 
 
