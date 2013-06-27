@@ -104,11 +104,10 @@ smtpd_tls_auth_only = <%= postfix[:smtpd_tls_auth_only] %>
 smtp_use_tls = <%= postfix[:smtp_use_tls] %>
 smtp_tls_security_level = <%= postfix[:smtp_tls_security_level] %>
 smtp_tls_note_starttls_offer = <%= postfix[:smtp_tls_note_starttls_offer] %>
-
+smtp_host_lookup = <%= postfix[:smtp_host_lookup] %>
 
 content_filter = <%= postfix[:content_filter] %>
 receive_override_options = <%= postfix[:receive_override_options] %>
-
 
 # disable_dns_lookups = <%= postfix[:disable_dns_lookups] %>
 # inet_protocols = <%= postfix[:inet_protocols] %>

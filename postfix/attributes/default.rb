@@ -68,3 +68,4 @@ default[:postfix][:virtual_mailbox_domains] = []
 default[:postfix][:virtual_mailbox_maps] = ''
 default[:postfix][:virtual_uid_static] = 5000
 default[:postfix][:mailbox_command] = ''
+default[:postfix][:smtp_host_lookup] = 'dns'
