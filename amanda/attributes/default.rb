@@ -20,7 +20,7 @@ default[:amanda][:dumpcycle_monthly] = '12 weeks'
 
 default[:amanda][:key_dir] = '/var/lib/amanda/.ssh'
 default[:amanda][:runtapes] = nil
-default[:amanda][:tapecycle] = 15
+default[:amanda][:tapecycle] = 10
 default[:amanda][:version] = '3.3.3'
 
 default[:amanda][:dir][:holding_dir] = '/srv/amanda/holding'
