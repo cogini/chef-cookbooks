@@ -9,7 +9,7 @@
 
 execute 'chkconfig --level 2345 atop on' do
     action :run
-    only_if 'test -f /etc/init.d/atop'
+    only_if { File.exists?('/etc/init.d/atop') }
 end
 
 
