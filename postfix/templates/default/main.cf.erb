@@ -5,7 +5,7 @@
 
 myhostname = <%= postfix[:myhostname] %>
 myorigin = <%= postfix[:myorigin] %>
-smtpd_banner = $myhostname ESMTP $mail_name
+smtpd_banner = $myhostname ESMTP
 relayhost = <%= postfix[:relayhost] %>
 inet_interfaces = all
 mynetworks = <%= postfix[:mail_relay_networks].join(', ') %>
