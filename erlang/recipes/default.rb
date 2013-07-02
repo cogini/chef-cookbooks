@@ -25,7 +25,7 @@ unless File.exists?(pkg_file)
     code <<-EOH
       apt-get build-dep -y erlang
       ./otp_build autoconf
-      ./configure
+      ./configure || true
       make
       make install DESTDIR=#{source_dir}/install
       fpm -s dir -t #{pkg_type} -n erlang-otp -v 1 -p #{pkg_file} -C install .
