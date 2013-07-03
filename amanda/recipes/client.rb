@@ -33,7 +33,7 @@ end
 
 
 # Set up amanda client
-file "#{amanda[:key_dir]}/authorized_keys" do
+file "#{amanda[:home]}/.ssh/authorized_keys" do
   owner amanda[:app_user]
   group amanda[:app_group]
   content amanda[:pub_key]

@@ -32,7 +32,7 @@ define dumptype encrypt-tar-local {
 
 define dumptype encrypt-tar-remote {
   auth     "ssh"
-  ssh-keys "<%= amanda[:key_dir] %>/id_rsa"
+  ssh-keys "<%= amanda[:home] %>/.ssh/id_rsa"
   program  "GNUTAR"
   # Add encryption later
 }

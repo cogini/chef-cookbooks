@@ -5,7 +5,7 @@
 
 amanda = node[:amanda]
 
-directory amanda[:key_dir] do
+directory "#{amanda[:home]}/.ssh" do
     owner amanda[:app_user]
     recursive true
 end

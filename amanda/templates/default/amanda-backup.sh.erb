@@ -1,0 +1,16 @@
+#!/bin/bash
+
+monthday="$(date +%-d)"
+weekday="$(date +%w)"
+
+if [[ $monthday -eq 1 ]]
+then
+    config="monthly"
+elif [[ $weekday -eq 0 ]]
+then
+    config="weekly"
+else
+    config="daily"
+fi
+
+/usr/sbin/amdump "$config"

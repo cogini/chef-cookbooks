@@ -10,7 +10,7 @@ include_recipe 'amanda::common'
 
 
 amanda = node[:amanda]
-key_dir = amanda[:key_dir]
+key_dir = "#{amanda[:home]}/.ssh"
 app_user = amanda[:app_user]
 app_group = amanda[:app_group]
 arch = node[:kernel][:machine] =~ /x86_64/ ? 'amd64' : 'i386'
@@ -131,25 +131,18 @@ end
 end
 
 
-cron 'Amanda daily backup' do
-  minute 1
-  hour 0
-  user app_user
-  command '/usr/sbin/amdump daily'
+backup_script = "#{amanda[:home]}/amanda-backup.sh"
+
+template backup_script do
+  source "amanda-backup.sh.erb"
+  owner app_user
+  group app_group
+  mode 0700
 end
 
-cron 'Amanda weekly backup' do
-  minute 1
-  hour 2
-  weekday 1
+cron 'Amanda backup' do
+  minute 0
+  hour amanda[:cron_time]
   user app_user
-  command '/usr/sbin/amdump weekly'
-end
-
-cron 'Amanda monthly backup' do
-  minute 1
-  hour 4
-  day 1
-  user app_user
-  command '/usr/sbin/amdump monthly'
+  command backup_script
 end

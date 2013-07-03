@@ -14,11 +14,11 @@ set[:amanda][:app_group] = 'disk'
 # ]
 default[:amanda][:backup_locations] = []
 
+default[:amanda][:cron_time] = 0
 default[:amanda][:dumpcycle_daily] = '7 days'
-default[:amanda][:dumpcycle_weekly] = '4 weeks'
 default[:amanda][:dumpcycle_monthly] = '12 weeks'
-
-default[:amanda][:key_dir] = '/var/lib/amanda/.ssh'
+default[:amanda][:dumpcycle_weekly] = '4 weeks'
+default[:amanda][:home] = '/var/lib/amanda'
 default[:amanda][:runtapes] = nil
 default[:amanda][:tapecycle] = 10
 default[:amanda][:version] = '3.3.3'
