@@ -61,7 +61,7 @@ define :wordpress_site do
             :auth_key        => auth_key,
             :secure_auth_key => secure_auth_key,
             :logged_in_key   => logged_in_key,
-            :nonce_key       => nonce_key,
+            :nonce_key       => nonce_key
         )
     end
 end
