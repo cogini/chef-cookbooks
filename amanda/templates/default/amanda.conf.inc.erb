@@ -19,10 +19,17 @@ tapetype          "GigabyteTape"
 tapecycle         <%= tapecycle %>
 runtapes          <%= runtapes.nil? ? tapecycle : runtapes %>
 
+
 define tapetype GigabyteTape {
   length   10 gb
   filemark 4 kb
 }
+
+
+holdingdisk hd {
+  directory "<%= amanda_dir[:holding_dir] %>"
+}
+
 
 define dumptype encrypt-tar-local {
   auth    "local"
@@ -35,8 +42,4 @@ define dumptype encrypt-tar-remote {
   ssh-keys "<%= amanda[:home] %>/.ssh/id_rsa"
   program  "GNUTAR"
   # Add encryption later
-}
-
-holdingdisk hd {
-  directory "<%= amanda_dir[:holding_dir] %>"
 }
