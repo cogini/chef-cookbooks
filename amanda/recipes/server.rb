@@ -6,8 +6,6 @@
 include_recipe 'apt'
 include_recipe 'gdebi'
 
-include_recipe 'amanda::common'
-
 
 amanda = node[:amanda]
 key_dir = "#{amanda[:home]}/.ssh"
@@ -35,11 +33,7 @@ gdebi_package amanda_pkg do
 end
 
 
-# Fix amrecover error
-template '/usr/libexec/amanda/amidxtaped' do
-  source 'amidxtaped.erb'
-  mode 0755
-end
+include_recipe 'amanda::common'
 
 
 [
