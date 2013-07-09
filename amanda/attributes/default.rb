@@ -21,7 +21,7 @@ default[:amanda][:dumpcycle_weekly] = '4 weeks'
 default[:amanda][:home] = '/var/lib/amanda'
 default[:amanda][:runtapes] = nil
 default[:amanda][:tapecycle] = 10
-default[:amanda][:version] = '3.3.3'
+default[:amanda][:version] = '3.3.4'
 
 default[:amanda][:dir][:holding_dir] = '/srv/amanda/holding'
 default[:amanda][:dir][:index_dir] = '/srv/amanda/state/index'
