@@ -7,6 +7,19 @@
 # All rights reserved - Do Not Redistribute
 #
 
+
+unless node[:localbackup][:enable]
+
+    # Remove the cron
+    cron 'local backup' do
+        action :delete
+    end
+
+    # And stop the recipe here
+    return
+end
+
+
 include_recipe 'basics::cronic'
 
 

@@ -5,6 +5,7 @@ set[:localbackup][:script_file] = "#{script_dir}/make_backup.sh"
 
 default[:localbackup][:destination] = '/usr/local/backups'
 default[:localbackup][:dirs] = %w{ /etc }
+default[:localbackup][:enable] = true
 default[:localbackup][:ignore] = []
 default[:localbackup][:tar_options] = '--warning=no-file-changed --warning=no-file-removed'
 
