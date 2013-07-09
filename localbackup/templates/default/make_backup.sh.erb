@@ -2,41 +2,41 @@
 set -e
 
 
-backup_dir=<%= node[:localbackup][:destination] %>
+<%- localbackup = node[:localbackup] -%>
+backup_dir=<%= localbackup[:destination] %>
+dump_dir="$backup_dir/db_dumps"
 backups_to_keep=7
 umask 0077
 
 timestamp=$(date +%Y%m%d%H%M%S)
 
 
-dump_dir="$backup_dir/db_dumps"
 mkdir -p "$dump_dir"
 
-<%- if node[:localbackup][:pgsql][:enable] -%>
+<%- if localbackup[:pgsql][:enable] -%>
 echo Backing up PostgreSQL...
 sudo -iu postgres /usr/bin/pg_dumpall -cO |
     gzip > "$dump_dir/postgresql-$timestamp.sql.gz"
 <%- end -%>
 
-<%- if node[:localbackup][:mysql][:enable] -%>
+<%- if localbackup[:mysql][:enable] -%>
 echo Backing up MySQL...
-/usr/bin/mysqldump <%= node[:localbackup][:mysql][:extra_options] %> --all-databases \
+/usr/bin/mysqldump --events --all-databases \
     -uroot \
     -p<%= node[:mysql][:server_root_password] %> |
     gzip > "$dump_dir/mysql-$timestamp.sql.gz"
 <%- end -%>
 
 
-for thing in <%= node[:localbackup][:dirs].join(' ') %>
+for thing in <%= localbackup[:dirs].join(' ') %>
 do
     thing="$(readlink -f $thing)"
     echo "Backing up $thing..."
     # Replace / with _
     out_base="${thing//\//_}"
     out_file="$backup_dir/$out_base-$timestamp.tar.gz"
-    /bin/tar --exclude-from <%= node[:localbackup][:ignore_file] %> \
-             --warning=no-file-changed \
-             --warning=no-file-removed \
+    /bin/tar <%= localbackup[:tar_options] %> \
+             --exclude-from <%= localbackup[:ignore_file] %> \
              -Pczf "$out_file" "$thing"
 done
 
