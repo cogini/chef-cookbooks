@@ -6,8 +6,6 @@
 include_recipe 'apt'
 include_recipe 'gdebi'
 
-include_recipe 'amanda::common'
-
 
 amanda = node[:amanda]
 arch = node[:kernel][:machine] =~ /x86_64/ ? 'amd64' : 'i386'
@@ -30,6 +28,9 @@ gdebi_package amanda_pkg do
   source pkg_file
   action :install
 end
+
+
+include_recipe 'amanda::common'
 
 
 # Set up amanda client
