@@ -20,15 +20,6 @@ end
 sysadmins = node[:admin_users] | node[:sudoers]
 ssh_users = node[:ssh][:users] | sysadmins.collect { |u| u[:username] }
 
-ssh_users.each do |ssh_user|
-    user ssh_user do
-        home "/home/#{ssh_user}"
-        shell '/bin/bash'
-        supports :manage_home => true
-        action :create
-    end
-end
-
 group node[:ssh][:group] do
     members ssh_users
     action :create
