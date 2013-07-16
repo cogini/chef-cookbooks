@@ -31,15 +31,24 @@ holdingdisk hd {
 }
 
 
+define application-tool app_amgtar {
+  plugin "amgtar"
+  property append "IGNORE" ": File removed before we read it$"
+  property append "IGNORE" ": file changed as we read it$"
+}
+
+
 define dumptype encrypt-tar-local {
   auth    "local"
-  program "GNUTAR"
+  program "APPLICATION"
+  application "app_amgtar"
   # Add encryption later
 }
 
 define dumptype encrypt-tar-remote {
   auth     "ssh"
   ssh-keys "<%= amanda[:home] %>/.ssh/id_rsa"
-  program  "GNUTAR"
+  program "APPLICATION"
+  application "app_amgtar"
   # Add encryption later
 }
