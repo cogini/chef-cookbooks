@@ -16,7 +16,7 @@ unless File.exist?(pkg_file)
 
     bash "Get libav source" do
         code <<-EOH
-            [[ -d #{source_dir} ]] || git clone git://git.libav.org/libav.git #{source_dir}
+            [[ -d #{source_dir} ]] || git clone git://github.com/libav/libav.git #{source_dir}
             cd #{source_dir}
             git fetch
             git checkout #{version}
