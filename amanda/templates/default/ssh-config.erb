@@ -4,7 +4,6 @@
 <% remote_clients.each do |client| -%>
 
 Host     <%= client[:hostname] %>
-Hostname <%= client[:ip] %>
 Port     <%= client.has_key?('port') ? client[:port] : 22 %>
 User     <%= node[:amanda][:app_user] %>
 

@@ -4,7 +4,6 @@ set[:amanda][:app_group] = 'disk'
 # 'backup_locations': [
 #   {
 #     'hostname' : 'localhost',
-#     'ip'       : '123.123.123.123',
 #     'port'     : '1234',
 #     'locations': [
 #       '/etc',
