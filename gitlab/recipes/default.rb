@@ -119,6 +119,11 @@ bash "Change permission to let gitlab write to the log/ and tmp/ directories" do
   EOH
 end
 
+template '/etc/logrotate.d/gitlab' do
+    source 'logrotate.erb'
+    mode '644'
+end
+
 bash "Change mode repositories" do
   cwd gitlab_dir
   code <<-EOH

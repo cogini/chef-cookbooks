@@ -1,0 +1,8 @@
+<%= node[:gitlab][:dir] %>/log/*.log {
+    rotate 7
+    daily
+    minsize 10M
+    compress
+    delaycompress
+    copytruncate
+}
