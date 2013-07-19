@@ -15,6 +15,7 @@ when 'redhat', 'centos', 'amazon'
         bind-utils
         byobu
         cronie
+        emacs-nox
         iotop
         iptraf
         lftp
@@ -63,6 +64,7 @@ when 'ubuntu'
         bash-completion
         byobu
         dnsutils
+        emacs23-nox
         fortune-mod
         htop
         iftop
