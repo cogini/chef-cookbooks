@@ -12,8 +12,8 @@ server {
   server_name gitlab;
 
   root       <%= node[:gitlab][:dir] %>/public;
-  access_log /var/log/nginx/gitlab_access.log;
-  error_log  /var/log/nginx/gitlab_error.log;
+  access_log <%= node[:gitlab][:dir] %>/log/nginx_access.log json;
+  error_log  <%= node[:gitlab][:dir] %>/log/nginx_error.log;
 
   location / {
     try_files $uri $uri/index.html $uri.html @gitlab;
