@@ -43,12 +43,23 @@ when "redhat", "centos", "amazon", "scientific"
   end
 end
 
+
 # These are needed for the chroot
+
 ['/etc/services', '/etc/resolv.conf'].each do |etc_file|
-    file "/var/spool/postfix/#{etc_file}" do
+
+    chrooted_file = "/var/spool/postfix/#{etc_file}"
+
+    directory File.dirname(chrooted_file) do
+        action :create
+        recursive true
+    end
+
+    file chrooted_file do
         content IO.read(etc_file)
     end
 end
+
 
 %w{main master}.each do |cfg|
   template "/etc/postfix/#{cfg}.cf" do
