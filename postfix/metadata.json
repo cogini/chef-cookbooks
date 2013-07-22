@@ -193,20 +193,6 @@
 
       ]
     },
-    "postfix/smtp_use_tls": {
-      "display_name": "Postfix SMTP Use TLS?",
-      "description": "Whether SMTP SASL Auth should use TLS encryption",
-      "default": "yes",
-      "choice": [
-
-      ],
-      "calculated": false,
-      "type": "string",
-      "required": "optional",
-      "recipes": [
-
-      ]
-    },
     "postfix/smtp_sasl_user_name": {
       "display_name": "Postfix SMTP SASL Username",
       "description": "User to auth SMTP via SASL",

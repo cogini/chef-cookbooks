@@ -48,8 +48,6 @@ See `attributes/default.rb` for default values.
   `smtp_sasl_security_options` option in `/etc/postfix/main.cf`.
 * `node['postfix']['smtp_tls_cafile']` - corresponds to the
   `smtp_tls_CAfile` option in `/etc/postfix/main.cf`.
-* `node['postfix']['smtp_use_tls']` - corresponds to the
-  `smtp_use_tls` option in `/etc/postfix/main.cf`.
 * `node['postfix']['smtp_sasl_user_name']` - mapped in the
   `sasl_passwd` file as the user to authenticate as.
 * `node['postfix']['smtp_sasl_passwd']` - mapped in the `sasl_passwd`
@@ -148,7 +146,6 @@ The `base` role is applied to all nodes in the environment.
         "mydomain" => "example.com",
         "myorigin" => "example.com",
         "relayhost" => "[smtp.example.com]",
-        "smtp_use_tls" => "no"
       }
     )
 

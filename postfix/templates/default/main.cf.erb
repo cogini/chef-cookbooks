@@ -31,8 +31,6 @@ maximal_queue_lifetime = 5d
 # max and min time in seconds between retries if connection failed
 minimal_backoff_time = 300s
 maximal_backoff_time = 4000s
-# how long to wait when servers connect before receiving rest of data
-smtp_helo_timeout = 300s
 # how many address can be used in one message.
 # effective stopper to mass spammers, accidental copy in whole address list
 # but may restrict intentional mail shots.
@@ -77,48 +75,41 @@ mailbox_size_limit = <%= postfix[:mailbox_size_limit] %>
 message_size_limit = <%= postfix[:message_size_limit] %>
 
 # SMTP Authentication (SASL)
-smtpd_sasl_auth_enable = <%= postfix[:smtpd_sasl_auth_enable] %>
 broken_sasl_auth_clients = no
-smtpd_sasl_security_options = noanonymous
+smtpd_sasl_auth_enable = <%= postfix[:smtpd_sasl_auth_enable] %>
 smtpd_sasl_local_domain = $myhostname
-smtpd_sasl_type = <%= postfix[:smtpd_sasl_type] %>
 smtpd_sasl_path = <%= postfix[:smtpd_sasl_path] %>
+smtpd_sasl_security_options = noanonymous
+smtpd_sasl_type = <%= postfix[:smtpd_sasl_type] %>
 
+append_dot_mydomain = no
+biff = no
+content_filter = <%= postfix[:content_filter] %>
+inet_protocols = <%= postfix[:inet_protocols] %>
+mailbox_command = <%= postfix[:mailbox_command] %>
+receive_override_options = <%= postfix[:receive_override_options] %>
 recipient_delimiter = +
+relay_domains = <%= postfix[:relay_domains].join(', ') %>
+relay_recipient_maps = <%= postfix[:relay_recipient_maps] %>
+smtp_helo_timeout = 300s
+smtp_host_lookup = <%= postfix[:smtp_host_lookup] %>
 
-<% if postfix[:smtp_sasl_auth_enable] == 'yes' -%>
 smtp_tls_CAfile = <%= postfix[:smtp_tls_cafile] %>
-<% end -%>
+smtp_tls_note_starttls_offer = <%= postfix[:smtp_tls_note_starttls_offer] %>
+smtp_tls_security_level = <%= postfix[:smtp_tls_security_level] %>
 
-<% smtpd_tls_security_level = postfix[:smtpd_tls_security_level] -%>
-<% if (! smtpd_tls_security_level.empty?) && (smtpd_tls_security_level != 'none') -%>
-smtpd_tls_security_level = <%= smtpd_tls_security_level %>
+smtp_sasl_auth_enable = <%= postfix[:smtp_sasl_auth_enable] %>
+smtp_sasl_password_maps = <%= postfix[:smtp_sasl_password_maps] %>
+smtp_sasl_security_options = <%= postfix[:smtp_sasl_security_options] %>
+
+smtpd_tls_security_level = <%= postfix[:smtpd_tls_security_level] %>
 smtpd_tls_loglevel = 1
 smtpd_tls_received_header = yes
 smtpd_tls_session_cache_timeout = 3600s
 smtpd_tls_cert_file = <%= postfix[:smtpd_tls_cert_file] %>
 smtpd_tls_key_file = <%= postfix[:smtpd_tls_key_file] %>
 smtpd_tls_auth_only = <%= postfix[:smtpd_tls_auth_only] %>
-<% end -%>
-
-smtp_use_tls = <%= postfix[:smtp_use_tls] %>
-smtp_tls_security_level = <%= postfix[:smtp_tls_security_level] %>
-smtp_tls_note_starttls_offer = <%= postfix[:smtp_tls_note_starttls_offer] %>
-smtp_host_lookup = <%= postfix[:smtp_host_lookup] %>
-
-content_filter = <%= postfix[:content_filter] %>
-receive_override_options = <%= postfix[:receive_override_options] %>
-
-# disable_dns_lookups = <%= postfix[:disable_dns_lookups] %>
-# inet_protocols = <%= postfix[:inet_protocols] %>
-relay_domains = <%= postfix[:relay_domains].join(', ') %>
-# relay_recipient_maps = <%= postfix[:relay_recipient_maps] %>
 
 <% if postfix[:mydomain] -%>
 mydomain = <%= postfix[:mydomain] %>
 <% end -%>
-
-append_dot_mydomain = no
-biff = no
-
-mailbox_command = <%= postfix[:mailbox_command] %>

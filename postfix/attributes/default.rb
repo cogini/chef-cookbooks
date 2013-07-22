@@ -18,8 +18,10 @@
 case platform
 when "ubuntu"
     default[:postfix][:smtp_tls_cafile] = '/etc/postfix/cacert.pem'
+    default[:postfix][:sasl_packages] = %w{ libsasl2-2 ca-certificates }
 when "centos"
     default[:postfix][:smtp_tls_cafile] = '/etc/pki/tls/certs/ca-bundle.crt'
+    default[:postfix][:sasl_packages] = %w{ cyrus-sasl-plain ca-certificates }
 else
     raise NotImplementedError
 end
@@ -51,7 +53,6 @@ default[:postfix][:smtp_sasl_password_maps] = ''
 default[:postfix][:smtp_sasl_user_name] = ''
 default[:postfix][:smtp_tls_note_starttls_offer] = 'no'
 default[:postfix][:smtp_tls_security_level] = ''
-default[:postfix][:smtp_use_tls] = 'no'
 default[:postfix][:smtpd_data_restrictions] = []
 default[:postfix][:smtpd_helo_restrictions] = []
 default[:postfix][:smtpd_recipient_restrictions] = %w{ permit_mynetworks reject_unauth_destination }

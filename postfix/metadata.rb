@@ -73,11 +73,6 @@ attribute "postfix/smtp_tls_cafile",
   :description => "CA certificate file for SMTP over TLS",
   :default => "/etc/postfix/cacert.pem"
 
-attribute "postfix/smtp_use_tls",
-  :display_name => "Postfix SMTP Use TLS?",
-  :description => "Whether SMTP SASL Auth should use TLS encryption",
-  :default => "yes"
-
 attribute "postfix/smtp_sasl_user_name",
   :display_name => "Postfix SMTP SASL Username",
   :description => "User to auth SMTP via SASL",

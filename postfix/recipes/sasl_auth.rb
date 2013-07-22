@@ -22,7 +22,7 @@ postfix = node[:postfix]
 pw_maps = postfix[:smtp_sasl_password_maps]
 pw_file = pw_maps.sub('hash:', '')
 
-%w{ libsasl2-2 ca-certificates }.each do |pkg|
+postfix[:sasl_packages].each do |pkg|
   package pkg do
     action :install
   end
