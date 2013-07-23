@@ -35,6 +35,8 @@ define application-tool app_amgtar {
   plugin "amgtar"
   property append "IGNORE" ": File removed before we read it$"
   property append "IGNORE" ": file changed as we read it$"
+  # XXX: Not sure how this happens
+  property append "IGNORE" ": No such file or directory"
 }
 
 
