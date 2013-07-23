@@ -11,3 +11,10 @@ when 'debian', 'ubuntu'
     end
 end
 
+# {
+#     "hostname": "host.domain.com",
+#     "address": "123.123.123.123",
+#     "port": "4949",
+#     "use_node_name": "yes"
+# }
+default[:munin][:hosts] = []
