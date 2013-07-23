@@ -25,11 +25,6 @@ excluded_maps = %w{ mysql pgsql proxy }
 postfix = node[:postfix]
 
 
-service "postfix" do
-  supports :status => true, :restart => true, :reload => true
-  action :enable
-end
-
 case node[:platform]
 when "redhat", "centos", "amazon", "scientific"
   service "sendmail" do
