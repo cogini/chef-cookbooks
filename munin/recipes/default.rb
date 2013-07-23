@@ -19,7 +19,12 @@ service "munin-node" do
 end
 
 template "/etc/munin/munin-node.conf" do
-    mode "0644"
+    mode 0644
     source "munin-node.conf.erb"
+end
+
+template "/etc/munin/munin.conf" do
+    mode 0644
+    source "munin.conf.erb"
     notifies :restart, "service[munin-node]"
 end

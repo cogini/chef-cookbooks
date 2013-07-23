@@ -11,3 +11,10 @@ when 'debian', 'ubuntu'
     end
 end
 
+# {
+#     "hostname": "fs1.cogini.com",
+#     "address": "124.150.130.66",
+#     "port": "5979",
+#     "use_node_name": "yes"
+# }
+default[:munin][:hosts] = []
