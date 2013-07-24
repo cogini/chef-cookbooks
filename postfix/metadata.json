@@ -193,34 +193,6 @@
 
       ]
     },
-    "postfix/smtp_sasl_user_name": {
-      "display_name": "Postfix SMTP SASL Username",
-      "description": "User to auth SMTP via SASL",
-      "default": "",
-      "choice": [
-
-      ],
-      "calculated": false,
-      "type": "string",
-      "required": "optional",
-      "recipes": [
-
-      ]
-    },
-    "postfix/smtp_sasl_passwd": {
-      "display_name": "Postfix SMTP SASL Password",
-      "description": "Password for smtp_sasl_user_name",
-      "default": "",
-      "choice": [
-
-      ],
-      "calculated": false,
-      "type": "string",
-      "required": "optional",
-      "recipes": [
-
-      ]
-    },
     "postfix/relayhost_role": {
       "display_name": "Postfix Relayhost's role",
       "description": "String containing the role name",

@@ -73,16 +73,6 @@ attribute "postfix/smtp_tls_cafile",
   :description => "CA certificate file for SMTP over TLS",
   :default => "/etc/postfix/cacert.pem"
 
-attribute "postfix/smtp_sasl_user_name",
-  :display_name => "Postfix SMTP SASL Username",
-  :description => "User to auth SMTP via SASL",
-  :default => ""
-
-attribute "postfix/smtp_sasl_passwd",
-  :display_name => "Postfix SMTP SASL Password",
-  :description => "Password for smtp_sasl_user_name",
-  :default => ""
-
 attribute "postfix/aliases",
   :display_name => "Postfix mail aliases",
   :description => "Hash of mail aliases for /etc/aliases",

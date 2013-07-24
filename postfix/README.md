@@ -48,10 +48,6 @@ See `attributes/default.rb` for default values.
   `smtp_sasl_security_options` option in `/etc/postfix/main.cf`.
 * `node['postfix']['smtp_tls_cafile']` - corresponds to the
   `smtp_tls_CAfile` option in `/etc/postfix/main.cf`.
-* `node['postfix']['smtp_sasl_user_name']` - mapped in the
-  `sasl_passwd` file as the user to authenticate as.
-* `node['postfix']['smtp_sasl_passwd']` - mapped in the `sasl_passwd`
-  file as the password to use.
 * `node['postfix']['aliases']` - hash of aliases to create with
   `recipe[postfix::aliases]`, see below under __Recipes__ for more
   information.
@@ -178,8 +174,6 @@ access to SMTP.
         "myorigin" => "example.com",
         "relayhost" => "[smtp.comcast.net]:587",
         "smtp_sasl_auth_enable" => "yes",
-        "smtp_sasl_passwd" => "your_password",
-        "smtp_sasl_user_name" => "your_username"
       }
     )
 
