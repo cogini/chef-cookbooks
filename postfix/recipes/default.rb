@@ -112,6 +112,25 @@ unless postfix[:virtual_mailbox_domains].empty?
 end
 
 
+unless postfix[:sender_dependent_relayhosts].empty?
+
+  map_file = postfix[:sender_dependent_relayhost_maps]
+  map_file = map_file.sub('hash:', '')
+
+  execute 'postmap-sender_dependent_relayhost_maps' do
+    command "postmap #{map_file}"
+    action :nothing
+  end
+
+  template map_file do
+    source 'sender_dependent_relayhost_maps.erb'
+    mode 0400
+    notifies :run, "execute[postmap-sender_dependent_relayhost_maps]", :immediately
+    notifies :restart, "service[postfix]"
+  end
+end
+
+
 service "postfix" do
   action :start
 end
