@@ -47,6 +47,7 @@ default[:postfix][:relay_recipient_maps] = ''
 default[:postfix][:relayhost] = ''
 default[:postfix][:relayhost_role] = 'relayhost'
 default[:postfix][:sender_dependent_relayhost_maps] = ''
+default[:postfix][:sender_dependent_relayhosts] = []
 default[:postfix][:smtp_host_lookup] = 'dns'
 default[:postfix][:smtp_sasl_auth_enable] = 'no'
 default[:postfix][:smtp_sasl_password_maps] = ''
