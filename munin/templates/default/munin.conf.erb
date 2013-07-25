@@ -7,7 +7,6 @@ graph_strategy cgi
 <% hosts.each do |host| -%>
 [<%= host[:hostname] %>]
     address <%= host[:address] %>
-    port <%= host.has_key?("port") ? host[:port] : 4949 %>
-    use_node_name <%= host[:use_node_name] %>
+    port <%= host.has_key?('port') ? host[:port] : 4949 %>
 
 <% end -%>
