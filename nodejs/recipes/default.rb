@@ -43,7 +43,7 @@ unless File.exists?(package_file)
 
     remote_file "#{chef_cache}/#{nodejs_tar}" do
         source "http://nodejs.org/dist/#{download_path}"
-        checksum node[:nodejs][:checksum]
+        action :create_if_missing
         mode 0644
     end
 
