@@ -48,7 +48,7 @@ user_dir =
 extension_dir = "<%= node['php']['ext_dir'] %>"
 file_uploads = On
 upload_max_filesize = <%= node[:php][:upload_max_filesize] %>
-max_file_uploads = 20
+max_file_uploads = <%= php[:max_file_uploads] %>
 allow_url_fopen = On
 allow_url_include = Off
 default_socket_timeout = 60
