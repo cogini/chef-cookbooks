@@ -14,8 +14,7 @@ directory File.dirname(cronic) do
     recursive true
 end
 
-remote_file cronic do
-    source 'http://habilis.net/cronic/cronic'
-    action :create_if_missing
-    mode '0755'
+template cronic do
+    source 'cronic.erb'
+    mode '755'
 end
