@@ -4,8 +4,10 @@
 includedir /etc/munin/munin-conf.d
 graph_strategy cgi
 
-<% hosts.each do |host| -%>
-[<%= host[:hostname] %>]
+<% hosts.each do |host|
+  group = ! host.has_key?('group') || host[:group] == '' ? '' : host[:group] + ';'
+-%>
+[<%= group %><%= host[:hostname] %>]
     address <%= host[:address] %>
     port <%= host.has_key?('port') ? host[:port] : 4949 %>
 
