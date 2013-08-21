@@ -8,6 +8,7 @@
 #
 
 include_recipe "fpm"
+include_recipe "python"
 
 supervisor_version = node[:supervisor][:version]
 chef_cache = Chef::Config[:file_cache_path]
