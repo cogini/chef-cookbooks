@@ -1,5 +1,5 @@
-<% nagios_config = node[:nagios] -%>
-<% total_procs = nagios_config[:total_procs] -%>
+<% nagios = node[:nagios] -%>
+<% total_procs = nagios[:total_procs] -%>
 #############################################################################
 # Sample NRPE Config File
 # Written by: Ethan Galstad (nagios@nagios.org)
@@ -24,7 +24,7 @@ log_facility=daemon
 # number.  The file is only written if the NRPE daemon is started by the root
 # user and is running in standalone mode.
 
-pid_file=<%= nagios_config[:pid_file] %>
+pid_file=<%= nagios[:pid_file] %>
 
 
 
@@ -77,7 +77,7 @@ nrpe_group=nagios
 #
 # NOTE: This option is ignored if NRPE is running under either inetd or xinetd
 
-allowed_hosts=<%= nagios_config[:allowed_hosts].join(',') %>
+allowed_hosts=<%= nagios[:allowed_hosts].join(',') %>
 
 
 
@@ -108,7 +108,7 @@ dont_blame_nrpe=0
 # the nagios user to your /etc/sudoers.  An example entry for alllowing
 # execution of the plugins from might be:
 #
-# nagios          ALL=(ALL) NOPASSWD: /usr/lib/nagios/plugins/
+# nagios          ALL=(ALL) NOPASSWD: <%= nagios[:plugin_dir] %>/
 #
 # This lets the nagios user run all commands in that directory (and only them)
 # without asking for a password.  If you do this, make sure you don't give
@@ -197,32 +197,32 @@ connection_timeout=300
 
 # The following examples use hardcoded command arguments...
 
-command[check_users]=/usr/lib/nagios/plugins/check_users -w 5 -c 10
-command[check_load]=/usr/lib/nagios/plugins/check_load -w 15,10,5 -c 30,25,20
-command[check_zombie_procs]=/usr/lib/nagios/plugins/check_procs -w 5 -c 10 -s Z
-command[check_root]=/usr/lib/nagios/plugins/check_disk -w 10% -c 5% -X none
-command[check_logwarn_email]=/usr/lib/nagios/plugins/check_logwarn -p /var/log/mail.log '^.* localhost postfix/.* status=(bounced|deferred)'
-command[check_total_procs]=/usr/lib/nagios/plugins/check_procs -w <%= total_procs[:warning] %> -c <%= total_procs[:critical] %>
+command[check_users]=<%= nagios[:plugin_dir] %>/check_users -w 5 -c 10
+command[check_load]=<%= nagios[:plugin_dir] %>/check_load -w 15,10,5 -c 30,25,20
+command[check_zombie_procs]=<%= nagios[:plugin_dir] %>/check_procs -w 5 -c 10 -s Z
+command[check_root]=<%= nagios[:plugin_dir] %>/check_disk -w 10% -c 5% -X none
+command[check_logwarn_email]=<%= nagios[:plugin_dir] %>/check_logwarn -p /var/log/mail.log '^.* localhost postfix/.* status=(bounced|deferred)'
+command[check_total_procs]=<%= nagios[:plugin_dir] %>/check_procs -w <%= total_procs[:warning] %> -c <%= total_procs[:critical] %>
 
 <% case node[:platform] -%>
 <% when 'ubuntu' -%>
     <% %w{ check_reboot check_updates }.each do |plugin| -%>
-command[<%= plugin %>]=<%= nagios_config[:plugin_dir] %>/<%= plugin %>
+command[<%= plugin %>]=<%= nagios[:plugin_dir] %>/<%= plugin %>
     <% end -%>
 <% when 'redhat', 'centos' -%>
     <% %w{ check_updates }.each do |plugin| -%>
-command[<%= plugin %>]=<%= nagios_config[:plugin_dir] %>/<%= plugin %>
+command[<%= plugin %>]=<%= nagios[:plugin_dir] %>/<%= plugin %>
     <% end -%>
 <% end -%>
 
-<% pgsql = nagios_config[:pgsql] -%>
+<% pgsql = nagios[:pgsql] -%>
 <% if pgsql[:enable] -%>
-command[check_pgsql]=/usr/lib/nagios/plugins/check_pgsql -H <%= pgsql[:host] %> -l <%= pgsql[:username] %> -p <%= pgsql[:password] %>
+command[check_pgsql]=<%= nagios[:plugin_dir] %>/check_pgsql -H <%= pgsql[:host] %> -l <%= pgsql[:username] %> -p <%= pgsql[:password] %>
 <% end -%>
 
-<% mysql = nagios_config[:mysql] -%>
+<% mysql = nagios[:mysql] -%>
 <% if mysql[:enable] -%>
-command[check_mysqld]=/usr/lib/nagios/plugins/check_mysql_query -q 'select 1+2' -H <%= mysql[:host] %> -u <%= mysql[:username] %> -p '<%= mysql[:password] %>' -w 3:3 -c 3:3
+command[check_mysqld]=<%= nagios[:plugin_dir] %>/check_mysql_query -q 'select 1+2' -H <%= mysql[:host] %> -u <%= mysql[:username] %> -p '<%= mysql[:password] %>' -w 3:3 -c 3:3
 <% end -%>
 
 #

@@ -5,7 +5,7 @@ default[:nagios][:nrpe_local_config] = []
 default[:nagios][:pgsql][:enable] = (not Dir.glob('/etc/init.d/postgresql*').empty?)
 default[:nagios][:pgsql][:host] = 'localhost'
 default[:nagios][:pgsql][:username] = 'nagiosCheck'
-default[:nagios][:plugin_dir] = '/usr/lib/nagios/plugins/local'
+default[:nagios][:plugin_dir] = '/usr/lib/nagios/plugins'
 default[:nagios][:total_procs][:critical] = 200
 default[:nagios][:total_procs][:warning] = 150
 
@@ -14,6 +14,9 @@ when 'redhat', 'centos'
     default[:nagios][:pid_file] = '/var/run/nrpe/nrpe.pid'
     default[:nagios][:recipe] = 'nagios::redhat'
     default[:nagios][:service] = 'nrpe'
+    if node[:kernel][:machine] =~ /x86_64/
+        default[:nagios][:plugin_dir] = '/usr/lib64/nagios/plugins'
+    end
 when 'ubuntu'
     default[:nagios][:recipe] = 'nagios::ubuntu'
     default[:nagios][:service] = 'nagios-nrpe-server'
