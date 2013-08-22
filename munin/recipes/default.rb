@@ -14,11 +14,11 @@ node[:munin][:packages].each do |pkg|
 end
 
 service 'munin-node' do
-    action [:start, :enable]
-    supports :restart => true
+    action [:enable]
 end
 
 template '/etc/munin/munin-node.conf' do
     mode 0644
     source 'munin-node.conf.erb'
+    notifies :restart, 'service[munin-node]'
 end
