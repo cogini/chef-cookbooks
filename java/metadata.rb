@@ -23,12 +23,9 @@ recipe "java::oracle_i386", "Installs the 32-bit jvm without setting it as the d
     arch
     oracle
     freebsd
-    windows
     suse
     xenserver
     smartos
 }.each do |os|
   supports os
 end
-
-depends "windows"
