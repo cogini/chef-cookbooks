@@ -11,12 +11,17 @@ smtp      inet  n       -       -       -       -       smtpd
 #smtpd     pass  -       -       -       -       -       smtpd
 #dnsblog   unix  -       -       -       -       0       dnsblog
 #tlsproxy  unix  -       -       -       -       0       tlsproxy
-submission inet n       -       -       -       -       smtpd
+
+# Submission
+<%- node[:postfix][:submission_ports].each do |port| -%>
+<%= port %> inet n       -       -       -       -       smtpd
   -o syslog_name=postfix/submission
   -o smtpd_tls_security_level=encrypt
   -o smtpd_sasl_auth_enable=yes
   -o smtpd_client_restrictions=permit_sasl_authenticated,reject
   -o milter_macro_daemon_name=ORIGINATING
+<%- end -%>
+
 #smtps     inet  n       -       -       -       -       smtpd
 #  -o syslog_name=postfix/smtps
 #  -o smtpd_tls_wrappermode=yes
