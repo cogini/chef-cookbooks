@@ -8,8 +8,10 @@
 #
 
 
-package node[:dkim][:package] do
-    action :install
+node[:dkim][:packages].each do |pkg|
+    package pkg do
+        action :install
+    end
 end
 
 template node[:dkim][:config] do
