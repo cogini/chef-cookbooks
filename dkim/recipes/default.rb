@@ -18,6 +18,9 @@ template node[:dkim][:config] do
     source 'opendkim.conf.erb'
 end
 
+template "/etc/default/opendkim" do
+    source "etc_default_opendkim.erb"
+end
 
 service node[:dkim][:service] do
     action [:enable, :restart]
