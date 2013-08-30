@@ -115,7 +115,7 @@ amavis    unix  -       -       -       -       2       smtp
 127.0.0.1:10025 inet    n       -       -       -       -       smtpd
   -o content_filter=
   -o mynetworks=127.0.0.0/8
-  -o receive_override_options=no_header_body_checks,no_unknown_recipient_checks
+  -o receive_override_options=no_header_body_checks,no_unknown_recipient_checks,no_milters
   -o smtpd_client_connection_count_limit=0
   -o smtpd_client_connection_rate_limit=0
   -o smtpd_client_restrictions=permit_mynetworks,reject
