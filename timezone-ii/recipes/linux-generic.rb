@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: timezone-ii
+# Cookbook Name:: timezone
 # Recipe:: linux-generic
 #
 # Copyright 2013, Lawrence Leonard Gilbert <larry@L2G.to>

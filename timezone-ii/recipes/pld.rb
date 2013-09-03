@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: timezone-ii
+# Cookbook Name:: timezone
 # Recipe:: pld
 #
 # Copyright 2010, James Harton <james@sociable.co.nz>

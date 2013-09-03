@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: timezone-ii
+# Cookbook Name:: timezone
 # Recipe:: default
 #
 # Copyright 2010, James Harton <james@sociable.co.nz>
@@ -17,7 +17,7 @@ package value_for_platform_family(
 
 case node.platform_family
 when 'debian', 'fedora', 'pld', 'rhel'
-  include_recipe "timezone-ii::#{node.platform_family}"
+  include_recipe "timezone::#{node.platform_family}"
 
 else
   if node.os == "linux"
@@ -31,7 +31,7 @@ else
       not_if { %w( centos gentoo rhel ).include? node.platform_family }
     end
 
-    include_recipe 'timezone-ii::linux-generic'
+    include_recipe 'timezone::linux-generic'
 
   else
     message = "Don't know how to configure timezone for " +

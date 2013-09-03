@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: timezone-ii
+# Cookbook Name:: timezone
 # Recipe:: debian
 #
 # Copyright 2010, James Harton <james@sociable.co.nz>
