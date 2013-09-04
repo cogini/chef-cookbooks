@@ -21,8 +21,6 @@ Attributes
 
 See `attributes/default.rb` for default values.
 
-* `node['postfix']['mail_type']` - Sets the kind of mail
-  configuration. `master` will set up a server (relayhost).
 * `node['postfix']['myhostname']` - corresponds to the myhostname
   option in `/etc/postfix/main.cf`.
 * `node['postfix']['mydomain']` - corresponds to the mydomain option
@@ -84,17 +82,6 @@ sasl\_auth
 Sets up the system to authenticate with a remote mail relay using SASL
 authentication.
 
-server
-------
-
-To use Chef Server search to automatically detect a node that is the
-relayhost, use this recipe in a role that will be relayhost. By
-default, the role should be "relayhost" but you can change the
-attribute `node['postfix']['relayhost_role']` to modify this.
-
-**Note** This recipe will set the `node['postfix']['mail_type']` to
-"master" with an override attribute.
-
 aliases
 -------
 
@@ -114,11 +101,6 @@ On systems that should simply send mail directly to a relay, or out to
 the internet, use `recipe[postfix]` and modify the
 `node['postfix']['relayhost']` attribute via a role.
 
-On systems that should be the MX for a domain, set the attributes
-accordingly and make sure the `node['postfix']['mail_type']` attribute
-is `master`. See __Examples__ for information on how to use
-`recipe[postfix::server]` to do this automatically.
-
 If you need to use SASL authentication to send mail through your ISP
 (such as on a home network), use `recipe[postfix::sasl_auth]` and set
 the appropriate attributes.
@@ -131,51 +113,6 @@ Examples
 The example roles below only have the relevant postfix usage. You may
 have other contents depending on what you're configuring on your
 systems.
-
-The `base` role is applied to all nodes in the environment.
-
-    name "base"
-    run_list("recipe[postfix]")
-    override_attributes(
-      "postfix" => {
-        "mail_type" => "client",
-        "mydomain" => "example.com",
-        "myorigin" => "example.com",
-        "relayhost" => "[smtp.example.com]",
-      }
-    )
-
-The `relayhost` role is applied to the nodes that are relayhosts.
-Often this is 2 systems using a CNAME of `smtp.example.com`.
-
-    name "relayhost"
-    run_list("recipe[postfix]")
-    override_attributes(
-      "postfix" => {
-        "mail_relay_networks" => "10.3.3.0/24",
-        "mail_type" => "master",
-        "mydomain" => "example.com",
-        "myorigin" => "example.com"
-      }
-    )
-
-The `sasl_relayhost` role is applied to the nodes that are relayhosts
-and require authenticating with SASL. For example this might be on a
-household network with an ISP that otherwise blocks direct internet
-access to SMTP.
-
-    name "sasl_relayhost"
-    run_list("recipe[postfix], recipe[postfix::sasl_auth]")
-    override_attributes(
-      "postfix" => {
-        "mail_relay_networks" => "10.3.3.0/24",
-        "mail_type" => "master",
-        "mydomain" => "example.com",
-        "myorigin" => "example.com",
-        "relayhost" => "[smtp.comcast.net]:587",
-        "smtp_sasl_auth_enable" => "yes",
-      }
-    )
 
 For an example of using encrypted data bags to encrypt the SASL
 password, see the following blog post:
@@ -196,18 +133,6 @@ If you'd like to use the more dynamic search based approach for discovery, use t
       }
     )
 
-Then, add the `postfix::client` recipe to the run list of your `base` role or equivalent role for postfix clients.
-
-    name "base"
-    run_list("recipe[postfix::client]")
-    override_attributes(
-      "postfix" => {
-        "mail_type" => "client",
-        "mydomain" => "example.com",
-        "myorigin" => "example.com"
-      }
-    )
-
 If you wish to use a different role name for the relayhost, then also set the attribute in the `base` role. For example, `postfix_master` as the role name:
 
     name "postfix_master"
@@ -216,19 +141,6 @@ If you wish to use a different role name for the relayhost, then also set the at
     override_attributes(
       "postfix" => {
         "mail_relay_networks" => "10.3.3.0/24",
-        "mydomain" => "example.com",
-        "myorigin" => "example.com"
-      }
-    )
-
-The base role would look something like this:
-
-    name "base"
-    run_list("recipe[postfix::client]")
-    override_attributes(
-      "postfix" => {
-        "relayhost_role" => "postfix_master",
-        "mail_type" => "client",
         "mydomain" => "example.com",
         "myorigin" => "example.com"
       }

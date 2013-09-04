@@ -31,7 +31,6 @@ default[:postfix][:content_filter] = ''
 default[:postfix][:disable_dns_lookups] = 'no'
 default[:postfix][:inet_protocols] = 'all'
 default[:postfix][:mail_relay_networks] = ['127.0.0.0/8']
-default[:postfix][:mail_type] = 'client'
 default[:postfix][:mailbox_command] = ''
 default[:postfix][:mailbox_size_limit] = 51200000
 default[:postfix][:message_size_limit] = 10240000
