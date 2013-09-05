@@ -7,3 +7,4 @@ version          "0.6.11"
 recipe           "nodejs", "Installs Node.JS from source"
 
 depends          "build-essential"
+depends          "fpm"
