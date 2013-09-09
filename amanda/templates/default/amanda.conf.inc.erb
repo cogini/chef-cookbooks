@@ -9,16 +9,18 @@ runtapes = amanda[:runtapes]
 
 dumpuser          "amandabackup"
 mailto            "noc@cogini.com"
+
+indexdir          "<%= amanda_dir[:index_dir] %>"
 infofile          "<%= amanda_dir[:info_dir] %>"
 logdir            "<%= amanda_dir[:log_dir] %>"
-indexdir          "<%= amanda_dir[:index_dir] %>"
-amrecover-changer "changer"
-tapetype          "GigabyteTape"
 
-runtapes          <%= runtapes %> tapes
-tapecycle         <%= runtapes * 11 %> tapes
+amrecover-changer "changer"
 inparallel        <%= amanda[:inparallel] %>
 netusage          <%= amanda[:netusage] %>
+
+tapetype          "GigabyteTape"
+runtapes          <%= runtapes %> tapes
+tapecycle         <%= runtapes * 11 %> tapes
 
 
 define tapetype GigabyteTape {
