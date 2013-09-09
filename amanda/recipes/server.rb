@@ -41,7 +41,6 @@ include_recipe 'amanda::common'
   amanda[:dir][:index_dir],
   amanda[:dir][:info_dir],
   amanda[:dir][:log_dir],
-  amanda[:dir][:vtapes_dir],
 ].each do |dir|
   directory dir do
     owner app_user
@@ -51,12 +50,14 @@ include_recipe 'amanda::common'
   end
 end
 
-for i in 1..amanda[:tapecycle] do
-  directory "#{amanda[:dir][:vtapes_dir]}/slot#{i}" do
-    owner app_user
-    group app_group
-    mode 0755
-    recursive true
+%w{ daily weekly monthly }.each do |type|
+  for i in 1..amanda[:number_of_tapes] do
+    directory "#{amanda[:dir][:tapes_base]}/#{type}/slot#{i}" do
+      owner app_user
+      group app_group
+      mode 0755
+      recursive true
+    end
   end
 end
 

@@ -4,7 +4,6 @@
 <%
 amanda = node[:amanda]
 amanda_dir = amanda[:dir]
-tapecycle = amanda[:tapecycle]
 runtapes = amanda[:runtapes]
 -%>
 
@@ -14,10 +13,12 @@ infofile          "<%= amanda_dir[:info_dir] %>"
 logdir            "<%= amanda_dir[:log_dir] %>"
 indexdir          "<%= amanda_dir[:index_dir] %>"
 amrecover-changer "changer"
-tpchanger         "chg-disk:<%= amanda_dir[:vtapes_dir] %>"
 tapetype          "GigabyteTape"
-tapecycle         <%= tapecycle %>
-runtapes          <%= runtapes.nil? ? tapecycle : runtapes %>
+
+runtapes          <%= runtapes %> tapes
+tapecycle         <%= runtapes * 11 %> tapes
+inparallel        <%= amanda[:inparallel] %>
+netusage          <%= amanda[:netusage] %>
 
 
 define tapetype GigabyteTape {
