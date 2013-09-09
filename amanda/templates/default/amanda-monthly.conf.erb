@@ -5,7 +5,7 @@
 includefile "/etc/amanda/amanda.conf.inc"
 
 dumpcycle 150 days
-tpchanger "chg-disk:<%= amanda[:tapes_base] %>/monthly"
+tpchanger "chg-disk:<%= amanda[:dir][:tapes_base] %>/monthly"
 
 org       "Monthly"
 labelstr  "Monthly-[0-9]+"
