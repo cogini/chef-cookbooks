@@ -93,12 +93,6 @@ execute "gem install bundler" do
 end
 
 
-template "#{site_dir}/../set_env.sh" do
-    mode 0644
-    source "set_env.sh.erb"
-end
-
-
 %w{
     database.yml
     configuration.yml
@@ -177,7 +171,6 @@ when "apache"
     include_recipe "apache2::mod_proxy"
     include_recipe "apache2::mod_proxy_http"
     include_recipe "apache2::mod_proxy_balancer"
-
 
     template "/etc/apache2/sites-available/#{site_name}" do
         mode 0644
