@@ -23,11 +23,12 @@ if mysql_config[:enable] and mysql_config[:host] == 'localhost'
     end
 end
 
-pgsql_config = node[:nagios][:pgsql]
-if pgsql_config[:enable] and pgsql_config[:host] == 'localhost'
-    pgsql_user pgsql_config[:username] do
+pgsql = node[:nagios][:pgsql]
+if pgsql[:enable] and pgsql[:host] == 'localhost' and
+                      not node[:postgresql][:is_slave]
+    pgsql_user pgsql[:username] do
         action :create
-        password pgsql_config[:password]
+        password pgsql[:password]
     end
 end
 

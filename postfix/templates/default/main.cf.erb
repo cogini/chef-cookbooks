@@ -116,3 +116,11 @@ smtpd_tls_auth_only = <%= postfix[:smtpd_tls_auth_only] %>
 <% if postfix[:mydomain] -%>
 mydomain = <%= postfix[:mydomain] %>
 <% end -%>
+
+# DKIM
+<% if postfix[:dkim] -%>
+milter_default_action = accept
+milter_protocol = 2
+smtpd_milters = inet:localhost:8891
+non_smtpd_milters = inet:localhost:8891
+<% end -%>

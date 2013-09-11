@@ -31,7 +31,6 @@ default[:postfix][:content_filter] = ''
 default[:postfix][:disable_dns_lookups] = 'no'
 default[:postfix][:inet_protocols] = 'all'
 default[:postfix][:mail_relay_networks] = ['127.0.0.0/8']
-default[:postfix][:mail_type] = 'client'
 default[:postfix][:mailbox_command] = ''
 default[:postfix][:mailbox_size_limit] = 51200000
 default[:postfix][:message_size_limit] = 10240000
@@ -56,13 +55,13 @@ default[:postfix][:smtp_tls_note_starttls_offer] = 'no'
 default[:postfix][:smtp_tls_security_level] = ''
 default[:postfix][:smtpd_data_restrictions] = []
 default[:postfix][:smtpd_helo_restrictions] = []
-default[:postfix][:smtpd_recipient_restrictions] = %w{ permit_mynetworks reject_unauth_destination }
 default[:postfix][:smtpd_sasl_auth_enable] = 'no'
 default[:postfix][:smtpd_sasl_path] = 'smtpd'
 default[:postfix][:smtpd_sasl_type] = 'cyrus'
 default[:postfix][:smtpd_sender_restrictions] = []
 default[:postfix][:smtpd_tls_auth_only] = 'no'
 default[:postfix][:smtpd_tls_security_level] = ''
+default[:postfix][:submission_ports] = [587]
 default[:postfix][:transport_maps] = {}
 default[:postfix][:transport_maps_file] = 'hash:/etc/postfix/transport'
 default[:postfix][:virtual_alias_maps] = ''
@@ -71,3 +70,8 @@ default[:postfix][:virtual_mailbox_base] = ''
 default[:postfix][:virtual_mailbox_domains] = []
 default[:postfix][:virtual_mailbox_maps] = ''
 default[:postfix][:virtual_uid_static] = 5000
+
+default[:postfix][:smtpd_recipient_restrictions] = %w{
+    permit_mynetworks
+    reject_unauth_destination
+}

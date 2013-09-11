@@ -7,7 +7,6 @@ recipe            "postfix", "Installs and configures postfix"
 recipe            "postfix::sasl_auth", "Set up postfix to auth to a server with sasl"
 recipe            "postfix::aliases", "Manages /etc/aliases"
 recipe            "postfix::client", "Searches for the relayhost based on an attribute"
-recipe            "postfix::server", "Sets the mail_type attribute to master"
 
 %w{ubuntu debian redhat centos amazon scientific}.each do |os|
   supports os
@@ -22,11 +21,6 @@ attribute "postfix/aliases",
   :display_name => "Postfix Aliases",
   :description => "Hash of Postfix aliases mapping a name to a value.  Example 'root' => 'operator@example.com'.  See aliases man page for details.",
   :type => "hash"
-
-attribute "postfix/mail_type",
-  :display_name => "Postfix Mail Type",
-  :description => "Is this node a client or server?",
-  :default => "client"
 
 attribute "postfix/myhostname",
   :display_name => "Postfix Myhostname",

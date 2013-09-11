@@ -17,8 +17,7 @@
 # limitations under the License.
 #
 
-default[:nodejs][:version] = "0.10.15"
-default[:nodejs][:npm] = "1.1.2"
+default[:nodejs][:version] = "0.10.18"
 
 case node[:platform]
 when 'redhat', 'centos'

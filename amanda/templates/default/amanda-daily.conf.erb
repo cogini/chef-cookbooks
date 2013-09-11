@@ -4,7 +4,9 @@
 <% amanda = node[:amanda] -%>
 includefile "/etc/amanda/amanda.conf.inc"
 
+dumpcycle 5 days
+tpchanger "chg-disk:<%= amanda[:dir][:tapes_base] %>/daily"
+
 org       "Daily"
 labelstr  "Daily-[0-9]+"
-autolabel "Daily-<%= '%' * amanda[:tapecycle].to_s().length %>" EMPTY VOLUME-ERROR
-dumpcycle <%= amanda[:dumpcycle_daily] %>
+autolabel "Daily-<%= '%' * amanda[:number_of_tapes].to_s().length %>" EMPTY VOLUME-ERROR
