@@ -13,7 +13,6 @@ when 'redhat', 'centos', 'amazon'
     default[:admin_group] = 'wheel'
     default[:basics][:packages] = %w(
         bind-utils
-        byobu
         cronie
         emacs-nox
         iotop
@@ -40,15 +39,12 @@ when 'redhat', 'centos', 'amazon'
         ack
         atop
         bash-completion
+        byobu
         fortune-mod
         htop
         iftop
         tmux
     )
-    if node[:platform] == 'centos' && node[:platform_version].to_f >= 6
-        # byobu not on centos6 yet
-        default[:basics][:packages].delete('byobu')
-    end
 
 when 'ubuntu'
     default[:admin_group] = 'admin'
@@ -88,7 +84,4 @@ when 'ubuntu'
         wget
         zip
     }
-    if node[:platform_version].to_f <= 8.4
-        default[:basics][:packages] -= %w{ byobu tmux }
-    end
 end
