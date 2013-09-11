@@ -7,6 +7,12 @@
 # All rights reserved - Do Not Redistribute
 #
 
+
+unless node[:shorewall][:interfaces]
+    raise 'node[:shorewall][:interfaces] is required.'
+end
+
+
 case node['platform']
 when 'centos', 'redhat'
     include_recipe 'shorewall::redhat'
