@@ -14,6 +14,11 @@ fqdn = node[:new_fqdn]
 case node[:platform]
 
 when 'redhat', 'centos', 'amazon'
+
+    unless node[:network][:gateway]
+        raise 'node[:network][:gateway] is required.'
+    end
+
     template '/etc/sysconfig/network' do
         mode '0644'
         source 'redhat-sysconfig-network.erb'
