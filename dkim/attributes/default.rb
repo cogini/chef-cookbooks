@@ -8,7 +8,10 @@ when 'ubuntu'
         default[:dkim][:config] = '/etc/dkim-filter.conf'
         default[:dkim][:genkey] = 'dkim-genkey'
     else
-        default[:dkim][:package] = 'opendkim'
+        default[:dkim][:packages] = %w{
+            opendkim
+            opendkim-tools
+        }
         default[:dkim][:service] = 'opendkim'
         default[:dkim][:config] = '/etc/opendkim.conf'
         default[:dkim][:genkey] = 'opendkim-genkey'

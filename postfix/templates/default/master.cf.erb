@@ -11,12 +11,17 @@ smtp      inet  n       -       -       -       -       smtpd
 #smtpd     pass  -       -       -       -       -       smtpd
 #dnsblog   unix  -       -       -       -       0       dnsblog
 #tlsproxy  unix  -       -       -       -       0       tlsproxy
-submission inet n       -       -       -       -       smtpd
+
+# Submission
+<%- node[:postfix][:submission_ports].each do |port| -%>
+<%= port %> inet n       -       -       -       -       smtpd
   -o syslog_name=postfix/submission
   -o smtpd_tls_security_level=encrypt
   -o smtpd_sasl_auth_enable=yes
   -o smtpd_client_restrictions=permit_sasl_authenticated,reject
   -o milter_macro_daemon_name=ORIGINATING
+<%- end -%>
+
 #smtps     inet  n       -       -       -       -       smtpd
 #  -o syslog_name=postfix/smtps
 #  -o smtpd_tls_wrappermode=yes
@@ -115,7 +120,7 @@ amavis    unix  -       -       -       -       2       smtp
 127.0.0.1:10025 inet    n       -       -       -       -       smtpd
   -o content_filter=
   -o mynetworks=127.0.0.0/8
-  -o receive_override_options=no_header_body_checks,no_unknown_recipient_checks
+  -o receive_override_options=no_header_body_checks,no_unknown_recipient_checks,no_milters
   -o smtpd_client_connection_count_limit=0
   -o smtpd_client_connection_rate_limit=0
   -o smtpd_client_restrictions=permit_mynetworks,reject

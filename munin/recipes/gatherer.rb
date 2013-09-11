@@ -7,6 +7,8 @@
 # All rights reserved - Do Not Redistribute
 #
 
+include_recipe 'munin::default'
+
 package 'munin' do
     action :install
 end

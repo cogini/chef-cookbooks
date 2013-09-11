@@ -53,20 +53,6 @@
 
       ]
     },
-    "postfix/mail_type": {
-      "display_name": "Postfix Mail Type",
-      "description": "Is this node a client or server?",
-      "default": "client",
-      "choice": [
-
-      ],
-      "calculated": false,
-      "type": "string",
-      "required": "optional",
-      "recipes": [
-
-      ]
-    },
     "postfix/myhostname": {
       "display_name": "Postfix Myhostname",
       "description": "Sets the myhostname value in main.cf",
@@ -228,8 +214,7 @@
     "postfix": "Installs and configures postfix",
     "postfix::sasl_auth": "Set up postfix to auth to a server with sasl",
     "postfix::aliases": "Manages /etc/aliases",
-    "postfix::client": "Searches for the relayhost based on an attribute",
-    "postfix::server": "Sets the mail_type attribute to master"
+    "postfix::client": "Searches for the relayhost based on an attribute"
   },
   "version": "1.2.0"
 }

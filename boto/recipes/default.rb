@@ -8,6 +8,7 @@
 #
 
 include_recipe "fpm"
+include_recipe "python"
 
 version = node.boto.version
 chef_cache = Chef::Config[:file_cache_path]
