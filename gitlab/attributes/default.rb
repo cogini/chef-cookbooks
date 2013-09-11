@@ -17,7 +17,7 @@ set[:gitlab][:dependencies] = %w{
   zlib1g-dev
 }
 
-default[:gitlab][:version] = "5-1-stable"
+default[:gitlab][:version] = "5-4-stable"
 
 default[:gitlab][:dbHost] = "localhost"
 default[:gitlab][:dbName] = "gitlab_production"
@@ -29,7 +29,7 @@ default[:gitlab][:git_user][:shell] = "/bin/bash"
 default[:gitlab][:git_user][:home] = "/home/git"
 
 default[:gitlab][:shell][:dir] = "/home/git/gitlab-shell"
-default[:gitlab][:shell][:version] = "v1.3.0"
+default[:gitlab][:shell][:version] = "v1.5.0"
 
 default[:gitlab][:dir] = "/home/git/gitlab"
 
