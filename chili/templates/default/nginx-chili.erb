@@ -4,7 +4,7 @@ upstream chili {
 }
 
 server {
-  listen 80 default_server;
+  listen 80;
   server_name <%= chili[:server_names].join(" ") %>;
   server_tokens off;
   root <%= chili[:site_dir] %>/public;
