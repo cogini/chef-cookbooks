@@ -1,0 +1,14 @@
+{
+  "sources": {
+    "mongodb": {
+      "path": "."
+    },
+    "apt": {
+      "locked_version": "1.8.4",
+      "constraint": ">= 1.8.2"
+    },
+    "yum": {
+      "locked_version": "2.1.0"
+    }
+  }
+}
