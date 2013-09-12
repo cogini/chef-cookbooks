@@ -64,3 +64,8 @@ if node.recipe?("mongodb::default") or node.recipe?("mongodb")
     smallfiles   node['mongodb']['smallfiles']
   end
 end
+
+
+service 'mongod' do
+    action [:enable, :start]
+end
