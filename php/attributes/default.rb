@@ -47,7 +47,7 @@ when 'centos', 'redhat', 'fedora', 'amazon'
     default[:php][:fpm][:user] = 'nobody'
     default[:php][:fpm_config] = '/etc/php-fpm.conf'
     default[:php][:fpm_config_template] = 'redhat-php-fpm.conf.erb'
-    default[:php][:fpm_packages] = %w{ php-fpm php-cli }
+    default[:php][:fpm_packages] = %w{ php-fpm php-devel php-pear }
     default[:php][:fpm_pool_config] = '/etc/php-fpm.d/www.conf'
     default[:php][:fpm_service] = 'php-fpm'
 when 'debian', 'ubuntu'
