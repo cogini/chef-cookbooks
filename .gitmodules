@@ -1,3 +1,0 @@
-[submodule "mongodb"]
-	path = mongodb
-	url = https://github.com/edelight/chef-mongodb
