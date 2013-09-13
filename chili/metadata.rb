@@ -5,9 +5,7 @@ description         "Install/Configure redmine"
 long_description    IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version             "0.0.1"
 
-depends             "apache2"
 depends             "apt"
 depends             "git"
-depends             "mysql"
-depends             "nginx"
 depends             "postgresql"
+depends             "nginx"

@@ -1,5 +1,7 @@
 include_recipe "apt"
+include_recipe "postgresql::client"
 include_recipe "git"
+include_recipe "nginx"
 
 
 app_user = node[:chili][:app_user]
@@ -7,49 +9,17 @@ site_dir = node[:chili][:site_dir]
 db = node[:chili][:db]
 version = node[:chili][:version]
 
+if db[:host] == "localhost"
 
-case db[:adapter]
-when "mysql"
-    excluded_gems = %w{
-        postgres
-        sqlite
-    }
+    include_recipe "postgresql::server"
+    db_user = db[:user]
 
-    include_recipe "mysql::client"
-
-    if db[:host] == "localhost"
-        include_recipe "mysql::server"
-        db_user = db[:user]
-
-        mysql_user db_user do
-            password db[:password]
-        end
-
-        mysql_db db[:database] do
-            owner db_user
-        end
+    pgsql_user db_user do
+        password db[:password]
     end
 
-when "postgresql"
-    excluded_gems = %w{
-        mysql
-        mysql2
-        sqlite
-    }
-
-    include_recipe "postgresql::client"
-
-    if db[:host] == "localhost"
-        include_recipe "postgresql::server"
-        db_user = db[:user]
-
-        pgsql_user db_user do
-            password db[:password]
-        end
-
-        pgsql_db db[:database] do
-            owner db_user
-        end
+    pgsql_db db[:database] do
+        owner db_user
     end
 end
 
@@ -93,18 +63,29 @@ execute "gem install bundler" do
 end
 
 
-%w{
-    database.yml
-    configuration.yml
-    unicorn.rb
-}.each do |config_file|
-    template "#{site_dir}/config/#{config_file}" do
-        mode 0644
-        owner app_user
-        source "#{config_file}.erb"
-    end
+template "#{site_dir}/../set_env.sh" do
+    mode 0644
+    source "set_env.sh.erb"
 end
 
+
+template "#{site_dir}/config/database.yml" do
+    mode 0644
+    owner app_user
+    source "database.yml.erb"
+end
+
+template "#{site_dir}/config/configuration.yml" do
+    mode 0644
+    owner app_user
+    source "configuration.yml.erb"
+end
+
+template "#{site_dir}/config/unicorn.rb" do
+    mode 0644
+    owner app_user
+    source "unicorn.rb.erb"
+end
 
 template "/etc/init.d/chili" do
     mode 0755
@@ -113,7 +94,7 @@ end
 
 
 execute "Install required gems" do
-    command "bundle install --without development test #{excluded_gems.join(' ')}"
+    command "bundle install --without development test mysql mysql2 sqlite"
     cwd site_dir
 end
 
@@ -144,40 +125,16 @@ bash "Set permissions" do
 end
 
 
+template "/etc/nginx/sites-available/chili.cogini.com" do
+    mode 0644
+    source "nginx-chili.erb"
+end
+
 service "chili" do
     supports :start => true, :stop => true, :restart => true, :status => true, :reload => true
     action [ :enable, :restart ]
 end
 
-
-site_name = node[:chili][:site_name]
-
-case node[:chili][:web_server]
-when "nginx"
-    include_recipe "nginx"
-
-    template "/etc/nginx/sites-available/#{site_name}" do
-        mode 0644
-        source "nginx-chili.erb"
-    end
-
-    nginx_site "#{site_name}" do
-        action :enable
-    end
-
-when "apache"
-    include_recipe "apache2"
-    include_recipe "apache2::mod_rewrite"
-    include_recipe "apache2::mod_proxy"
-    include_recipe "apache2::mod_proxy_http"
-    include_recipe "apache2::mod_proxy_balancer"
-
-    template "/etc/apache2/sites-available/#{site_name}" do
-        mode 0644
-        source "apache-chili.erb"
-    end
-
-    apache_site "#{site_name}" do
-        action :enable
-    end
+nginx_site "chili.cogini.com" do
+    action :enable
 end
