@@ -1,0 +1,12 @@
+#!/bin/sh
+
+<% db = node[:chili][:db] -%>
+export DB_HOST=<%= db[:host] %>
+export DB_NAME=<%= db[:database] %>
+export DB_USER=<%= db[:user] %>
+export DB_PASS=<%= db[:password] %>
+
+export PGDATABASE=$DB_NAME
+export PGHOST=$DB_HOST
+export PGUSER=$DB_USER
+export PGPASSWORD=$DB_PASS
