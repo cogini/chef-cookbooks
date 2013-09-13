@@ -1,0 +1,35 @@
+<% chili = node[:chili] -%>
+upstream chili {
+  server unix:<%= chili[:temp_dir] %>/sockets/chili.socket;
+}
+
+server {
+  listen 80;
+  server_name <%= chili[:server_names].join(" ") %>;
+  server_tokens off;
+  root <%= chili[:site_dir] %>/public;
+
+  # individual nginx logs for this chili vhost
+  access_log  <%= chili[:log_dir] %>/access.log json;
+  error_log   <%= chili[:log_dir] %>/error.log;
+
+  location / {
+    # serve static files from defined root folder;.
+    # @chili is a named location for the upstream fallback, see below
+    try_files $uri $uri/index.html $uri.html @chili;
+  }
+
+  # if a file, which is not found in the root folder is requested,
+  # then the proxy pass the request to the upsteam (chili unicorn)
+  location @chili {
+    proxy_read_timeout 300;
+    proxy_connect_timeout 300;
+    proxy_redirect     off;
+
+    proxy_set_header   X-Forwarded-Proto $scheme;
+    proxy_set_header   Host              $http_host;
+    proxy_set_header   X-Real-IP         $remote_addr;
+
+    proxy_pass http://chili;
+  }
+}
