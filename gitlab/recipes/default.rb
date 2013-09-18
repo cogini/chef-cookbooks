@@ -134,7 +134,7 @@ bash "Change mode repositories" do
 end
 
 [
-  "#{git_home}/gitlab-satellites",
+  "#{node[:gitlab][:satellites_path]}",
   "#{gitlab_dir}/tmp/pids",
   "#{gitlab_dir}/tmp/sockets",
   "#{gitlab_dir}/public/uploads",
@@ -157,7 +157,7 @@ end
 bash "git config" do
   user git_user
   cwd git_home
-  environment ({"HOME" => git_home})
+  environment({"HOME" => git_home})
   code <<-EOH
     git config --global user.name "GitLab"
     git config --global user.email "gitlab@localhost"
