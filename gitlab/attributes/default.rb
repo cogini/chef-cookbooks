@@ -37,3 +37,6 @@ default[:gitlab][:ssh_port] = 22
 
 default[:gitlab][:host] = "localhost"
 default[:gitlab][:port] = 80
+
+default[:gitlab][:satellites_path] = "/home/git/gitlab-satellites/"
+default[:gitlab][:repos_path] = "/home/git/repositories/"
