@@ -9,7 +9,6 @@ include_recipe "postfix::vanilla"
 include_recipe "git"
 include_recipe "nginx"
 include_recipe "postgresql::client"
-# XXX Do we really need python?
 include_recipe "python"
 
 
@@ -34,6 +33,8 @@ gitlab_version = node[:gitlab][:version]
 gitlab_shell_dir = node[:gitlab][:shell][:dir]
 gitlab_shell_version = node[:gitlab][:shell][:version]
 gitlab_dir = node[:gitlab][:dir]
+satellites_path = node[:gitlab][:satellites_path]
+repos_path = node[:gitlab][:repos_path]
 
 
 # Stop service gitlab if already installed
@@ -69,30 +70,41 @@ user git_user do
   supports :manage_home => true
 end
 
+
 # Install gitlab shell
 bash "Clone gitlab-shell" do
   user git_user
-  cwd git_home
   code <<-EOH
-    [[ -d #{gitlab_shell_dir} ]] || git clone https://github.com/gitlabhq/gitlab-shell.git
+    [[ -d #{gitlab_shell_dir} ]] || git clone https://github.com/gitlabhq/gitlab-shell.git #{gitlab_shell_dir}
     cd #{gitlab_shell_dir}
     git fetch
     git checkout -f #{gitlab_shell_version}
-    cp config.yml.example config.yml
-    ./bin/install
   EOH
 end
 
+template "#{gitlab_shell_dir}/config.yml" do
+    source "gitlab-shell-config.yml.erb"
+    owner git_user
+    group git_user
+end
+
+execute "Install gitlab-shell" do
+  user git_user
+  cwd gitlab_shell_dir
+  command "#{gitlab_shell_dir}/bin/install"
+end
+
+
 bash "Clone gitlab" do
   user git_user
-  cwd git_home
   code <<-EOH
-    [[ -d #{gitlab_dir} ]] || git clone https://github.com/gitlabhq/gitlabhq.git gitlab
+    [[ -d #{gitlab_dir} ]] || git clone https://github.com/gitlabhq/gitlabhq.git #{gitlab_dir}
     cd #{gitlab_dir}
     git fetch
     git checkout -f #{gitlab_version}
   EOH
 end
+
 
 bash "Change directories ownership" do
   code <<-EOH
@@ -101,6 +113,7 @@ bash "Change directories ownership" do
   EOH
 end
 
+
 %w{ gitlab.yml puma.rb database.yml }.each do |item|
   template "#{gitlab_dir}/config/#{item}" do
     source "#{item}.erb"
@@ -108,6 +121,7 @@ end
     group git_user
   end
 end
+
 
 bash "Change permission to let gitlab write to the log/ and tmp/ directories" do
   cwd gitlab_dir
@@ -119,22 +133,19 @@ bash "Change permission to let gitlab write to the log/ and tmp/ directories" do
   EOH
 end
 
-template '/etc/logrotate.d/gitlab' do
-    source 'logrotate.erb'
-    mode '644'
-end
 
 bash "Change mode repositories" do
   cwd gitlab_dir
   code <<-EOH
-    chown -R #{git_user}:#{git_user} #{git_home}/repositories/
-    chmod -R ug+rwX,o-rwx #{git_home}/repositories/
-    find #{git_home}/repositories/ -type d -print0 | xargs -0 chmod g+s
+    chown -R #{git_user}:#{git_user} #{repos_path}
+    chmod -R ug+rwX,o-rwx #{repos_path}
+    find #{repos_path} -type d -print0 | xargs -0 chmod g+s
   EOH
 end
 
+
 [
-  "#{node[:gitlab][:satellites_path]}",
+  "#{satellites_path}",
   "#{gitlab_dir}/tmp/pids",
   "#{gitlab_dir}/tmp/sockets",
   "#{gitlab_dir}/public/uploads",
@@ -180,9 +191,10 @@ execute "bundle exec rake db:migrate RAILS_ENV=production" do
   cwd gitlab_dir
 end
 
-file '/etc/init.d/gitlab' do
-    mode '755'
-    content IO.read("#{gitlab_dir}/lib/support/init.d/gitlab")
+
+remote_file "/etc/init.d/gitlab" do
+  source "https://raw.github.com/gitlabhq/gitlabhq/#{gitlab_version}/lib/support/init.d/gitlab"
+  mode 0755
 end
 
 
@@ -206,4 +218,10 @@ end
 
 service "nginx" do
   action [ :enable, :restart ]
+end
+
+
+template '/etc/logrotate.d/gitlab' do
+    source 'logrotate.erb'
+    mode '644'
 end

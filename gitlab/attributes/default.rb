@@ -9,7 +9,7 @@ set[:gitlab][:dependencies] = %w{
   libreadline-dev
   libssl-dev
   libxml2-dev
-  libxslt-dev
+  libxslt1-dev
   libyaml-dev
   redis-server
   ruby1.9.1-dev
@@ -28,6 +28,7 @@ default[:gitlab][:git_user][:name] = "git"
 default[:gitlab][:git_user][:shell] = "/bin/bash"
 default[:gitlab][:git_user][:home] = "/home/git"
 
+# XXX gitlab-shell dir is hardcoded in some files, so if you want to move it to another location, remember to create a symlink to /home/git/gitlab-shell
 default[:gitlab][:shell][:dir] = "/home/git/gitlab-shell"
 default[:gitlab][:shell][:version] = "v1.5.0"
 

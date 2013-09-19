@@ -123,7 +123,7 @@ production: &base
   gitlab_shell:
     # REPOS_PATH MUST NOT BE A SYMLINK!!!
     repos_path: <%= node[:gitlab][:repos_path] %>
-    hooks_path: /home/git/gitlab-shell/hooks/
+    hooks_path: <%= node[:gitlab][:shell][:dir] %>/hooks/
 
     # Git over HTTP
     upload_pack: true
