@@ -15,7 +15,7 @@ mkdir -p "$dump_dir"
 
 <%- if localbackup[:pgsql][:enable] -%>
 echo Backing up PostgreSQL...
-sudo -iu postgres /usr/bin/pg_dumpall -cO |
+sudo -u postgres /usr/bin/pg_dumpall -cO |
     gzip > "$dump_dir/postgresql-$timestamp.sql.gz"
 <%- end -%>
 
