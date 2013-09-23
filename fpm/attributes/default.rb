@@ -14,9 +14,4 @@ when 'ubuntu'
         ruby-dev
     }
     set[:fpm][:package_type] = 'deb'
-    if node[:platform_version].to_f < 10.04
-        # Something is weird with Lucid?
-        set[:fpm][:dependencies] = %w{
-        }
-    end
 end
