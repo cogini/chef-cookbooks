@@ -1,4 +1,9 @@
-default.tz = 'UTC'
+case node[:platform]
+when 'ubuntu'
+    default.tz = 'Etc/UTC'
+else
+    default.tz = 'UTC'
+end
 
 # Path to tzdata directory
 default.timezone.tzdata_dir = '/usr/share/zoneinfo'
