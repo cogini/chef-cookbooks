@@ -1,10 +1,8 @@
-::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
-
-
 define :wordpress_site do
 
 
     include_recipe "php::module_mysql"
+    include_recipe "php::module_curl"
 
 
     path = params[:name]
@@ -46,22 +44,12 @@ define :wordpress_site do
         end
     end
 
-
-    auth_key = secure_password()
-    secure_auth_key = secure_password()
-    logged_in_key = secure_password()
-    nonce_key = secure_password()
-
     template "#{path}/wp-config.php" do
         mode '644'
         source 'wp-config.php.erb'
         cookbook 'wordpress'
-        variables(
-            :db              => db,
-            :auth_key        => auth_key,
-            :secure_auth_key => secure_auth_key,
-            :logged_in_key   => logged_in_key,
-            :nonce_key       => nonce_key
-        )
+        variables({
+            :db => db,
+        })
     end
 end
