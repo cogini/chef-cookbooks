@@ -7,8 +7,9 @@ backup_dir=<%= localbackup[:destination] %>
 dump_dir="$backup_dir/db_dumps"
 backups_to_keep=7
 umask 0077
-
 timestamp=$(date +%Y%m%d%H%M%S)
+
+cd "$backup_dir"
 
 
 mkdir -p "$dump_dir"
