@@ -114,12 +114,20 @@ bash "Change directories ownership" do
 end
 
 
-%w{ gitlab.yml puma.rb database.yml }.each do |item|
+%w{ gitlab.yml unicorn.rb }.each do |item|
   template "#{gitlab_dir}/config/#{item}" do
     source "#{item}.erb"
     owner git_user
     group git_user
   end
+end
+
+
+template "#{gitlab_dir}/config/database.yml" do
+  source "database.yml.erb"
+  owner git_user
+  group git_user
+  mode 0600
 end
 
 
@@ -161,7 +169,7 @@ end
 
 execute "bundle install" do
   cwd gitlab_dir
-  command "bundle install --deployment --without development test mysql"
+  command "bundle install --deployment --without development test mysql aws"
   action :run
 end
 
@@ -172,6 +180,7 @@ bash "git config" do
   code <<-EOH
     git config --global user.name "GitLab"
     git config --global user.email "gitlab@localhost"
+    git config --global core.autocrlf input
   EOH
 end
 

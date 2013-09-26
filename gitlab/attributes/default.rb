@@ -11,13 +11,14 @@ set[:gitlab][:dependencies] = %w{
   libxml2-dev
   libxslt1-dev
   libyaml-dev
+  python-docutils
   redis-server
   ruby1.9.1-dev
   ruby1.9.3
   zlib1g-dev
 }
 
-default[:gitlab][:version] = "5-4-stable"
+default[:gitlab][:version] = "v6.1.0"
 
 default[:gitlab][:dbHost] = "localhost"
 default[:gitlab][:dbName] = "gitlab_production"
@@ -30,7 +31,7 @@ default[:gitlab][:git_user][:home] = "/home/git"
 
 # XXX gitlab-shell dir is hardcoded in some files, so if you want to move it to another location, remember to create a symlink to /home/git/gitlab-shell
 default[:gitlab][:shell][:dir] = "/home/git/gitlab-shell"
-default[:gitlab][:shell][:version] = "v1.5.0"
+default[:gitlab][:shell][:version] = "v1.7.1"
 
 default[:gitlab][:dir] = "/home/git/gitlab"
 
