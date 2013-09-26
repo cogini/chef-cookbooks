@@ -28,7 +28,7 @@ unless File.exists?(pkg_file)
       ./configure || true
       make
       make install DESTDIR=#{source_dir}/install
-      fpm -s dir -t #{pkg_type} -n erlang-otp -v 1 -p #{pkg_file} -C install .
+      /var/lib/gems/1.8/bin/fpm -s dir -t #{pkg_type} -n erlang-otp -v #{version} -p #{pkg_file} -C install .
     EOH
   end
 end
