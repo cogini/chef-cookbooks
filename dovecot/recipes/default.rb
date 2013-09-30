@@ -7,9 +7,12 @@
 # All rights reserved - Do Not Redistribute
 #
 
+
 node[:dovecot][:packages].each do |pkg|
     package pkg
 end
+
+package "dovecot-#{node[:dovecot][:db][:driver]}"
 
 
 template '/etc/dovecot/dovecot.conf' do
