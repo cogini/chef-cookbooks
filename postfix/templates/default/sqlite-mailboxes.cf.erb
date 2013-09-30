@@ -1,0 +1,2 @@
+dbpath = <%= node[:dovecot][:db][:path] %>
+query = SELECT mail_dir FROM users WHERE email='%s'
