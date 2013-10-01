@@ -131,6 +131,16 @@ template "#{gitlab_dir}/config/database.yml" do
 end
 
 
+if node[:gitlab][:sidekiq][:concurrency]
+  template "#{gitlab_dir}/config/initializers/4_sidekiq.rb" do
+    source "4_sidekiq.rb.erb"
+    owner git_user
+    group git_user
+    mode 0644
+  end
+end
+
+
 bash "Change permission to let gitlab write to the log/ and tmp/ directories" do
   cwd gitlab_dir
   code <<-EOH
