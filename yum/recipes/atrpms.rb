@@ -31,4 +31,5 @@ end
 
 package 'atrpms-repo' do
     source rpm_file
+    provider Chef::Provider::Package::Rpm
 end
