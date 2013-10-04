@@ -79,3 +79,14 @@ default[:postfix][:smtpd_recipient_restrictions] = %w{
     permit_mynetworks
     reject_unauth_destination
 }
+
+# Add
+# smtpd_recipient_restrictions = check_policy_service unix:private/policy-spf
+#
+# Note: Put the policy server after reject_unauth_destination to prevent risk
+# that unexpected responses from the policy server could make your system and
+# open relay (this is recommended for all policy servers). Put the policy server
+# after you permit local senders. You only want SPF to check inbound mail from
+# the internet and not outbound mail from your users.
+
+default[:postfix][:enable_spf] = false
