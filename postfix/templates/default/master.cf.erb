@@ -134,3 +134,8 @@ amavis    unix  -       -       -       -       2       smtp
   -o smtpd_restriction_classes=
   -o smtpd_sender_restrictions=
   -o smtpd_soft_error_limit=1001
+
+<% if node[:postfix][:enable_spf] -%>
+policy-spf  unix  -     n       n       -       -       spawn
+  user=nobody argv=/usr/bin/policyd-spf
+<% end -%>

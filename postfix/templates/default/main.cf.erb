@@ -117,10 +117,15 @@ smtpd_tls_auth_only = <%= postfix[:smtpd_tls_auth_only] %>
 mydomain = <%= postfix[:mydomain] %>
 <% end -%>
 
-# DKIM
 <% if postfix[:dkim] -%>
+# DKIM
 milter_default_action = accept
 milter_protocol = 2
 smtpd_milters = inet:localhost:8891
 non_smtpd_milters = inet:localhost:8891
+<% end -%>
+
+<% if postfix[:enable_spf] -%>
+# SPF
+policy-spf_time_limit = 3600s
 <% end -%>

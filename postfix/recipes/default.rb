@@ -131,6 +131,11 @@ unless postfix[:sender_dependent_relayhosts].empty?
 end
 
 
+if node[:postfix][:enable_spf]
+  package "postfix-policyd-spf-python"
+end
+
+
 service "postfix" do
   action :start
 end
