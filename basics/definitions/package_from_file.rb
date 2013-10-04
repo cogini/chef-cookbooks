@@ -1,6 +1,7 @@
 define :package_from_file do
 
   package_file = params[:name]
+  base_name = package_file.split('/')[-1]
 
   if node[:platform] == 'ubuntu'
     include_recipe 'gdebi'
