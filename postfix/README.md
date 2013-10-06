@@ -76,23 +76,22 @@ Includes the default recipe to install, configure and start postfix.
 
 Does not work with `chef-solo`.
 
+
+dovecot\_sqlite
+---------------
+
+The SQLite database should have this schema:
+
+    CREATE TABLE aliases (source varchar(128), destination varchar(1024));
+    CREATE TABLE transports (domain varchar(128));
+    CREATE TABLE users (email varchar(128), mail_dir varchar(128), password varchar(128));
+
+
 sasl\_auth
 ----------
 
 Sets up the system to authenticate with a remote mail relay using SASL
 authentication.
-
-aliases
--------
-
-Manage `/etc/aliases` with this recipe. Currently only Ubuntu 10.04
-platform has a template for the aliases file. Add your aliases
-template to the `templates/default` or to the appropriate
-platform+version directory per the File Specificity rules for
-templates. Then specify a hash of aliases for the
-`node['postfix']['aliases']` attribute.
-
-http://wiki.opscode.com/display/chef/Templates#Templates-TemplateLocationSpecificity
 
 Usage
 =====
