@@ -8,6 +8,11 @@
 #
 
 
+unless node[:localbackup][:cron_time]
+    raise 'node[:localbackup][:cron_time] is required'
+end
+
+
 unless node[:localbackup][:enable]
 
     # Remove the cron
