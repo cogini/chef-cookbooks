@@ -48,8 +48,3 @@ end
 file '/etc/nagios/nrpe_local.cfg' do
     content node[:nagios][:nrpe_local_config].join("\n")
 end
-
-
-unless node[:platform] == 'ubuntu' && node[:platform_version].to_f <= 8.04
-    include_recipe 'logwarn'
-end
