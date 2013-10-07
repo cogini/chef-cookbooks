@@ -44,7 +44,6 @@ when 'redhat', 'centos', 'amazon'
         iftop
         tmux
     )
-    set[:basics][:local_package_provider] = Chef::Provider::Package::Rpm
 
 when 'ubuntu'
     default[:admin_group] = 'admin'
@@ -84,5 +83,4 @@ when 'ubuntu'
         wget
         zip
     }
-    set[:basics][:local_package_provider] = Chef::Provider::Package::Gdebi
 end
