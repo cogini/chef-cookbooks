@@ -28,13 +28,11 @@ unless File.exists?(pkg_file)
       ./configure || true
       make
       make install DESTDIR=#{source_dir}/install
-      /var/lib/gems/1.8/bin/fpm -s dir -t #{pkg_type} -n erlang-otp -v #{version} -p #{pkg_file} -C install .
+      # FIXME: Not sure where the full path is needed
+      #/var/lib/gems/1.8/bin/fpm -s dir -t #{pkg_type} -n erlang-otp -v #{version} -p #{pkg_file} -C install .
+      fpm -s dir -t #{pkg_type} -n erlang-otp -v 1 -p #{pkg_file} -C install .
     EOH
   end
 end
 
-package 'erlang-otp' do
-    action :install
-    source pkg_file
-    provider node[:fpm][:provider]
-end
+package_from_file pkg_file
