@@ -8,26 +8,33 @@
 #
 
 
+dkim_service = node[:dkim][:service]
+selector = node[:dkim][:selector]
+
+
 node[:dkim][:packages].each do |pkg|
     package pkg do
         action :install
     end
 end
 
+
+service dkim_service do
+    action [:enable, :start]
+    supports :reload => true, :restart => true, :status => true
+end
+
+
 template node[:dkim][:config] do
     source 'opendkim.conf.erb'
+    notifies :reload, resources(:service => dkim_service)
 end
 
 template "/etc/default/opendkim" do
     source "etc_default_opendkim.erb"
+    notifies :reload, resources(:service => dkim_service)
 end
 
-service node[:dkim][:service] do
-    action [:enable, :restart]
-end
-
-
-selector = node[:dkim][:selector]
 
 bash 'dkim genkey' do
     code <<-EOBASH
