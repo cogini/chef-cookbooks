@@ -50,7 +50,6 @@ thread_cache_size       = <%= tunable[:thread_cache_size] %>
 # This replaces the startup script and checks MyISAM tables if needed
 # the first time they are touched
 myisam-recover          = BACKUP
-#thread_concurrency     = 10
 max_connections         = <%= tunable[:max_connections] %>
 wait_timeout            = <%= tunable[:wait_timeout] %>
 net_read_timeout        = <%= tunable[:net_read_timeout] %>
