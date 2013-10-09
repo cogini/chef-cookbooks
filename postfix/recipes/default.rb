@@ -20,9 +20,13 @@
 
 include_recipe 'postfix::vanilla'
 
-
 excluded_maps = %w{ mysql pgsql proxy }
 postfix = node[:postfix]
+
+
+if postfix[:dkim]
+  include_recipe 'dkim'
+end
 
 
 case node[:platform]
