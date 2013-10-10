@@ -118,6 +118,30 @@ password, see the following blog post:
 
 * http://jtimberman.github.com/blog/2011/08/06/encrypted-data-bag-for-postfix-sasl-authentication/
 
+
+### Sending through Mandrill
+
+```javascript
+"postfix": {
+    "relayhost": "[smtp.mandrillapp.com]",
+    "smtp_sasl_auth_enable": "yes",
+    "smtp_sasl_password_maps": "hash:/etc/postfix/smtp_sasl_passwords",
+    "smtp_sasl_passwords": [
+        {
+            "password": "A_SECRET",
+            "remote": "[smtp.mandrillapp.com]",
+            "username": "ANOTHER_SECRET"
+        }
+    ],
+    "smtp_use_tls": "yes"
+},
+"run_list": [
+    "recipe[postfix]",
+    "recipe[postfix::sasl_auth]"
+],
+```
+
+
 **Examples using the client & server recipes**
 
 If you'd like to use the more dynamic search based approach for discovery, use the server and client recipes. First, create a relayhost role.
