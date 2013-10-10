@@ -17,7 +17,8 @@
 
 case platform
 when "ubuntu"
-    default[:postfix][:smtp_tls_cafile] = '/etc/postfix/cacert.pem'
+    # TODO: maybe we should use smtp_tls_CApath instead
+    default[:postfix][:smtp_tls_cafile] = '/etc/ssl/certs/ca.pem'
     default[:postfix][:sasl_packages] = %w{ libsasl2-2 ca-certificates }
 when "centos"
     default[:postfix][:smtp_tls_cafile] = '/etc/pki/tls/certs/ca-bundle.crt'
@@ -54,6 +55,7 @@ default[:postfix][:smtp_sasl_password_maps] = ''
 default[:postfix][:smtp_sender_dependent_authentication] = 'no'
 default[:postfix][:smtp_tls_note_starttls_offer] = 'no'
 default[:postfix][:smtp_tls_security_level] = ''
+default[:postfix][:smtp_use_tls] = 'no'
 default[:postfix][:smtpd_data_restrictions] = []
 default[:postfix][:smtpd_helo_restrictions] = []
 default[:postfix][:smtpd_sasl_auth_enable] = 'no'

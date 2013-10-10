@@ -19,14 +19,29 @@
 #
 
 postfix = node[:postfix]
-pw_maps = postfix[:smtp_sasl_password_maps]
-pw_file = pw_maps.sub('hash:', '')
+
+unless postfix[:smtp_sasl_auth_enable] == 'yes' and
+       postfix[:smtp_sasl_password_maps] and
+       postfix[:smtp_sasl_passwords][0][:password] and
+       postfix[:smtp_sasl_passwords][0][:remote] and
+       postfix[:smtp_sasl_passwords][0][:username]
+  raise %Q(Some required attributes are missing:
+    node[:postfix][:smtp_sasl_auth_enable] => 'yes'
+    node[:postfix][:smtp_sasl_password_maps] => 'hash:/etc/postfix/smtp_sasl_passwords'
+    node[:postfix][:smtp_sasl_passwords][0][:password] => 'secret'
+    node[:postfix][:smtp_sasl_passwords][0][:remote] => '[smtp.example.com]'
+    node[:postfix][:smtp_sasl_passwords][0][:username] => 'secret')
+end
+
 
 postfix[:sasl_packages].each do |pkg|
   package pkg do
     action :install
   end
 end
+
+
+pw_file = postfix[:smtp_sasl_password_maps].sub('hash:', '')
 
 execute 'postmap-sasl_passwd' do
   command "postmap #{pw_file}"
@@ -41,4 +56,3 @@ template pw_file do
   notifies :run, resources(:execute => 'postmap-sasl_passwd'), :immediately
   notifies :restart, resources(:service => 'postfix')
 end
-
