@@ -125,6 +125,14 @@ bash "Set permissions" do
 end
 
 
+# FIXME: temporary fix for chili 3.8.0
+template "#{site_dir}/app/models/document.rb" do
+    mode 0644
+    source 'document.rb.erb'
+    owner app_user
+end
+
+
 template '/etc/nginx/sites-available/chili.cogini.com' do
     mode 0644
     source 'nginx-chili.erb'
