@@ -135,7 +135,10 @@ unless postfix[:sender_dependent_relayhosts].empty?
 end
 
 
-if node[:postfix][:enable_spf]
+if postfix[:enable_spf]
+  unless postfix[:smtpd_recipient_restrictions].include? 'check_policy_service unix:private/policy-spf'
+    raise 'node[:postfix][:smtpd_recipient_restrictions] must contain "check_policy_service unix:private/policy-spf"'
+  end
   package "postfix-policyd-spf-python"
 end
 
