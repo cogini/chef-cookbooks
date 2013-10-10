@@ -219,7 +219,7 @@ command[<%= plugin %>]=<%= nagios[:plugin_dir] %>/<%= plugin %>
 <% if pgsql[:repinfo] -%>
 command[check_pgsql]=<%= nagios[:plugin_dir] %>/check_postgres/check_postgres.pl --action=replicate_row --warning=10 --dbname=<%= pgsql[:database] %> --repinfo=<%= pgsql[:repinfo] %> --dbuser=<%= pgsql[:username] %> --dbpass=<%= pgsql[:password] %> --host=<%= pgsql[:hosts].join(',') %>
 <% elsif pgsql[:enable] -%>
-command[check_pgsql]=<%= nagios[:plugin_dir] %>/check_postgres/check_postgres.pl --action=connection --dbuser=<%= pgsql[:username] %> --dbpass=<%= pgsql[:password] %>
+command[check_pgsql]=<%= nagios[:plugin_dir] %>/check_postgres/check_postgres.pl --action=connection --dbhost=localhost --dbuser=<%= pgsql[:username] %> --dbpass=<%= pgsql[:password] %>
 <% end -%>
 
 <% mysql = nagios[:mysql] -%>
