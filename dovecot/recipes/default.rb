@@ -42,3 +42,7 @@ template '/etc/dovecot/conf.d/10-ssl.conf' do
     group 'dovecot'
     mode '640'
 end
+
+service "dovecot" do
+    action :restart
+end
