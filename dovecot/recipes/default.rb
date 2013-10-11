@@ -15,11 +15,17 @@ end
 package "dovecot-#{node[:dovecot][:db][:driver]}"
 
 
+service 'dovecot' do
+    action :nothing
+end
+
+
 template '/etc/dovecot/dovecot.conf' do
     source 'dovecot.conf.erb'
     owner 'root'
     group 'dovecot'
     mode '640'
+    notifies :reload, 'service[dovecot]'
 end
 
 template '/etc/dovecot/dovecot-sql.conf' do
@@ -27,6 +33,7 @@ template '/etc/dovecot/dovecot-sql.conf' do
     owner 'root'
     group 'dovecot'
     mode '640'
+    notifies :reload, 'service[dovecot]'
 end
 
 template '/etc/dovecot/conf.d/10-master.conf' do
@@ -34,6 +41,7 @@ template '/etc/dovecot/conf.d/10-master.conf' do
     owner 'root'
     group 'dovecot'
     mode '640'
+    notifies :reload, 'service[dovecot]'
 end
 
 template '/etc/dovecot/conf.d/10-ssl.conf' do
@@ -41,8 +49,5 @@ template '/etc/dovecot/conf.d/10-ssl.conf' do
     owner 'root'
     group 'dovecot'
     mode '640'
-end
-
-service "dovecot" do
-    action :restart
+    notifies :reload, 'service[dovecot]'
 end
