@@ -26,16 +26,17 @@ end
 
 pgsql = node[:nagios][:pgsql]
 
-if pgsql[:enable] and pgsql[:host] == 'localhost' and
-                      not node[:postgresql][:is_slave]
-
-    pgsql_user pgsql[:username] do
-        action :create
-        password pgsql[:password]
-    end
+if pgsql[:enable]
 
     git_clone 'https://github.com/bucardo/check_postgres.git' do
         destination "#{node[:nagios][:plugin_dir]}/check_postgres"
+    end
+
+    if pgsql[:host] == 'localhost' and not node[:postgresql][:is_slave]
+        pgsql_user pgsql[:username] do
+            action :create
+            password pgsql[:password]
+        end
     end
 end
 
