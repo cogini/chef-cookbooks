@@ -2,7 +2,7 @@
 # See `man amanda.conf`
 
 <% amanda = node[:amanda] -%>
-<% base_dir = node[:amanda][:daily][:base_dir] -%>
+<% base_dir = node[:amanda][:weekly][:base_dir] -%>
 includefile "/etc/amanda/amanda.conf.inc"
 
 dumpcycle 35 days
