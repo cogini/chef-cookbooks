@@ -6,10 +6,18 @@
 include_recipe "apt"
 include_recipe "build-essential"
 include_recipe "postfix::vanilla"
-include_recipe "git"
 include_recipe "nginx"
 include_recipe "postgresql::client"
 include_recipe "python"
+
+
+apt_repository 'git' do
+    uri 'http://ppa.launchpad.net/git-core/ppa/ubuntu'
+    distribution node[:lsb][:codename]
+    components [:main]
+    keyserver 'keyserver.ubuntu.com'
+    key 'E1DF1F24'
+end
 
 
 if node[:gitlab][:dbHost] == "localhost"
