@@ -3,36 +3,24 @@
 
 <%
 amanda = node[:amanda]
-amanda_dir = amanda[:dir]
 runtapes = amanda[:runtapes]
 -%>
 
 dumpuser          "amandabackup"
-mailto            "noc@cogini.com"
-
-indexdir          "<%= amanda_dir[:index_dir] %>"
-infofile          "<%= amanda_dir[:info_dir] %>"
-logdir            "<%= amanda_dir[:log_dir] %>"
-
+mailto            "root"
 amrecover-changer "changer"
 inparallel        <%= amanda[:inparallel] %>
 netusage          <%= amanda[:netusage] %>
 
-tapetype          "GigabyteTape"
-runtapes          <%= runtapes %> tapes
-tapecycle         <%= runtapes * 11 %> tapes
+tapetype  "GigabyteTape"
+runtapes  <%= runtapes %> tapes
+tapecycle <%= runtapes * 11 %> tapes
 
 
 define tapetype GigabyteTape {
   length   10 gb
   filemark 4 kb
 }
-
-
-holdingdisk hd {
-  directory "<%= amanda_dir[:holding_dir] %>"
-}
-
 
 define application-tool app_amgtar {
   plugin "amgtar"
@@ -41,7 +29,6 @@ define application-tool app_amgtar {
   # XXX: Not sure how this happens
   property append "IGNORE" ": No such file or directory"
 }
-
 
 define dumptype encrypt-tar-local {
   auth    "local"

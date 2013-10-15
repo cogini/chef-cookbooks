@@ -2,11 +2,20 @@
 # See `man amanda.conf`
 
 <% amanda = node[:amanda] -%>
+<% base_dir = node[:amanda][:monthly][:base_dir] -%>
 includefile "/etc/amanda/amanda.conf.inc"
 
 dumpcycle 150 days
-tpchanger "chg-disk:<%= amanda[:dir][:tapes_base] %>/monthly"
 
 org       "Monthly"
 labelstr  "Monthly-[0-9]+"
 autolabel "Monthly-<%= '%' * amanda[:number_of_tapes].to_s().length %>" EMPTY VOLUME-ERROR
+
+tpchanger "chg-disk:<%= base_dir %>/tapes"
+indexdir  "<%= base_dir %>/indexes"
+infofile  "<%= base_dir %>/info"
+logdir    "<%= base_dir %>/logs"
+
+holdingdisk hd {
+    directory "<%= base_dir %>/holding"
+}
