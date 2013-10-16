@@ -118,7 +118,7 @@ smtpd_tls_auth_only = <%= postfix[:smtpd_tls_auth_only] %>
 mydomain = <%= postfix[:mydomain] %>
 <% end -%>
 
-<% if postfix[:dkim] -%>
+<% if postfix[:enable_dkim] -%>
 # DKIM
 milter_default_action = accept
 milter_protocol = 2
