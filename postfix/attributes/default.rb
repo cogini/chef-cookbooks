@@ -95,3 +95,5 @@ default[:postfix][:smtpd_recipient_restrictions] = %w{
 # users.
 
 default[:postfix][:enable_spf] = false
+default[:postfix][:enable_postgrey] = false
+default[:postfix][:enable_dkim] = false
