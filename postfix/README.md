@@ -77,14 +77,14 @@ Includes the default recipe to install, configure and start postfix.
 Does not work with `chef-solo`.
 
 
-dovecot\_sqlite
+dovecot\_SQL
 ---------------
 
-The SQLite database should have this schema:
+The SQL database should have this schema:
 
     CREATE TABLE aliases (source varchar(128), destination varchar(1024));
     CREATE TABLE transports (domain varchar(128));
-    CREATE TABLE users (email varchar(128), mail_dir varchar(128), password varchar(128));
+    CREATE TABLE users (user varchar(128), password varchar(128), uid integer, gid integer, mail_dir varchar(128));
 
 
 sasl\_auth
