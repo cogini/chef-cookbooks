@@ -24,7 +24,7 @@ excluded_maps = %w{ mysql pgsql proxy }
 postfix = node[:postfix]
 
 
-if postfix[:dkim]
+if postfix[:enable_dkim]
   include_recipe 'dkim'
 end
 
@@ -140,6 +140,14 @@ if postfix[:enable_spf]
     raise 'node[:postfix][:smtpd_recipient_restrictions] must contain "check_policy_service unix:private/policy-spf"'
   end
   package "postfix-policyd-spf-python"
+end
+
+
+if postfix[:enable_postgrey]
+  unless postfix[:smtpd_recipient_restrictions].include? 'check_policy_service inet:127.0.0.1:10023'
+    raise 'node[:postfix][:smtpd_recipient_restrictions] must contain "check_policy_service inet:127.0.0.1:10023"'
+  end
+  include_recipe 'postfix::postgrey'
 end
 
 
