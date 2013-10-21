@@ -3,9 +3,9 @@
 
 <% amanda = node[:amanda] -%>
 <% base_dir = node[:amanda][:monthly][:base_dir] -%>
-includefile "/etc/amanda/amanda.conf.inc"
-
 dumpcycle 150 days
+
+includefile "/etc/amanda/amanda.conf.inc"
 
 org       "Monthly"
 labelstr  "Monthly-[0-9]+"
