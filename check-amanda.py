@@ -6,8 +6,8 @@ from shutil import rmtree
 from Queue import Queue, Empty
 from threading  import Thread
 from random import choice
-from datetime import datetime, timedelta
 import json
+import re
 
 
 def enter_line(stream, line):
@@ -34,6 +34,7 @@ def read_pipe_to_lines(stdout, lines):
 def process_lines(disk, lines, dirs, files):
 
     dir_path = disk
+    pattern = re.compile('\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}')
 
     try:
         while True:
@@ -44,7 +45,7 @@ def process_lines(disk, lines, dirs, files):
                 # This is printed after a cd
                 dir_path = line
 
-            if not line.startswith(date):
+            if not pattern.match(line):
                 # Ignore lines not containing amrecover ls output
                 continue
 
@@ -79,7 +80,6 @@ def get_file_list():
 
     enter_line(stdin, 'sethost %s' % hostname)
     enter_line(stdin, 'setdisk %s' % disk)
-    enter_line(stdin, 'setdate %s' % date)
     enter_line(stdin, 'ls')
 
     write_thread = Thread(target=write_dirs_to_pipe, args=(dirs, stdin))
@@ -117,10 +117,7 @@ disk = choice(disks)
 
 config = choice(('daily', 'weekly', 'monthly'))
 
-yesterday = datetime.now() - timedelta(days=1)
-date = yesterday.strftime('%Y-%m-%d')
-
-print 'Checking %s backup of %s:%s on %s ...' % (config, hostname, disk, date)
+print 'Checking %s backup of %s:%s...' % (config, hostname, disk)
 
 
 files = get_file_list()
@@ -137,7 +134,6 @@ stdin = p.stdin
 enter_line(stdin, 'lcd %s' % prefix)
 enter_line(stdin, 'sethost %s' % hostname)
 enter_line(stdin, 'setdisk %s' % disk)
-enter_line(stdin, 'setdate %s' % date)
 enter_line(stdin, 'add %s' % random_file)
 enter_line(stdin, 'extract')
 enter_line(stdin, 'Y')
