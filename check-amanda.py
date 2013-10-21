@@ -117,7 +117,7 @@ disk = choice(disks)
 
 config = choice(('daily', 'weekly', 'monthly'))
 
-print 'Checking %s backup of %s:%s...' % (config, hostname, disk)
+print 'Checking %s backup of %s:%s ...' % (config, hostname, disk)
 
 
 files = get_file_list(config, hostname, disk)
@@ -142,16 +142,17 @@ enter_line(stdin, 'exit')
 p.communicate()
 
 
-size = path.getsize(output_path)
-assert size > 0
-print 'File size is %s.' % size
-
-
 p = Popen(['file', output_path], stdin=PIPE, stdout=PIPE)
 output, error = p.communicate()
 print output.strip()
 assert error is None
 assert p.returncode == 0
+
+
+if not path.islink(output_path):
+    size = path.getsize(output_path)
+    assert size > 0
+    print 'File size is %s.' % size
 
 
 rmtree(prefix)
