@@ -75,11 +75,8 @@ def get_file_list(config, hostname, disk):
     read_thread.daemon = True
     read_thread.start()
 
-    process_thread = Thread(target=process_lines, args=(lines, files, stdin))
-    process_thread.daemon = True
-    process_thread.start()
+    process_lines(lines, files, stdin)
 
-    process_thread.join()
     return files
 
 
