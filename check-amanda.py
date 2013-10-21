@@ -68,7 +68,7 @@ def process_lines(disk, lines, dirs, files):
         pass
 
 
-def get_file_list():
+def get_file_list(config, hostname, disk):
 
     dirs = Queue()
     files = []
@@ -120,7 +120,7 @@ config = choice(('daily', 'weekly', 'monthly'))
 print 'Checking %s backup of %s:%s...' % (config, hostname, disk)
 
 
-files = get_file_list()
+files = get_file_list(config, hostname, disk)
 print 'There are %s files.' % len(files)
 
 
