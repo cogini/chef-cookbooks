@@ -20,8 +20,9 @@ def read_pipe_to_lines(stdout, lines):
         lines.put(line)
 
 
-def process_lines(lines, files, stdin):
+def process_lines(lines, stdin):
 
+    files = []
     pattern = re.compile('\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}')
 
     try:
@@ -32,6 +33,7 @@ def process_lines(lines, files, stdin):
             if line.startswith(path.sep):
                 # This is printed after a cd
                 dir_path = line
+                continue
 
             if not pattern.match(line):
                 # Ignore lines not containing amrecover ls output
@@ -49,17 +51,14 @@ def process_lines(lines, files, stdin):
                 enter_line(stdin, 'cd %s' % abs_path)
                 enter_line(stdin, 'ls')
             else:
-                #print 'Adding', abs_path
                 files.append(abs_path)
 
     except Empty:
-        #print 'no more line to read'
-        pass
+        return files
 
 
 def get_file_list(config, hostname, disk):
 
-    files = []
     lines = Queue()
 
     p = Popen(['amrecover', config], stdin=PIPE, stdout=PIPE)
@@ -75,9 +74,7 @@ def get_file_list(config, hostname, disk):
     read_thread.daemon = True
     read_thread.start()
 
-    process_lines(lines, files, stdin)
-
-    return files
+    return process_lines(lines, stdin)
 
 
 def test_extraction(config, hostname, disk, target):
