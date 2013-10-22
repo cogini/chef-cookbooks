@@ -2,19 +2,15 @@ define :git_clone, :destination => nil, :version => nil do
 
     url = params[:name]
     destination = params[:destination]
-    user = if params[:user]
-              params[:user]
-           else
-              "root"
-           end
+    user = params.has_key?(:user) ? params[:user] : 'root'
 
     execute "git clone #{url} #{destination}" do
         user user
-        not_if { File.exists?(destination) }
+        not_if { File.directory?(File.join(destination, '.git')) }
     end
 
     if params[:version]
-        bash "Checkout #{params[:version]}" do
+        bash "Checking out #{version} in #{destination}" do
             user user
             code <<-EOH
                 cd #{destination}
