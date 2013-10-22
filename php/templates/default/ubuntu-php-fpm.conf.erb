@@ -1,5 +1,4 @@
 [global]
 pid = /var/run/php5-fpm.pid
 error_log = <%= node[:php][:fpm][:log_dir] %>/error.log
-process.max = <%= node[:php][:fpm][:process][:max] %>
 include=/etc/php5/fpm/pool.d/*.conf
