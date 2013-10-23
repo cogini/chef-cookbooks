@@ -3,9 +3,8 @@
 from subprocess import Popen, PIPE
 from os import path, makedirs
 from shutil import rmtree
-from Queue import Queue, Empty
-from threading  import Thread
 from random import choice
+from datetime import datetime, timedelta
 import json
 import re
 
@@ -14,7 +13,7 @@ def enter_line(stream, line):
     stream.write(line + '\n')
 
 
-def process_lines(lines, dir_path):
+def process_lines(lines, dir_path, oldest, newest):
 
     files = []
     dirs = []
@@ -27,8 +26,10 @@ def process_lines(lines, dir_path):
             # Ignore lines not containing amrecover ls output
             continue
 
-        tokens = line.split(None, 1)
-        the_path = tokens[1]
+        date_str, the_path = line.split(None, 1)
+        # date_str is like '2013-10-21-07-49-40'
+        the_date = datetime.strptime(date_str, '%Y-%m-%d-%H-%M-%S')
+        assert oldest <= the_date <= newest
 
         if the_path == '.':
             # Ignore current directory
@@ -57,6 +58,15 @@ def get_file_list(config, hostname, disk):
 
     pattern = re.compile('\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}')
 
+    newest = datetime.today()
+    # Plus one in case the backup for today hasn't run
+    delta = {
+        'daily': 5,
+        'weekly': 35,
+        'monthly': 150,
+    }[config] + 1
+    oldest = newest - timedelta(days=delta)
+
     p = Popen(['amrecover', config], stdin=PIPE, stdout=PIPE)
     stdin = p.stdin
     stdout = p.stdout
@@ -69,7 +79,7 @@ def get_file_list(config, hostname, disk):
     enter_line(stdin, 'ls')
     enter_line(stdin, 'cd %s' % disk)
     lines = read_until(stdout, disk)
-    dirs, files = process_lines(lines, disk)
+    dirs, files = process_lines(lines, disk, oldest, newest)
 
     while dirs:
 
@@ -80,7 +90,7 @@ def get_file_list(config, hostname, disk):
         enter_line(stdin, 'cd %s' % disk)
 
         lines = read_until(stdout, disk)
-        dirs, new_files = process_lines(lines, directory)
+        dirs, new_files = process_lines(lines, directory, oldest, newest)
         files += new_files
 
     return files
