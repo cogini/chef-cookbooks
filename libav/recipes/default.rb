@@ -1,44 +1,11 @@
-
-include_recipe "apt"
-include_recipe "git"
-include_recipe "fpm"
-
-
-chef_cache = Chef::Config[:file_cache_path]
-version = node[:libav][:version]
-source_dir = "#{chef_cache}/libav"
-
-pkg_file = "#{chef_cache}/libav-#{version}.deb"
-pkg_type = pkg_file[-3..-1]
-
-
-unless File.exist?(pkg_file)
-
-    bash "Get libav source" do
-        code <<-EOH
-            [[ -d #{source_dir} ]] || git clone git://github.com/libav/libav.git #{source_dir}
-            cd #{source_dir}
-            git fetch
-            git checkout #{version}
-        EOH
-    end
-
-    bash 'Compile libav' do
-        cwd source_dir
-        code <<-EOH
-            apt-get build-dep -y libav
-            ./configure
-            make
-            make install DESTDIR=#{source_dir}/install
-            fpm -s dir -t #{pkg_type} -n libav -v 1 -p #{pkg_file} -C install .
-        EOH
-    end
-
+apt_repository 'cogini' do
+    uri 'https://pkghub.io/repo/phunehehe/cogini'
+    distribution node[:lsb][:codename]
+    components ['main']
+    key 'https://pkghub.io/gpg.key'
 end
 
-
-package "libav" do
+package 'libav' do
     action :install
-    source pkg_file
-    provider node[:fpm][:provider]
+    version node[:libav][:version]
 end
