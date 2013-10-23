@@ -14,52 +14,48 @@ def enter_line(stream, line):
     stream.write(line + '\n')
 
 
-def read_pipe_to_lines(stdout, lines):
-    while True:
-        line = stdout.readline()
-        lines.put(line)
-
-
-def process_lines(lines, stdin):
+def process_lines(lines, dir_path):
 
     files = []
+    dirs = []
     pattern = re.compile('\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}')
 
-    try:
-        while True:
+    for line in lines:
 
-            line = lines.get(True, 1).strip()
+        #print line
+        if not pattern.match(line):
+            # Ignore lines not containing amrecover ls output
+            continue
 
-            if line.startswith(path.sep):
-                # This is printed after a cd
-                dir_path = line
-                continue
+        tokens = line.split(None, 1)
+        the_path = tokens[1]
 
-            if not pattern.match(line):
-                # Ignore lines not containing amrecover ls output
-                continue
+        if the_path == '.':
+            # Ignore current directory
+            continue
 
-            tokens = line.split(None, 1)
-            the_path = tokens[1]
+        abs_path = path.join(dir_path, the_path)
+        if abs_path.endswith(path.sep):
+            dirs.append(abs_path)
+        else:
+            files.append(abs_path)
+            print abs_path
 
-            if the_path == '.':
-                # Ignore current directory
-                continue
+    return dirs, files
 
-            abs_path = path.join(dir_path, the_path)
-            if abs_path.endswith(path.sep):
-                enter_line(stdin, 'cd %s' % abs_path)
-                enter_line(stdin, 'ls')
-            else:
-                files.append(abs_path)
 
-    except Empty:
-        return files
+def read_until(stream, delimiter):
+    lines = []
+    while True:
+        line = str(stream.readline().strip())
+        lines.append(line)
+        if line == delimiter:
+            return lines
 
 
 def get_file_list(config, hostname, disk):
 
-    lines = Queue()
+    pattern = re.compile('\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}')
 
     p = Popen(['amrecover', config], stdin=PIPE, stdout=PIPE)
     stdin = p.stdin
@@ -68,13 +64,28 @@ def get_file_list(config, hostname, disk):
     enter_line(stdin, 'sethost %s' % hostname)
     enter_line(stdin, 'setdisk %s' % disk)
     enter_line(stdin, 'cd %s' % disk)
+    read_until(stdout, disk)
+
     enter_line(stdin, 'ls')
+    enter_line(stdin, 'cd %s' % disk)
+    lines = read_until(stdout, disk)
+    dirs, files = process_lines(lines, disk)
 
-    read_thread = Thread(target=read_pipe_to_lines, args=(stdout, lines))
-    read_thread.daemon = True
-    read_thread.start()
+    while dirs:
+        # Iterate over a copy of dirs, so we can remove things from it
+        for directory in dirs[:]:
 
-    return process_lines(lines, stdin)
+            enter_line(stdin, 'cd %s' % directory)
+            enter_line(stdin, 'ls')
+            enter_line(stdin, 'cd %s' % disk)
+            dirs.remove(directory)
+
+            lines = read_until(stdout, disk)
+            new_dirs, new_files = process_lines(lines, directory)
+            dirs += new_dirs
+            files += new_files
+
+    return files
 
 
 def test_extraction(config, hostname, disk, target):
