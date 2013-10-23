@@ -38,8 +38,8 @@ def process_lines(lines, dir_path):
         if abs_path.endswith(path.sep):
             dirs.append(abs_path)
         else:
+            #print abs_path
             files.append(abs_path)
-            print abs_path
 
     return dirs, files
 
@@ -72,18 +72,16 @@ def get_file_list(config, hostname, disk):
     dirs, files = process_lines(lines, disk)
 
     while dirs:
-        # Iterate over a copy of dirs, so we can remove things from it
-        for directory in dirs[:]:
 
-            enter_line(stdin, 'cd %s' % directory)
-            enter_line(stdin, 'ls')
-            enter_line(stdin, 'cd %s' % disk)
-            dirs.remove(directory)
+        # Only traverse one lucky directory
+        directory = choice(dirs)
+        enter_line(stdin, 'cd %s' % directory)
+        enter_line(stdin, 'ls')
+        enter_line(stdin, 'cd %s' % disk)
 
-            lines = read_until(stdout, disk)
-            new_dirs, new_files = process_lines(lines, directory)
-            dirs += new_dirs
-            files += new_files
+        lines = read_until(stdout, disk)
+        dirs, new_files = process_lines(lines, directory)
+        files += new_files
 
     return files
 
@@ -140,8 +138,6 @@ def main():
     print 'Checking %s backup of %s:%s ...' % (config, hostname, disk)
 
     files = get_file_list(config, hostname, disk)
-    print 'There are %s files.' % len(files)
-
     random_file = choice(files)
 
     print 'Trying to extract %s ...' % random_file
