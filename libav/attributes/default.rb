@@ -1,1 +1,1 @@
-default[:libav][:version] = 'v9.8'
+default[:libav][:version] = '9.8'
