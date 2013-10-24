@@ -231,7 +231,3 @@ command[check_mysqld]=<%= nagios[:plugin_dir] %>/check_mysql_query -q 'select 1+
 # local configuration:
 #	if you'd prefer, you can instead place directives here
 include=/etc/nagios/nrpe_local.cfg
-
-#
-# you can place your config snipplets into nrpe.d/
-include_dir=/etc/nagios/nrpe.d/
