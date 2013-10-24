@@ -14,7 +14,7 @@ node[:munin][:packages].each do |pkg|
 end
 
 service 'munin-node' do
-    action [:enable]
+    action [:enable, :start]
 end
 
 template '/etc/munin/munin-node.conf' do
