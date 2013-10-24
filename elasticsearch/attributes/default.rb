@@ -12,11 +12,11 @@ node.normal[:elasticsearch]    = DeepMerge.merge(node.normal[:elasticsearch].to_
 
 # === VERSION AND LOCATION
 #
-default.elasticsearch[:version]       = "0.90.5"
-default.elasticsearch[:host]          = "http://download.elasticsearch.org"
-default.elasticsearch[:repository]    = "elasticsearch/elasticsearch"
-default.elasticsearch[:filename]      = "elasticsearch-#{node.elasticsearch[:version]}.deb"
-default.elasticsearch[:download_url]  = [node.elasticsearch[:host], node.elasticsearch[:repository], node.elasticsearch[:filename]].join('/')
+default[:elasticsearch][:version]      = '0.90.5'
+default[:elasticsearch][:download_url] = {
+    'debian' => "https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-#{node[:elasticsearch][:version]}.deb",
+    'rhel'   => "https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-#{node[:elasticsearch][:version]}.noarch.rpm",
+}[node[:platform_family]]
 
 # === NAMING
 #
