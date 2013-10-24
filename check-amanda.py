@@ -67,7 +67,7 @@ def get_file_list(config, hostname, disk):
     }[config] + 1
     oldest = newest - timedelta(days=delta)
 
-    p = Popen(['amrecover', config], stdin=PIPE, stdout=PIPE)
+    p = Popen(['/usr/sbin/amrecover', config], stdin=PIPE, stdout=PIPE)
     stdin = p.stdin
     stdout = p.stdout
 
