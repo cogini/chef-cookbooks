@@ -1,11 +1,2 @@
-default[:ffmpeg][:version] = "0.10.3"
-set[:ffmpeg][:dependencies][:atrpms] = %w{
-    faac-devel
-    libtheora-devel
-    libvorbis-devel
-    x264-devel
-}
-set[:ffmpeg][:dependencies][:epel] = %w{
-    yasm
-    yum-plugin-versionlock
-}
+default[:ffmpeg][:version] = '0.10.3'
+default[:ffmpeg][:package_url] = "http://packages.cogini.com/ffmpeg-#{node[:ffmpeg][:version]}.rpm"
