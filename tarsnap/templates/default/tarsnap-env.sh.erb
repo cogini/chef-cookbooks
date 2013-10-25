@@ -4,6 +4,9 @@
 
 set -e
 
+# Otherwise Unicode file names won't work
+export LANG=en_US.UTF-8
+
 # Directories to backup
 DIRS="<%= node[:tarsnap][:dirs].join(' ') %>"
 
@@ -27,5 +30,4 @@ KEY="$DIR/$(hostname -s)-tarsnap.key"
 CACHE_DIR="$DIR/cachedir"
 
 # Path to tarsnap
-#TARSNAP="/home/tdb/tarsnap/tarsnap.pl"
 TARSNAP="/usr/local/bin/tarsnap --keyfile $KEY"
