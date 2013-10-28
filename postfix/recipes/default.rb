@@ -147,7 +147,7 @@ if postfix[:enable_postgrey]
   unless postfix[:smtpd_recipient_restrictions].include? 'check_policy_service inet:127.0.0.1:10023'
     raise 'node[:postfix][:smtpd_recipient_restrictions] must contain "check_policy_service inet:127.0.0.1:10023"'
   end
-  include_recipe 'postfix::postgrey'
+  package 'postgrey'
 end
 
 
