@@ -32,3 +32,9 @@ node.basics.epel_packages.each do |pkg|
         end
     end
 end
+
+
+# Unlock port 1022
+package 'policycoreutils-python'
+
+execute 'semanage port -a -t ssh_port_t -p tcp 1022'
