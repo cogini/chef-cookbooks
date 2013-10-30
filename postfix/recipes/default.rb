@@ -151,7 +151,7 @@ if postfix[:enable_postgrey]
 end
 
 
-if postfix[:enable_postgrey]
+if postfix[:enable_content_filter]
     unless postfix[:content_filter].include? 'amavis:[127.0.0.1]:10024'
         raise 'You must set node[:postfix][:content_filter] = amavis:[127.0.0.1]:10024'
     end

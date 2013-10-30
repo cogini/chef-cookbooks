@@ -7,7 +7,12 @@
     package pkg
 end
 
-%{
+user "clamav" do
+    gid "amavis"
+    action :modify
+end
+
+%w{
     50-user
     15-content_filter_mode
     05-node_id
@@ -15,7 +20,7 @@ end
     template "/etc/amavis/conf.d/#{amavis_tmpl}" do
         source "#{amavis_tmpl}.erb"
         mode 0644
-        notifies :reload, "service[amavis]"
+        notifies :restart, "service[amavis]"
     end
 end
 
@@ -34,7 +39,7 @@ end
 template "/etc/clamav/clamd.conf" do
     source "clamd.conf.erb"
     mode 0644
-    notifies :reload, "service[clamav-daemon]"
+    notifies :restart, "service[clamav-daemon]"
 end
 
 
@@ -43,6 +48,6 @@ end
     clamav-daemon
 }.each do |srvc|
     service srvc do
-        action :reload
+        action :restart
     end
 end
