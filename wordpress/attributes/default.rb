@@ -1,1 +1,1 @@
-default[:wordpress][:version] = '3.6.1'
+default[:wordpress][:version] = '3.7.1'
