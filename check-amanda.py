@@ -16,49 +16,24 @@ def enter_line(stream, line):
     stream.write(line + '\n')
 
 
-def process_lines(lines, dir_path, oldest, newest):
+def read_all(in_stream, out_stream):
 
-    files = []
-    dirs = []
-    pattern = re.compile('\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}')
+    # Add some junk input to get a delimiter
+    INVALID_DIR = 'intentionally-invalid'
+    INVALID_RES = 'Invalid directory - %s' % INVALID_DIR
+    enter_line(in_stream, 'cd %s' % INVALID_DIR)
 
-    for line in lines:
-
-        #print line
-        if not pattern.match(line):
-            # Ignore lines not containing amrecover ls output
-            continue
-
-        date_str, the_path = line.split(None, 1)
-        # date_str is like '2013-10-21-07-49-40'
-        the_date = datetime.strptime(date_str, '%Y-%m-%d-%H-%M-%S')
-        assert oldest <= the_date <= newest
-
-        if the_path == '.':
-            # Ignore current directory
-            continue
-
-        abs_path = path.join(dir_path, the_path)
-        if abs_path.endswith(path.sep):
-            dirs.append(abs_path)
-        else:
-            #print abs_path
-            files.append(abs_path)
-
-    return dirs, files
-
-
-def read_until(stream, delimiter):
     lines = []
     while True:
-        line = str(stream.readline().strip())
-        lines.append(line)
-        if line == delimiter:
+        line = str(out_stream.readline().strip())
+        if line == INVALID_RES:
             return lines
+        lines.append(line)
 
 
 def get_file_list(config, hostname, disk):
 
+    # To match 2013-10-31-00-00-02
     pattern = re.compile('\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}')
 
     newest = datetime.today()
@@ -76,27 +51,36 @@ def get_file_list(config, hostname, disk):
 
     enter_line(stdin, 'sethost %s' % hostname)
     enter_line(stdin, 'setdisk %s' % disk)
-    enter_line(stdin, 'cd %s' % disk)
-    read_until(stdout, disk)
+    read_all(stdin, stdout)
 
-    enter_line(stdin, 'ls')
-    enter_line(stdin, 'cd %s' % disk)
-    lines = read_until(stdout, disk)
-    dirs, files = process_lines(lines, disk, oldest, newest)
+    current_path = '%s/' % disk
 
-    while dirs:
+    while current_path.endswith('/'):
 
-        # Only traverse one lucky directory
-        directory = choice(dirs)
-        enter_line(stdin, 'cd %s' % directory)
+        enter_line(stdin, 'cd %s' % current_path)
         enter_line(stdin, 'ls')
-        enter_line(stdin, 'cd %s' % disk)
+        lines = read_all(stdin, stdout)
 
-        lines = read_until(stdout, disk)
-        dirs, new_files = process_lines(lines, directory, oldest, newest)
-        files += new_files
+        # Ignore lines not containing amrecover ls output
+        lines = [line for line in lines if pattern.match(line)]
+        paths = []
 
-    return files
+        for line in lines:
+
+            #print line
+            date_str, the_path = line.split(None, 1)
+            # date_str is like '2013-10-21-07-49-40'
+            the_date = datetime.strptime(date_str, '%Y-%m-%d-%H-%M-%S')
+            assert oldest <= the_date <= newest
+
+            if the_path != '.':
+                #print the_path
+                # Ignore current directory
+                paths.append(current_path + the_path)
+
+        current_path = choice(paths)
+
+    return current_path
 
 
 def test_extraction(config, hostname, disk, target):
@@ -120,7 +104,11 @@ def test_extraction(config, hostname, disk, target):
     enter_line(stdin, 'Y')
     enter_line(stdin, 'Y')
     enter_line(stdin, 'exit')
-    p.communicate()
+
+    output, error = p.communicate()
+    #print output.strip()
+    assert error is None
+    assert p.returncode == 0
 
     p = Popen(['file', output_path], stdin=PIPE, stdout=PIPE)
     output, error = p.communicate()
@@ -150,8 +138,7 @@ def main():
     config = choice(('daily', 'weekly', 'monthly'))
     print 'Checking %s backup of %s:%s ...' % (config, hostname, disk)
 
-    files = get_file_list(config, hostname, disk)
-    random_file = choice(files)
+    random_file = get_file_list(config, hostname, disk)
 
     print 'Trying to extract %s ...' % random_file
     test_extraction(config, hostname, disk, random_file[len(disk) + 1:])
