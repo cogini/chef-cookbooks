@@ -9,6 +9,9 @@ import json
 import re
 
 
+AMRECOVER = '/usr/sbin/amrecover'
+
+
 def enter_line(stream, line):
     stream.write(line + '\n')
 
@@ -67,7 +70,7 @@ def get_file_list(config, hostname, disk):
     }[config] + 1
     oldest = newest - timedelta(days=delta)
 
-    p = Popen(['/usr/sbin/amrecover', config], stdin=PIPE, stdout=PIPE)
+    p = Popen([AMRECOVER, config], stdin=PIPE, stdout=PIPE)
     stdin = p.stdin
     stdout = p.stdout
 
@@ -106,7 +109,7 @@ def test_extraction(config, hostname, disk, target):
 
     output_path = path.join(prefix, target)
 
-    p = Popen(['amrecover', config], stdin=PIPE, stdout=PIPE)
+    p = Popen([AMRECOVER, config], stdin=PIPE, stdout=PIPE)
     stdin = p.stdin
 
     enter_line(stdin, 'lcd %s' % prefix)
