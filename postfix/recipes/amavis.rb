@@ -40,6 +40,7 @@ end
 template "/etc/default/spamassassin" do
     source "spamassassin.erb"
     mode 0644
+    notifies :restart, "service[spamassassin]"
 end
 
 template "/etc/spamassassin/local.cf" do
