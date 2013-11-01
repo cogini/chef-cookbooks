@@ -12,6 +12,18 @@ user "clamav" do
     action :modify
 end
 
+
+%w{
+    amavis
+    clamav-daemon
+    spamassassin
+}.each do |srvc|
+    service srvc do
+        action :enable, :start
+    end
+end
+
+
 %w{
     50-user
     15-content_filter_mode
@@ -33,6 +45,7 @@ end
 template "/etc/spamassassin/local.cf" do
     source "spamassassin-local.cf.erb"
     mode 0644
+    notifies :restart, "service[spamassassin]"
 end
 
 
@@ -40,14 +53,4 @@ template "/etc/clamav/clamd.conf" do
     source "clamd.conf.erb"
     mode 0644
     notifies :restart, "service[clamav-daemon]"
-end
-
-
-%w{
-    amavis
-    clamav-daemon
-}.each do |srvc|
-    service srvc do
-        action :restart
-    end
 end
