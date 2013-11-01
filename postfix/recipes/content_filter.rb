@@ -18,7 +18,7 @@ end
     05-node_id
 }.each do |amavis_tmpl|
     template "/etc/amavis/conf.d/#{amavis_tmpl}" do
-        source "#{amavis_tmpl}.erb"
+        source "amavis-#{amavis_tmpl}.erb"
         mode 0644
         notifies :restart, "service[amavis]"
     end
