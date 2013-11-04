@@ -35,6 +35,7 @@ default[:postfix][:local_recipient_maps] = 'proxy:unix:passwd.byname $alias_maps
 default[:postfix][:mail_relay_networks] = ['127.0.0.0/8']
 default[:postfix][:mailbox_command] = ''
 default[:postfix][:mailbox_size_limit] = 51200000
+default[:postfix][:master_partials] = []
 default[:postfix][:message_size_limit] = 10240000
 default[:postfix][:multi_environment_relay] = false
 default[:postfix][:mydestination] = []
