@@ -152,7 +152,7 @@ end
 
 
 if postfix[:enable_amavis]
-    unless postfix[:content_filter].include? 'amavis:[127.0.0.1]:10024'
+    unless postfix[:content_filter] == 'amavis:[127.0.0.1]:10024'
         raise 'You must set node[:postfix][:content_filter] = amavis:[127.0.0.1]:10024'
     end
     include_recipe "postfix::amavis"
