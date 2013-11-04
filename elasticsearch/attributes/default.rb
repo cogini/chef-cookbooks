@@ -37,11 +37,7 @@ default.elasticsearch[:pid_file]  = "#{node.elasticsearch[:pid_path]}/#{node.ela
 
 # === MEMORY
 #
-# Maximum amount of memory to use is automatically computed as one half of total available memory on the machine.
-# You may choose to set it in your node/role configuration instead.
-#
-allocated_memory = "#{(node.memory.total.to_i * 0.6 ).floor / 1024}m"
-default.elasticsearch[:allocated_memory] = allocated_memory
+default[:elasticsearch][:allocated_memory] = nil
 
 # === LIMITS
 #
