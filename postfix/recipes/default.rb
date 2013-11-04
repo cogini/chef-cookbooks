@@ -24,11 +24,6 @@ excluded_maps = %w{ mysql pgsql proxy }
 postfix = node[:postfix]
 
 
-if postfix[:enable_dkim]
-  include_recipe 'dkim'
-end
-
-
 case node[:platform]
 when "redhat", "centos", "amazon", "scientific"
   service "sendmail" do
@@ -135,22 +130,35 @@ unless postfix[:sender_dependent_relayhosts].empty?
 end
 
 
+if postfix[:enable_dkim]
+  include_recipe 'dkim'
+end
+
+
 if postfix[:enable_spf]
-  unless postfix[:smtpd_recipient_restrictions].include? 'check_policy_service unix:private/policy-spf'
-    raise 'node[:postfix][:smtpd_recipient_restrictions] must contain "check_policy_service unix:private/policy-spf"'
-  end
-  package "postfix-policyd-spf-python"
+    unless postfix[:smtpd_recipient_restrictions].include? 'check_policy_service unix:private/policy-spf'
+        raise 'node[:postfix][:smtpd_recipient_restrictions] must contain "check_policy_service unix:private/policy-spf"'
+    end
+    package "postfix-policyd-spf-python"
 end
 
 
 if postfix[:enable_postgrey]
-  unless postfix[:smtpd_recipient_restrictions].include? 'check_policy_service inet:127.0.0.1:10023'
-    raise 'node[:postfix][:smtpd_recipient_restrictions] must contain "check_policy_service inet:127.0.0.1:10023"'
-  end
-  package 'postgrey'
+    unless postfix[:smtpd_recipient_restrictions].include? 'check_policy_service inet:127.0.0.1:10023'
+        raise 'node[:postfix][:smtpd_recipient_restrictions] must contain "check_policy_service inet:127.0.0.1:10023"'
+    end
+    package 'postgrey'
+end
+
+
+if postfix[:enable_amavis]
+    unless postfix[:content_filter] == 'amavis:[127.0.0.1]:10024'
+        raise 'You must set node[:postfix][:content_filter] = amavis:[127.0.0.1]:10024'
+    end
+    include_recipe "postfix::amavis"
 end
 
 
 service "postfix" do
-  action :start
+    action :start
 end

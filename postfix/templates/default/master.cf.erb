@@ -114,9 +114,11 @@ mailman   unix  -       n       n       -       -       pipe
   flags=FR user=list argv=/usr/lib/mailman/bin/postfix-to-mailman.py
   ${nexthop} ${user}
 
+<%- if node[:postfix][:enable_amavis] -%>
 amavis    unix  -       -       -       -       2       smtp
   -o smtp_data_done_timeout=1200
   -o smtp_send_xforward_command=yes
+
 127.0.0.1:10025 inet    n       -       -       -       -       smtpd
   -o content_filter=
   -o mynetworks=127.0.0.0/8
@@ -134,6 +136,7 @@ amavis    unix  -       -       -       -       2       smtp
   -o smtpd_restriction_classes=
   -o smtpd_sender_restrictions=
   -o smtpd_soft_error_limit=1001
+<%- end -%>
 
 <% if node[:postfix][:enable_spf] -%>
 policy-spf  unix  -     n       n       -       -       spawn
