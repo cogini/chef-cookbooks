@@ -45,10 +45,6 @@ default.elasticsearch[:allocated_memory] = allocated_memory
 
 # === LIMITS
 #
-# By default, the `mlockall` is set to true: on weak machines and Vagrant boxes,
-# you may want to disable it.
-#
-default.elasticsearch[:bootstrap][:mlockall] = true
 default.elasticsearch[:limits][:memlock] = 'unlimited'
 default.elasticsearch[:limits][:nofile]  = '64000'
 
