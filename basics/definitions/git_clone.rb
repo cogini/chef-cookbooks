@@ -10,6 +10,7 @@ define :git_clone, :destination => nil, :version => nil do
     end
 
     if params[:version]
+        version = params[:version]
         bash "Checking out #{version} in #{destination}" do
             user user
             code <<-EOH
