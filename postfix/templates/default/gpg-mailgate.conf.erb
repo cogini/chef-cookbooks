@@ -11,11 +11,11 @@ keymap_only = no
 [gpg]
 # the directory where gpg-mailgate public keys are stored
 # (see INSTALL for details)
-keyhome = /var/gpg/.gnupg
+keyhome = <%= node[:postfix][:gpg_keyhome] %>
 
 [logging]
 # For logging to syslog. 'file = syslog', otherwise use path to the file.
-file = /tmp/gpg-mailgate.log
+file = syslog
 #verbose = yes
 
 [relay]

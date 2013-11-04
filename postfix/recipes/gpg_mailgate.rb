@@ -31,4 +31,10 @@ link '/usr/lib/python2.7/GnuPG' do
 end
 
 
+directory node[:postfix][:gpg_keyhome] do
+    owner node[:postfix][:gpg_user]
+    recursive true
+end
+
+
 include_recipe 'postfix'

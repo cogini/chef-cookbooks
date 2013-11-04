@@ -27,6 +27,9 @@ else
     raise NotImplementedError
 end
 
+set[:postfix][:gpg_keyhome] = '/var/gpg/.gnupg'
+set[:postfix][:gpg_user] = 'nobody'
+
 default[:postfix][:aliases] = {}
 default[:postfix][:content_filter] = ''
 default[:postfix][:disable_dns_lookups] = 'no'
