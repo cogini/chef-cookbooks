@@ -37,4 +37,6 @@ end
 # Unlock port 1022
 package 'policycoreutils-python'
 
-execute 'semanage port -a -t ssh_port_t -p tcp 1022'
+execute 'semanage port -a -t ssh_port_t -p tcp 1022' do
+    not_if 'semanage port -l | grep 1022'
+end
