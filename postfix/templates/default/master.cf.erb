@@ -142,3 +142,7 @@ amavis    unix  -       -       -       -       2       smtp
 policy-spf  unix  -     n       n       -       -       spawn
   user=nobody argv=/usr/bin/policyd-spf
 <% end -%>
+
+<% node[:postfix][:master_partials].each do |partial_template| -%>
+<%= render partial_template %>
+<% end -%>
