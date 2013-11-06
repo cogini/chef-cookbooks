@@ -120,7 +120,7 @@ amavis    unix  -       -       -       -       2       smtp
   -o smtp_send_xforward_command=yes
 
 127.0.0.1:10025 inet    n       -       -       -       -       smtpd
-  -o content_filter=
+  -o content_filter=<% if node[:postfix][:enable_gpg_mailgate] -%>gpg-mailgate<% end -%>
   -o mynetworks=127.0.0.0/8
   -o receive_override_options=no_header_body_checks,no_unknown_recipient_checks,no_milters
   -o smtpd_client_connection_count_limit=0

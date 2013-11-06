@@ -102,3 +102,4 @@ default[:postfix][:enable_spf] = false
 default[:postfix][:enable_postgrey] = false
 default[:postfix][:enable_dkim] = false
 default[:postfix][:enable_amavis] = false
+default[:postfix][:enable_gpg_mailgate] = false

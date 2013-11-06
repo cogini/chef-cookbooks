@@ -1,6 +1,11 @@
-# TODO: Make this work with Amavis
+#
+# Cookbook: gpg-mailgate
+#
+
 unless node[:postfix][:content_filter] == 'gpg-mailgate'
-    raise 'node[:postfix][:content_filter] must be "gpg-mailgate".'
+    unless node[:postfix][:enable_amavis]
+        raise 'node[:postfix][:content_filter] must be "gpg-mailgate".'
+    end
 end
 
 unless node[:postfix][:master_partials].include? 'gpg-mailgate-master.cf.erb'
@@ -35,6 +40,3 @@ directory node[:postfix][:gpg_keyhome] do
     owner node[:postfix][:gpg_user]
     recursive true
 end
-
-
-include_recipe 'postfix'
