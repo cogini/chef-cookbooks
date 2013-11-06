@@ -159,6 +159,11 @@ if postfix[:enable_amavis]
 end
 
 
+if postfix[:enable_gpg_mailgate]
+    include_recipe "postfix::gpg-mailgate"
+end
+
+
 service "postfix" do
     action :start
 end
