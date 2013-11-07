@@ -1,4 +1,4 @@
-include_recipe 'icinga::classic'
+include_recipe 'icinga::idoutils'
 include_recipe 'php'
 include_recipe 'php::module_xmlrpc'
 include_recipe 'php::module_gd'
@@ -17,6 +17,11 @@ end
 
 package 'icinga-web' do
     response_file 'icinga-web.seed'
+end
+
+# Fix path for some missing logos
+link '/usr/share/icinga/htdocs/images/logos/base' do
+    to '/usr/share/nagios/htdocs/images/logos/base'
 end
 
 
