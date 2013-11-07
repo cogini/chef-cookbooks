@@ -45,8 +45,8 @@ mysql_db database do
     owner username
 end
 
-execute 'icinga-initialize-db' do
-    command "mysql -u#{username} -p#{password} #{database} < /usr/share/doc/icinga-idoutils/examples/mysql/mysql.sql"
+execute "initialize #{database}" do
+    command "mysql -u#{username} -p#{password} #{database} < /usr/share/dbconfig-common/data/icinga-idoutils/install/mysql"
     only_if { `echo 'show tables' | mysql -u#{username} -p#{password} #{database}`.empty? }
 end
 

@@ -1,0 +1,55 @@
+icinga-web	icinga-web/rootpassword-repeat	password	
+icinga-web	icinga-web/app-password-confirm	password	
+# MySQL application password for icinga-web:
+icinga-web	icinga-web/mysql/app-pass	password	
+icinga-web	icinga-web/password-confirm	password	
+icinga-web	icinga-web/rootpassword	password	
+icinga-web	icinga-web/pgsql/admin-pass	password	
+# PostgreSQL application password for icinga-web:
+icinga-web	icinga-web/pgsql/app-pass	password	
+icinga-web	icinga-web/mysql/admin-pass	password	
+# Connection method for PostgreSQL database of icinga-web:
+icinga-web	icinga-web/pgsql/method	select	unix socket
+icinga-web	icinga-web/remote/port	string	
+icinga-web	icinga-web/install-error	select	abort
+# Connection method for MySQL database of icinga-web:
+icinga-web	icinga-web/mysql/method	select	unix socket
+icinga-web	icinga-web/mysql/admin-user	string	root
+icinga-web	icinga-web/pgsql/manualconf	note	
+icinga-web	icinga-web/missing-db-package-error	select	abort
+icinga-web	icinga-web/httpd	multiselect	apache2
+# Host running the  server for icinga-web:
+icinga-web	icinga-web/remote/newhost	string	
+# Do you want to back up the database for icinga-web before upgrading?
+icinga-web	icinga-web/upgrade-backup	boolean	true
+#  username for icinga-web:
+icinga-web	icinga-web/db/app-user	string	icinga_web
+icinga-web	icinga-web/remove-error	select	abort
+icinga-web	icinga-web/pgsql/no-empty-passwords	error	
+icinga-web	icinga-web/internal/reconfiguring	boolean	false
+icinga-web	icinga-web/pgsql/admin-user	string	postgres
+icinga-web	icinga-web/rootpassword-mismatch	error	
+icinga-web	icinga-web/internal/skip-preseed	boolean	true
+icinga-web	icinga-web/upgrade-error	select	abort
+#  database name for icinga-web:
+icinga-web	icinga-web/db/dbname	string	icinga_web
+# Deconfigure database for icinga-web with dbconfig-common?
+icinga-web	icinga-web/dbconfig-remove	boolean	
+# Database type to be used by icinga-web:
+icinga-web	icinga-web/database-type	select	
+# Host name of the  database server for icinga-web:
+icinga-web	icinga-web/remote/host	select	
+# Do you want to purge the database for icinga-web?
+icinga-web	icinga-web/purge	boolean	false
+icinga-web	icinga-web/pgsql/changeconf	boolean	false
+icinga-web	icinga-web/pgsql/authmethod-user	select	password
+# Configure database for icinga-web with dbconfig-common?
+icinga-web	icinga-web/dbconfig-install	boolean	false
+icinga-web	icinga-web/pgsql/authmethod-admin	select	ident
+# Reinstall database for icinga-web?
+icinga-web	icinga-web/dbconfig-reinstall	boolean	false
+# Perform upgrade on database for icinga-web with dbconfig-common?
+icinga-web	icinga-web/dbconfig-upgrade	boolean	true
+#  storage directory for icinga-web:
+icinga-web	icinga-web/db/basepath	string	
+icinga-web	icinga-web/passwords-do-not-match	error	

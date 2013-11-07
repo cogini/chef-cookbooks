@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<% db = node[:icinga][:web_db] -%>
+
+<databases xmlns:db="http://agavi.org/agavi/config/parts/databases/1.0" xmlns:ae="http://agavi.org/agavi/config/global/envelope/1.0">
+
+    <db:database name="icinga_web" class="AppKitDoctrineDatabase">
+        <ae:parameter name="dsn">mysql://<%= db[:username] %>:<%= db[:password] %>@localhost/<%= db[:database] %></ae:parameter>
+    </db:database>
+
+</databases>

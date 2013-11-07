@@ -37,7 +37,6 @@ icinga-idoutils	icinga-idoutils/db/basepath	string
 icinga-idoutils	icinga-idoutils/remote/host	select	
 # Reinstall database for icinga-idoutils?
 icinga-idoutils	icinga-idoutils/dbconfig-reinstall	boolean	false
-icinga-common	icinga/check_external_commands	boolean	false
 icinga-idoutils	icinga-idoutils/pgsql/admin-user	string	postgres
 # Database type to be used by icinga-idoutils:
 icinga-idoutils	icinga-idoutils/database-type	select	
