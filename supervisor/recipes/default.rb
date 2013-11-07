@@ -38,12 +38,13 @@ template "/etc/init.d/supervisord" do
     mode "0755"
 end
 
-template "/etc/supervisord.conf" do
-    source "_etc_supervisord.conf.erb"
-    mode "0644"
-end
-
 service "supervisord" do
     supports :status => true, :restart => true, :reload => true
     action [ :enable, :start ]
+end
+
+template '/etc/supervisord.conf' do
+    source '_etc_supervisord.conf.erb'
+    mode '644'
+    notifies :reload, 'service[supervisord]'
 end

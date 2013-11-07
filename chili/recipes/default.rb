@@ -125,14 +125,23 @@ bash "Set permissions" do
 end
 
 
-template "/etc/nginx/sites-available/chili.cogini.com" do
+# FIXME: temporary fix for chili 3.8.0
+template "#{site_dir}/app/models/document.rb" do
     mode 0644
-    source "nginx-chili.erb"
+    source 'document.rb.erb'
+    owner app_user
+end
+
+
+template '/etc/nginx/sites-available/chili.cogini.com' do
+    mode 0644
+    source 'nginx-chili.erb'
+    notifies :reload, 'service[nginx]'
 end
 
 service "chili" do
-    supports :start => true, :stop => true, :restart => true, :status => true, :reload => true
-    action [ :enable, :restart ]
+    supports :restart => true, :status => true, :reload => true
+    action [ :enable, :start ]
 end
 
 nginx_site "chili.cogini.com" do

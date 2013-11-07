@@ -23,12 +23,20 @@ if mysql_config[:enable] and mysql_config[:host] == 'localhost'
     end
 end
 
+
 pgsql = node[:nagios][:pgsql]
-if pgsql[:enable] and pgsql[:host] == 'localhost' and
-                      not node[:postgresql][:is_slave]
-    pgsql_user pgsql[:username] do
-        action :create
-        password pgsql[:password]
+
+if pgsql[:enable]
+
+    git_clone 'https://github.com/bucardo/check_postgres.git' do
+        destination "#{node[:nagios][:plugin_dir]}/check_postgres"
+    end
+
+    if pgsql[:host] == 'localhost' and not node[:postgresql][:is_slave]
+        pgsql_user pgsql[:username] do
+            action :create
+            password pgsql[:password]
+        end
     end
 end
 
@@ -47,9 +55,4 @@ end
 
 file '/etc/nagios/nrpe_local.cfg' do
     content node[:nagios][:nrpe_local_config].join("\n")
-end
-
-
-unless node[:platform] == 'ubuntu' && node[:platform_version].to_f <= 8.04
-    include_recipe 'logwarn'
 end

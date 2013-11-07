@@ -32,7 +32,6 @@ default[:php][:fpm][:catch_workers_output] = 'yes'
 default[:php][:fpm][:log_dir] = '/var/log/php-fpm'
 default[:php][:fpm][:max_children] = 10
 default[:php][:fpm][:pm] = 'ondemand'
-default[:php][:fpm][:process][:max] = 10
 default[:php][:fpm][:request_terminate_timeout] = 30
 default[:php][:fpm][:slowlog] = '/var/log/php-fpm/slow.log'
 

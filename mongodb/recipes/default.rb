@@ -66,6 +66,6 @@ if node.recipe?("mongodb::default") or node.recipe?("mongodb")
 end
 
 
-service 'mongod' do
+service 'mongodb' do
     action [:enable, :start]
 end

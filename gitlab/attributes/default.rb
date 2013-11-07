@@ -29,7 +29,8 @@ default[:gitlab][:git_user][:name] = "git"
 default[:gitlab][:git_user][:shell] = "/bin/bash"
 default[:gitlab][:git_user][:home] = "/home/git"
 
-# XXX gitlab-shell dir is hardcoded in some files, so if you want to move it to another location, remember to create a symlink to /home/git/gitlab-shell
+# XXX gitlab-shell dir is hardcoded in some files, so if you want to move it to
+# another location, remember to create a symlink to /home/git/gitlab-shell
 default[:gitlab][:shell][:dir] = "/home/git/gitlab-shell"
 default[:gitlab][:shell][:version] = "v1.7.1"
 
@@ -42,3 +43,5 @@ default[:gitlab][:port] = 80
 
 default[:gitlab][:satellites_path] = "/home/git/gitlab-satellites/"
 default[:gitlab][:repos_path] = "/home/git/repositories/"
+
+default[:gitlab][:worker_processes] = 2

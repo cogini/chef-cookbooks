@@ -17,7 +17,8 @@
 
 case platform
 when "ubuntu"
-    default[:postfix][:smtp_tls_cafile] = '/etc/postfix/cacert.pem'
+    # TODO: maybe we should use smtp_tls_CApath instead
+    default[:postfix][:smtp_tls_cafile] = '/etc/ssl/certs/ca.pem'
     default[:postfix][:sasl_packages] = %w{ libsasl2-2 ca-certificates }
 when "centos"
     default[:postfix][:smtp_tls_cafile] = '/etc/pki/tls/certs/ca-bundle.crt'
@@ -26,13 +27,18 @@ else
     raise NotImplementedError
 end
 
+set[:postfix][:gpg_keyhome] = '/var/gpg/.gnupg'
+set[:postfix][:gpg_user] = 'nobody'
+
 default[:postfix][:aliases] = {}
 default[:postfix][:content_filter] = ''
 default[:postfix][:disable_dns_lookups] = 'no'
 default[:postfix][:inet_protocols] = 'all'
+default[:postfix][:local_recipient_maps] = 'proxy:unix:passwd.byname $alias_maps'
 default[:postfix][:mail_relay_networks] = ['127.0.0.0/8']
 default[:postfix][:mailbox_command] = ''
 default[:postfix][:mailbox_size_limit] = 51200000
+default[:postfix][:master_partials] = []
 default[:postfix][:message_size_limit] = 10240000
 default[:postfix][:multi_environment_relay] = false
 default[:postfix][:mydestination] = []
@@ -53,6 +59,7 @@ default[:postfix][:smtp_sasl_password_maps] = ''
 default[:postfix][:smtp_sender_dependent_authentication] = 'no'
 default[:postfix][:smtp_tls_note_starttls_offer] = 'no'
 default[:postfix][:smtp_tls_security_level] = ''
+default[:postfix][:smtp_use_tls] = 'no'
 default[:postfix][:smtpd_data_restrictions] = []
 default[:postfix][:smtpd_helo_restrictions] = []
 default[:postfix][:smtpd_sasl_auth_enable] = 'no'
@@ -60,10 +67,13 @@ default[:postfix][:smtpd_sasl_path] = 'smtpd'
 default[:postfix][:smtpd_sasl_type] = 'cyrus'
 default[:postfix][:smtpd_sender_restrictions] = []
 default[:postfix][:smtpd_tls_auth_only] = 'no'
+default[:postfix][:smtpd_tls_cert_file] = '/etc/ssl/certs/ssl-cert-snakeoil.pem'
+default[:postfix][:smtpd_tls_key_file] = '/etc/ssl/private/ssl-cert-snakeoil.key'
 default[:postfix][:smtpd_tls_security_level] = ''
 default[:postfix][:submission_ports] = [587]
 default[:postfix][:transport_maps] = {}
 default[:postfix][:transport_maps_file] = 'hash:/etc/postfix/transport'
+default[:postfix][:virtual_alias_maps] = '$virtual_maps'
 default[:postfix][:virtual_alias_maps] = ''
 default[:postfix][:virtual_gid_static] = 5000
 default[:postfix][:virtual_mailbox_base] = ''
@@ -75,3 +85,21 @@ default[:postfix][:smtpd_recipient_restrictions] = %w{
     permit_mynetworks
     reject_unauth_destination
 }
+
+
+# Requires `check_policy_service unix:private/policy-spf` in
+# smtpd_recipient_restrictions
+#
+# Note 1: Put the policy service after reject_unauth_destination to prevent
+# unexpected responses from the policy service from making your system an open
+# relay.
+#
+# Note 2: Put the policy service after you permit local senders. You only want
+# SPF to check inbound mail from the internet, and not outbound mail from your
+# users.
+
+default[:postfix][:enable_spf] = false
+default[:postfix][:enable_postgrey] = false
+default[:postfix][:enable_dkim] = false
+default[:postfix][:enable_amavis] = false
+default[:postfix][:enable_gpg_mailgate] = false

@@ -7,6 +7,7 @@ recipe            "postfix", "Installs and configures postfix"
 recipe            "postfix::sasl_auth", "Set up postfix to auth to a server with sasl"
 recipe            "postfix::aliases", "Manages /etc/aliases"
 recipe            "postfix::client", "Searches for the relayhost based on an attribute"
+depends           "dkim"
 
 %w{ubuntu debian redhat centos amazon scientific}.each do |os|
   supports os

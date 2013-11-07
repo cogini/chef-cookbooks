@@ -7,8 +7,16 @@
 # All rights reserved - Do Not Redistribute
 #
 
+
 node[:dovecot][:packages].each do |pkg|
     package pkg
+end
+
+package "dovecot-#{node[:dovecot][:db][:driver]}"
+
+
+service 'dovecot' do
+    action :nothing
 end
 
 
@@ -17,6 +25,7 @@ template '/etc/dovecot/dovecot.conf' do
     owner 'root'
     group 'dovecot'
     mode '640'
+    notifies :reload, 'service[dovecot]'
 end
 
 template '/etc/dovecot/dovecot-sql.conf' do
@@ -24,6 +33,7 @@ template '/etc/dovecot/dovecot-sql.conf' do
     owner 'root'
     group 'dovecot'
     mode '640'
+    notifies :reload, 'service[dovecot]'
 end
 
 template '/etc/dovecot/conf.d/10-master.conf' do
@@ -31,6 +41,7 @@ template '/etc/dovecot/conf.d/10-master.conf' do
     owner 'root'
     group 'dovecot'
     mode '640'
+    notifies :reload, 'service[dovecot]'
 end
 
 template '/etc/dovecot/conf.d/10-ssl.conf' do
@@ -38,4 +49,5 @@ template '/etc/dovecot/conf.d/10-ssl.conf' do
     owner 'root'
     group 'dovecot'
     mode '640'
+    notifies :reload, 'service[dovecot]'
 end

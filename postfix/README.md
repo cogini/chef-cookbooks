@@ -76,23 +76,22 @@ Includes the default recipe to install, configure and start postfix.
 
 Does not work with `chef-solo`.
 
+
+dovecot\_SQL
+---------------
+
+The SQL database should have this schema:
+
+    CREATE TABLE aliases (source varchar(128), destination varchar(1024));
+    CREATE TABLE transports (domain varchar(128));
+    CREATE TABLE users (user varchar(128), password varchar(128), uid integer, gid integer, mail_dir varchar(128));
+
+
 sasl\_auth
 ----------
 
 Sets up the system to authenticate with a remote mail relay using SASL
 authentication.
-
-aliases
--------
-
-Manage `/etc/aliases` with this recipe. Currently only Ubuntu 10.04
-platform has a template for the aliases file. Add your aliases
-template to the `templates/default` or to the appropriate
-platform+version directory per the File Specificity rules for
-templates. Then specify a hash of aliases for the
-`node['postfix']['aliases']` attribute.
-
-http://wiki.opscode.com/display/chef/Templates#Templates-TemplateLocationSpecificity
 
 Usage
 =====
@@ -118,6 +117,30 @@ For an example of using encrypted data bags to encrypt the SASL
 password, see the following blog post:
 
 * http://jtimberman.github.com/blog/2011/08/06/encrypted-data-bag-for-postfix-sasl-authentication/
+
+
+### Sending through Mandrill
+
+```javascript
+"postfix": {
+    "relayhost": "[smtp.mandrillapp.com]",
+    "smtp_sasl_auth_enable": "yes",
+    "smtp_sasl_password_maps": "hash:/etc/postfix/smtp_sasl_passwords",
+    "smtp_sasl_passwords": [
+        {
+            "password": "A_SECRET",
+            "remote": "[smtp.mandrillapp.com]",
+            "username": "ANOTHER_SECRET"
+        }
+    ],
+    "smtp_use_tls": "yes"
+},
+"run_list": [
+    "recipe[postfix]",
+    "recipe[postfix::sasl_auth]"
+],
+```
+
 
 **Examples using the client & server recipes**
 

@@ -12,11 +12,11 @@ node.normal[:elasticsearch]    = DeepMerge.merge(node.normal[:elasticsearch].to_
 
 # === VERSION AND LOCATION
 #
-default.elasticsearch[:version]       = "0.90.3"
-default.elasticsearch[:host]          = "http://download.elasticsearch.org"
-default.elasticsearch[:repository]    = "elasticsearch/elasticsearch"
-default.elasticsearch[:filename]      = "elasticsearch-#{node.elasticsearch[:version]}.tar.gz"
-default.elasticsearch[:download_url]  = [node.elasticsearch[:host], node.elasticsearch[:repository], node.elasticsearch[:filename]].join('/')
+default[:elasticsearch][:version]      = '0.90.5'
+default[:elasticsearch][:download_url] = {
+    'debian' => "https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-#{node[:elasticsearch][:version]}.deb",
+    'rhel'   => "https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-#{node[:elasticsearch][:version]}.noarch.rpm",
+}[node[:platform_family]]
 
 # === NAMING
 #
@@ -37,18 +37,10 @@ default.elasticsearch[:pid_file]  = "#{node.elasticsearch[:pid_path]}/#{node.ela
 
 # === MEMORY
 #
-# Maximum amount of memory to use is automatically computed as one half of total available memory on the machine.
-# You may choose to set it in your node/role configuration instead.
-#
-allocated_memory = "#{(node.memory.total.to_i * 0.6 ).floor / 1024}m"
-default.elasticsearch[:allocated_memory] = allocated_memory
+default[:elasticsearch][:allocated_memory] = nil
 
 # === LIMITS
 #
-# By default, the `mlockall` is set to true: on weak machines and Vagrant boxes,
-# you may want to disable it.
-#
-default.elasticsearch[:bootstrap][:mlockall] = true
 default.elasticsearch[:limits][:memlock] = 'unlimited'
 default.elasticsearch[:limits][:nofile]  = '64000'
 
