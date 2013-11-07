@@ -9,18 +9,7 @@ include_recipe "postfix::vanilla"
 include_recipe "nginx"
 include_recipe "postgresql::client"
 include_recipe "python"
-
-
-apt_repository 'git' do
-    uri 'http://ppa.launchpad.net/git-core/ppa/ubuntu'
-    distribution node[:lsb][:codename]
-    components [:main]
-    keyserver 'keyserver.ubuntu.com'
-    key 'E1DF1F24'
-    notifies :run, 'execute[apt-get update]', :immediately
-end
-
-package 'git'
+include_recipe "git::ppa"
 
 
 if node[:gitlab][:dbHost] == "localhost"
@@ -139,6 +128,16 @@ template "#{gitlab_dir}/config/database.yml" do
   owner git_user
   group git_user
   mode 0600
+end
+
+
+if node[:gitlab][:sidekiq][:concurrency]
+  template "#{gitlab_dir}/config/initializers/4_sidekiq.rb" do
+    source "4_sidekiq.rb.erb"
+    owner git_user
+    group git_user
+    mode 0644
+  end
 end
 
 
