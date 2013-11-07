@@ -33,9 +33,9 @@ package 'icinga-idoutils' do
     response_file 'icinga-idoutils.seed'
 end
 
-username = node[:icinga][:db][:username]
-password = node[:icinga][:db][:password]
-database = node[:icinga][:db][:database]
+username = node[:icinga][:ido_db][:username]
+password = node[:icinga][:ido_db][:password]
+database = node[:icinga][:ido_db][:database]
 
 mysql_user username do
     password password

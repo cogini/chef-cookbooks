@@ -150,7 +150,7 @@ db_port=
 # 	//DBSERVER/SID
 #	SID
 
-db_name=<%= node[:icinga][:db][:database] %>
+db_name=<%= node[:icinga][:ido_db][:database] %>
 
 
 
@@ -171,8 +171,8 @@ db_prefix=icinga_
 # The user needs at least SELECT, INSERT, UPDATE, and DELETE privileges on
 # the database.
 
-db_user=<%= node[:icinga][:db][:username] %>
-db_pass=<%= node[:icinga][:db][:password] %>
+db_user=<%= node[:icinga][:ido_db][:username] %>
+db_pass=<%= node[:icinga][:ido_db][:password] %>
 
 
 
