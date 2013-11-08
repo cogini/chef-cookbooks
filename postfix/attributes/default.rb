@@ -86,20 +86,9 @@ default[:postfix][:smtpd_recipient_restrictions] = %w{
     reject_unauth_destination
 }
 
-
-# Requires `check_policy_service unix:private/policy-spf` in
-# smtpd_recipient_restrictions
-#
-# Note 1: Put the policy service after reject_unauth_destination to prevent
-# unexpected responses from the policy service from making your system an open
-# relay.
-#
-# Note 2: Put the policy service after you permit local senders. You only want
-# SPF to check inbound mail from the internet, and not outbound mail from your
-# users.
-
-default[:postfix][:enable_spf] = false
-default[:postfix][:enable_postgrey] = false
-default[:postfix][:enable_dkim] = false
 default[:postfix][:enable_amavis] = false
+default[:postfix][:enable_clamav] = false
+default[:postfix][:enable_dkim] = false
 default[:postfix][:enable_gpg_mailgate] = false
+default[:postfix][:enable_postgrey] = false
+default[:postfix][:enable_spf] = false
