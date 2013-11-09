@@ -20,34 +20,17 @@ service 'dovecot' do
 end
 
 
-template '/etc/dovecot/dovecot.conf' do
-    source 'dovecot.conf.erb'
-    owner 'root'
-    group 'dovecot'
-    mode '640'
-    notifies :reload, 'service[dovecot]'
-end
-
-template '/etc/dovecot/dovecot-sql.conf' do
-    source 'dovecot-sql.conf.erb'
-    owner 'root'
-    group 'dovecot'
-    mode '640'
-    notifies :reload, 'service[dovecot]'
-end
-
-template '/etc/dovecot/conf.d/10-master.conf' do
-    source 'dovecot-10-master.conf.erb'
-    owner 'root'
-    group 'dovecot'
-    mode '640'
-    notifies :reload, 'service[dovecot]'
-end
-
-template '/etc/dovecot/conf.d/10-ssl.conf' do
-    source 'dovecot-10-ssl.conf.erb'
-    owner 'root'
-    group 'dovecot'
-    mode '640'
-    notifies :reload, 'service[dovecot]'
+%w{
+    /etc/dovecot/conf.d/10-auth.conf
+    /etc/dovecot/conf.d/10-master.conf
+    /etc/dovecot/conf.d/10-ssl.conf
+    /etc/dovecot/dovecot-sql.conf
+    /etc/dovecot/dovecot.conf
+}.each do |t|
+    template t do
+        owner 'root'
+        group 'dovecot'
+        mode '640'
+        notifies :reload, 'service[dovecot]'
+    end
 end
