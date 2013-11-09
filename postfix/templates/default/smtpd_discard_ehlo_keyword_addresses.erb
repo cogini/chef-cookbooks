@@ -1,0 +1,3 @@
+<% node[:postfix][:smtpd_discard_ehlo_keyword_addresses].each do |address, options| -%>
+<%= address %> <%= options.join(',') %>
+<% end -%>

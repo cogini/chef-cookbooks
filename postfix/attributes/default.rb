@@ -61,6 +61,7 @@ default[:postfix][:smtp_tls_note_starttls_offer] = 'no'
 default[:postfix][:smtp_tls_security_level] = ''
 default[:postfix][:smtp_use_tls] = 'no'
 default[:postfix][:smtpd_data_restrictions] = []
+default[:postfix][:smtpd_discard_ehlo_keyword_address_maps] = ''
 default[:postfix][:smtpd_helo_restrictions] = []
 default[:postfix][:smtpd_sasl_auth_enable] = 'no'
 default[:postfix][:smtpd_sasl_path] = 'smtpd'
