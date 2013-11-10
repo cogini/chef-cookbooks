@@ -19,7 +19,7 @@ end
     spamassassin
 }.each do |srvc|
     service srvc do
-        action :enable, :start
+        action [:enable, :start]
     end
 end
 
