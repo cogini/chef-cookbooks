@@ -1,0 +1,51 @@
+# MySQL application password for icinga-idoutils:
+icinga-idoutils	icinga-idoutils/mysql/app-pass	password	
+icinga-idoutils	icinga-idoutils/password-confirm	password	
+icinga-idoutils	icinga-idoutils/pgsql/admin-pass	password	
+icinga-idoutils	icinga-idoutils/app-password-confirm	password	
+# PostgreSQL application password for icinga-idoutils:
+icinga-idoutils	icinga-idoutils/pgsql/app-pass	password	
+icinga-idoutils	icinga-idoutils/mysql/admin-pass	password	
+# Perform upgrade on database for icinga-idoutils with dbconfig-common?
+icinga-idoutils	icinga-idoutils/dbconfig-upgrade	boolean	true
+# Configure database for icinga-idoutils with dbconfig-common?
+icinga-idoutils	icinga-idoutils/dbconfig-install	boolean	false
+# Connection method for MySQL database of icinga-idoutils:
+icinga-idoutils	icinga-idoutils/mysql/method	select	unix socket
+icinga-idoutils	icinga-idoutils/pgsql/manualconf	note	
+icinga-idoutils	icinga-idoutils/passwords-do-not-match	error	
+#  database name for icinga-idoutils:
+icinga-idoutils	icinga-idoutils/db/dbname	string	icinga
+# Deconfigure database for icinga-idoutils with dbconfig-common?
+icinga-idoutils	icinga-idoutils/dbconfig-remove	boolean	
+icinga-idoutils	icinga-idoutils/upgrade-error	select	abort
+icinga-idoutils	icinga-idoutils/pgsql/changeconf	boolean	false
+icinga-idoutils	icinga-idoutils/pgsql/authmethod-user	select	password
+icinga-idoutils	icinga-idoutils/pgsql/no-empty-passwords	error	
+# Connection method for PostgreSQL database of icinga-idoutils:
+icinga-idoutils	icinga-idoutils/pgsql/method	select	unix socket
+icinga-idoutils	icinga-idoutils/remote/port	string	
+icinga-idoutils	icinga-idoutils/missing-db-package-error	select	abort
+icinga-idoutils	icinga-idoutils/internal/skip-preseed	boolean	true
+icinga-idoutils	icinga-idoutils/install-error	select	abort
+icinga-idoutils	icinga-idoutils/pgsql/authmethod-admin	select	ident
+#  username for icinga-idoutils:
+icinga-idoutils	icinga-idoutils/db/app-user	string	
+#  storage directory for icinga-idoutils:
+icinga-idoutils	icinga-idoutils/db/basepath	string	
+# Host name of the  database server for icinga-idoutils:
+icinga-idoutils	icinga-idoutils/remote/host	select	
+# Reinstall database for icinga-idoutils?
+icinga-idoutils	icinga-idoutils/dbconfig-reinstall	boolean	false
+icinga-idoutils	icinga-idoutils/pgsql/admin-user	string	postgres
+# Database type to be used by icinga-idoutils:
+icinga-idoutils	icinga-idoutils/database-type	select	
+icinga-idoutils	icinga-idoutils/internal/reconfiguring	boolean	false
+# Do you want to back up the database for icinga-idoutils before upgrading?
+icinga-idoutils	icinga-idoutils/upgrade-backup	boolean	true
+icinga-idoutils	icinga-idoutils/remove-error	select	abort
+icinga-idoutils	icinga-idoutils/mysql/admin-user	string	root
+# Do you want to purge the database for icinga-idoutils?
+icinga-idoutils	icinga-idoutils/purge	boolean	false
+# Host running the  server for icinga-idoutils:
+icinga-idoutils	icinga-idoutils/remote/newhost	string	
