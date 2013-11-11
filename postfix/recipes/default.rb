@@ -130,6 +130,13 @@ unless postfix[:sender_dependent_relayhosts].empty?
 end
 
 
+if postfix[:smtpd_discard_ehlo_keyword_addresses]
+    map_file = '/etc/postfix/smtpd_discard_ehlo_keyword_addresses'
+    postfix_map map_file
+    node.set[:postfix][:smtpd_discard_ehlo_keyword_address_maps] = "hash:#{map_file}"
+end
+
+
 if postfix[:enable_dkim]
   include_recipe 'dkim'
 end
