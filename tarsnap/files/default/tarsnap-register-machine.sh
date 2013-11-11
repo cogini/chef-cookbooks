@@ -13,8 +13,8 @@ BINDIR=`dirname $0`
 cd $BINDIR; BINDIR=$PWD; cd $CURDIR
 
 TARSNAP_DIR=$BINDIR
-KEYFILE=$TARSNAP_DIR/tarsnap.key
-WRITE_KEYFILE=$TARSNAP_DIR/tarsnap-write.key
+KEYFILE="$TARSNAP_DIR/$(hostname -s)-tarsnap.key"
+WRITE_KEYFILE="$TARSNAP_DIR/$(hostname -s)-tarsnap-write.key"
 CACHEDIR=$TARSNAP_DIR/cachedir
 TARSNAP_KEYGEN=/usr/local/bin/tarsnap-keygen
 TARSNAP_KEYMGMT=/usr/local/bin/tarsnap-keymgmt
