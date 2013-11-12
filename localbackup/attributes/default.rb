@@ -14,10 +14,6 @@ default[:localbackup][:pgsql][:enable] = (not Dir.glob('/etc/init.d/postgresql*'
 
 case node[:platform]
 when 'ubuntu'
-    default[:localbackup][:dirs] = %w{
-        /etc
-        /var/backups
-    }
     if node[:platform_version].to_f < 12.04
         default[:localbackup][:tar_options] = ''
     end
