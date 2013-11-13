@@ -17,9 +17,9 @@ end
 
 include_recipe 'yum::epel'
 
-node.basics.epel_packages.each do |pkg|
+node[:basics][:epel_packages].each do |pkg|
     package pkg do
-        unless node.basics.package_mask.include?(pkg)
+        unless node[:basics][:package_mask].include?(pkg)
             action :install
             options '--enablerepo=epel'
         else
@@ -30,8 +30,8 @@ end
 
 
 %w{ atop ntpd }.each do |srv|
-    execute "chkconfig #{srv} on" do
-        action :run
+    service srv do
+        action [:enable, :start]
         only_if { File.exists?("/etc/init.d/#{srv}") }
     end
 end
