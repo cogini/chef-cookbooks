@@ -73,20 +73,19 @@ end
     template "#{site_dir}/config/#{config_file}" do
         mode '644'
         owner app_user
-        source "#{config_file}.erb"
     end
 end
 
+
+service "chili" do
+    supports :restart => true, :status => true, :reload => true
+    action :nothing
+end
 
 template "/etc/init.d/chili" do
     mode 0755
     source "init-chili.erb"
     notifies :reload, "service[chili]"
-end
-
-service "chili" do
-    supports :restart => true, :status => true, :reload => true
-    action :nothing
 end
 
 
