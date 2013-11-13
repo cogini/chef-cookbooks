@@ -36,15 +36,11 @@ user app_user do
 end
 
 
-bash "Clone chili" do
+git "Clone chili #{version}" do
+    repository "https://github.com/chiliproject/chiliproject.git"
+    destination site_dir
+    reference version
     user app_user
-    environment({ "HOME" => "/home/#{app_user}" })
-    code <<-EOH
-        [[ -d #{site_dir} ]] || git clone git://github.com/chiliproject/chiliproject.git #{site_dir}
-        cd #{site_dir}
-        git fetch
-        git checkout -f #{version}
-    EOH
 end
 
 node[:chili][:required_gems].each do |gem|
@@ -69,27 +65,28 @@ template "#{site_dir}/../set_env.sh" do
 end
 
 
-template "#{site_dir}/config/database.yml" do
-    mode 0644
-    owner app_user
-    source "database.yml.erb"
+%w{
+    database.yml
+    configuration.yml
+    unicorn.rb
+}.each do |config_file|
+    template "#{site_dir}/config/#{config_file}" do
+        mode '644'
+        owner app_user
+        source "#{config_file}.erb"
+    end
 end
 
-template "#{site_dir}/config/configuration.yml" do
-    mode 0644
-    owner app_user
-    source "configuration.yml.erb"
-end
-
-template "#{site_dir}/config/unicorn.rb" do
-    mode 0644
-    owner app_user
-    source "unicorn.rb.erb"
-end
 
 template "/etc/init.d/chili" do
     mode 0755
     source "init-chili.erb"
+    notifies :reload, "service[chili]"
+end
+
+service "chili" do
+    supports :restart => true, :status => true, :reload => true
+    action :nothing
 end
 
 
@@ -140,7 +137,6 @@ template '/etc/nginx/sites-available/chili.cogini.com' do
 end
 
 service "chili" do
-    supports :restart => true, :status => true, :reload => true
     action [ :enable, :start ]
 end
 

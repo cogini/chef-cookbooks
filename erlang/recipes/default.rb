@@ -11,13 +11,10 @@ pkg_type = pkg_file[-3..-1]
 
 unless File.exists?(pkg_file)
 
-  bash 'get erlang source' do
-    code <<-EOH
-      [[ -d #{source_dir} ]] || git clone git://github.com/erlang/otp.git #{source_dir}
-      cd #{source_dir}
-      git fetch
-      git checkout OTP_#{version}
-    EOH
+  git "Clone erlange #{verson}" do
+      repository "https://github.com/erlang/otp.git"
+      destination source_dir
+      reference "OTP_#{version}"
   end
 
   bash 'compile erlang' do

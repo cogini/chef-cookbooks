@@ -28,8 +28,8 @@ pgsql = node[:nagios][:pgsql]
 
 if pgsql[:enable]
 
-    git_clone 'https://github.com/bucardo/check_postgres.git' do
-        destination "#{node[:nagios][:plugin_dir]}/check_postgres"
+    git "#{node[:nagios][:plugin_dir]}/check_postgres" do
+        repository "https://github.com/bucardo/check_postgres.git"
     end
 
     if pgsql[:host] == 'localhost' and not node[:postgresql][:is_slave]

@@ -16,9 +16,9 @@ end
 install_dir = '/opt/gpg-mailgate'
 
 
-git_clone 'https://github.com/ajgon/gpg-mailgate.git' do
-    destination install_dir
-    version 'd0c8e367ab087df8f1cb0ee160324a8bf10fdac6'
+git install_dir do
+    repository 'https://github.com/ajgon/gpg-mailgate.git'
+    reference 'd0c8e367ab087df8f1cb0ee160324a8bf10fdac6'
 end
 
 
