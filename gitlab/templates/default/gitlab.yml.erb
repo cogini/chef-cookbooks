@@ -33,10 +33,10 @@ production: &base
 
     ## Email settings
     # Email address used in the "From" field in mails sent by GitLab
-    email_from: gitlab@cogini.com
+    email_from: <%= node[:gitlab][:email] %>
 
     # Email address of your support contact (default: same as email_from)
-    support_email: noc@cogini.com
+    support_email: <%= node[:gitlab][:support_email] %>
 
     ## User settings
     default_projects_limit: 10
