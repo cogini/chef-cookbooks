@@ -72,14 +72,11 @@ end
 
 
 # Install gitlab shell
-bash "Clone gitlab-shell" do
-  user git_user
-  code <<-EOH
-    [[ -d #{gitlab_shell_dir} ]] || git clone https://github.com/gitlabhq/gitlab-shell.git #{gitlab_shell_dir}
-    cd #{gitlab_shell_dir}
-    git fetch
-    git checkout -f #{gitlab_shell_version}
-  EOH
+git "Clone gitlab-shell #{gitlab_shell_version}" do
+    repository "https://github.com/gitlabhq/gitlab-shell.git"
+    destination gitlab_shell_dir
+    reference gitlab_shell_version
+    user git_user
 end
 
 template "#{gitlab_shell_dir}/config.yml" do
@@ -95,14 +92,11 @@ execute "Install gitlab-shell" do
 end
 
 
-bash "Clone gitlab" do
-  user git_user
-  code <<-EOH
-    [[ -d #{gitlab_dir} ]] || git clone https://github.com/gitlabhq/gitlabhq.git #{gitlab_dir}
-    cd #{gitlab_dir}
-    git fetch
-    git checkout -f #{gitlab_version}
-  EOH
+git "Clone gitlab #{gitlab_version}" do
+    repository "https://github.com/gitlabhq/gitlabhq.git"
+    destination gitlab_dir
+    reference gitlab_version
+    user git_user
 end
 
 
