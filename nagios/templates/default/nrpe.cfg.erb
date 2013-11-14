@@ -77,7 +77,7 @@ nrpe_group=nagios
 #
 # NOTE: This option is ignored if NRPE is running under either inetd or xinetd
 
-allowed_hosts=<%= nagios[:allowed_hosts].join(',') %>
+allowed_hosts=<%= (%w{ 127.0.0.1 } + nagios[:allowed_hosts]).join(',') %>
 
 
 

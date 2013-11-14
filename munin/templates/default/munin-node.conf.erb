@@ -33,7 +33,7 @@ ignore_file \.pod$
 # network notation unless the perl module Net::CIDR is installed.  You
 # may repeat the allow line as many times as you'd like
 
-<% node[:munin][:allow].each do |host| -%>
+<% (%w{ 127.0.0.1 } + node[:munin][:allow]).each do |host| -%>
 allow ^<%= host.gsub(".", "\\.") %>$
 <% end -%>
 
