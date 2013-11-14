@@ -14,13 +14,10 @@ define :yii_framework do
         recursive true
     end
 
-    bash 'install-yii' do
-        code <<-EOH
-            [[ -d #{path} ]] || git clone https://github.com/yiisoft/yii.git #{path}
-            cd #{path}
-            git fetch
-            git checkout #{version}
-        EOH
+    git "Clone yii #{version}" do
+        repository "https://github.com/yiisoft/yii.git"
+        destination path
+        reference version
     end
 
     link symlink do

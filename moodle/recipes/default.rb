@@ -32,14 +32,13 @@ moodle_group = node.moodle.group
     end
 end
 
-bash 'install moodle from git' do
-    code <<-EOH
-        git clone git://git.moodle.org/moodle.git #{site_dir}
-        cd #{site_dir}
-        git fetch
-        git checkout #{node[:moodle][:branch]}
-        chown -R #{moodle_user}:#{moodle_group} #{data_dir}
-    EOH
+git site_dir do
+    repository "git://git.moodle.org/moodle.git"
+    reference node[:moodle][:branch]
+end
+
+execute "Change owner of #{data_dir}" do
+    command "chown -R #{moodle_user}:#{moodle_group} #{data_dir}"
 end
 
 

@@ -18,13 +18,10 @@ directory File.dirname(yii_path) do
     recursive true
 end
 
-bash 'install-yii' do
-    code <<-EOH
-        [[ -d #{yii_path} ]] || git clone https://github.com/yiisoft/yii.git #{yii_path}
-        cd #{yii_path}
-        git fetch
-        git checkout #{node[:yii][:version]}
-    EOH
+git "Clone yii #{node[:yii][:version]}" do
+    repository "https://github.com/yiisoft/yii.git"
+    reference node[:yii][:version]
+    destination yii_path
 end
 
 execute "ln -snf #{node[:yii][:path]} #{node[:yii][:symlink]}" do
