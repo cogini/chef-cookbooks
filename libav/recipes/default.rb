@@ -1,11 +1,3 @@
-apt_repository 'cogini' do
-    uri 'https://pkghub.io/repo/phunehehe/cogini'
-    distribution node[:lsb][:codename]
-    components ['main']
-    key 'https://pkghub.io/gpg.key'
-end
-
-package 'libav' do
-    action :install
-    version node[:libav][:version]
-end
+version = node[:libav][:version]
+arch = node[:kernel][:machine] =~ /x86_64/ ? '64bit' : '32bit'
+package_from_url "http://packages.cogini.com/libav-#{version}-#{arch}.deb"
