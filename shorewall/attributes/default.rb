@@ -1,11 +1,3 @@
-default[:shorewall][:allowed_ports] = [
-    22,
-    80,
-    443,
-]
-default[:shorewall][:blocked_ports] = []
-default[:shorewall][:allowed_hosts] = []
-
 # Json format:
 # "shorewall": {
 #   "allowed_connections": [
@@ -18,6 +10,6 @@ default[:shorewall][:allowed_hosts] = []
 #     }
 #   ]
 # }
-
 default[:shorewall][:allowed_connections] = []
-default[:shorewall][:allowed_services] = []
+
+default[:shorewall][:allowed_services] = %w{ http https ssh }
