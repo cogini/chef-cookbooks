@@ -135,10 +135,6 @@ template '/etc/nginx/sites-available/chili.cogini.com' do
     notifies :reload, 'service[nginx]'
 end
 
-service "chili" do
-    action [ :enable, :start ]
-end
-
 nginx_site "chili.cogini.com" do
     action :enable
 end
