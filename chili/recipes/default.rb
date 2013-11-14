@@ -79,7 +79,7 @@ end
 
 service "chili" do
     supports :restart => true, :status => true, :reload => true
-    action :nothing
+    action [:enable, :start]
 end
 
 template "/etc/init.d/chili" do
