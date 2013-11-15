@@ -2,7 +2,8 @@
 
 
 # Allow services
-ACCEPT net $FW tcp <%= node[:shorewall][:allowed_services].join(',') %>
+ACCEPT net $FW tcp <%= node[:shorewall][:allowed_services][:tcp].join(',') %>
+ACCEPT net $FW udp <%= node[:shorewall][:allowed_services][:udp].join(',') %>
 
 # Allow connections from certain hosts to certain ports
 <% node[:shorewall][:allowed_connections].each do |connection| -%>
