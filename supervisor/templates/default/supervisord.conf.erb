@@ -130,17 +130,18 @@ serverurl=unix:///tmp/supervisor.sock ; use a unix:// URL  for a unix socket
 ;[include]
 ;files = relative/directory/*.ini
 
-<%
-program_default = Mash.new({
-    :autorestart => 'unexpected',
-    :autostart => 'true',
-})
--%>
 <% node[:supervisor][:programs].each do |program| -%>
-<% program = program_default.merge(program) %>
 [program:<%= program[:name] %>]
 command=<%= program[:command] %>
 user=<%= program[:user] %>
-autorestart=<%= program[:autorestart] %>
-autostart=<%= program[:autostart] %>
+    <% %w{
+        autorestart
+        autostart
+        stdout_logfile
+        stderr_logfile
+    }.each do |key| -%>
+        <% if program.has_key?(key) -%>
+<%= key %>=<%= program[key] %>
+        <% end %>
+    <% end %>
 <% end -%>
