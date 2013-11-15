@@ -77,11 +77,6 @@ end
 end
 
 
-service "chili" do
-    supports :restart => true, :status => true, :reload => true
-    action [:enable, :start]
-end
-
 template "/etc/init.d/chili" do
     mode 0755
     source "init-chili.erb"
@@ -126,6 +121,11 @@ template "#{site_dir}/app/models/document.rb" do
     mode 0644
     source 'document.rb.erb'
     owner app_user
+end
+
+service "chili" do
+    supports :restart => true, :status => true, :reload => true
+    action [:enable, :start]
 end
 
 
