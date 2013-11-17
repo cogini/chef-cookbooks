@@ -26,7 +26,7 @@ include_recipe 'localbackup'
 include_recipe 'timezone'
 
 
-case node.platform
+case node[:platform]
 when 'redhat', 'centos', 'amazon'
     include_recipe 'basics::redhat'
 when 'ubuntu'
