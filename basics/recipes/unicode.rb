@@ -10,19 +10,25 @@
 
 case node[:platform]
 
+
 when 'ubuntu'
-    file '/etc/default/locale' do
-        mode '0644'
-        content 'LANG="en_US.UTF-8"'
+
+    execute 'locale-gen' do
+        action :nothing
     end
 
-    execute 'locale' do
-        command 'locale-gen'
+    file '/etc/default/locale' do
+        mode '644'
+        content 'LANG="en_US.UTF-8"'
+        notifies :run, 'execute[locale-gen]'
     end
+
 
 when 'redhat', 'centos', 'amazon'
+
     file '/etc/sysconfig/i18n' do
-        mode '0644'
+        mode '644'
         content 'LANG="en_US.UTF-8"'
     end
+
 end

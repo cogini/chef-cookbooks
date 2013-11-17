@@ -9,11 +9,11 @@
 
 include_recipe 'postfix::vanilla'
 
-template '/etc/aliases' do
-    mode '0644'
-    source 'aliases.erb'
+execute 'newaliases' do
+    action :nothing
 end
 
-execute 'newaliases' do
-  command 'newaliases'
+template '/etc/aliases' do
+    mode '644'
+    notifies :run, 'execute[newaliases]'
 end
