@@ -15,6 +15,18 @@ end
 package "dovecot-#{node[:dovecot][:db][:driver]}"
 
 
+# For now we take this to mean "enable sieve"
+if node[:postfix][:virtual_transport] == 'dovecot'
+
+    package 'dovecot-managesieved'
+
+    template '/etc/dovecot/conf.d/15-lda.conf' do
+        mode '644'
+        notifies :reload, 'service[dovecot]'
+    end
+end
+
+
 service 'dovecot' do
     action :nothing
 end
@@ -24,13 +36,16 @@ end
     /etc/dovecot/conf.d/10-auth.conf
     /etc/dovecot/conf.d/10-master.conf
     /etc/dovecot/conf.d/10-ssl.conf
-    /etc/dovecot/dovecot-sql.conf
     /etc/dovecot/dovecot.conf
 }.each do |t|
     template t do
-        owner 'root'
-        group 'dovecot'
-        mode '640'
+        mode '644'
         notifies :reload, 'service[dovecot]'
     end
+end
+
+# This file may contain passwords and should be protected
+template '/etc/dovecot/dovecot-sql.conf' do
+    mode '600'
+    notifies :reload, 'service[dovecot]'
 end

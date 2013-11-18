@@ -5,3 +5,12 @@ service auth {
         mode = 0666
     }
 }
+
+<% if node[:postfix][:virtual_transport] == 'dovecot' -%>
+service auth {
+    unix_listener auth-userdb {
+        mode = 0600
+        user = virtual
+    }
+}
+<% end -%>

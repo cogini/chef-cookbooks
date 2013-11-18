@@ -72,6 +72,10 @@ transport_maps = <%= postfix[:transport_maps_file] %>
 
 virtual_uid_maps = static:<%= postfix[:virtual_uid_static] %>
 virtual_gid_maps = static:<%= postfix[:virtual_gid_static] %>
+virtual_transport = <%= postfix[:virtual_transport] %>
+<% if postfix[:virtual_transport] == 'dovecot' -%>
+dovecot_destination_recipient_limit = 1
+<% end -%>
 
 mailbox_size_limit = <%= postfix[:mailbox_size_limit] %>
 message_size_limit = <%= postfix[:message_size_limit] %>

@@ -143,6 +143,11 @@ policy-spf  unix  -     n       n       -       -       spawn
   user=nobody argv=/usr/bin/policyd-spf
 <% end -%>
 
+<% if node[:postfix][:virtual_transport] == 'dovecot' -%>
+dovecot unix - n n - - pipe
+  flags=DRhu user=virtual:virtual argv=/usr/lib/dovecot/dovecot-lda -f ${sender} -d ${recipient}
+<% end -%>
+
 <% node[:postfix][:master_partials].each do |partial_template| -%>
 <%= render partial_template %>
 <% end -%>
