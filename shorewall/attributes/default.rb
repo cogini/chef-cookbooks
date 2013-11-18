@@ -12,4 +12,5 @@
 # }
 default[:shorewall][:allowed_connections] = []
 
-default[:shorewall][:allowed_services] = %w{ http https ssh }
+default[:shorewall][:allowed_services][:tcp] = %w{ http https ssh }
+default[:shorewall][:allowed_services][:udp] = []
