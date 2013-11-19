@@ -15,7 +15,7 @@ default[:roundcube][:des_key] = secure_password[0..23]
 default[:roundcube][:draft_autosave] = 60
 
 # HTML editor is nice
-default[:roundcube][:htmleditor] = false
+default[:roundcube][:htmleditor] = true
 
 # Roundcube default maintains backward compatibility with RFC 2047, a standard
 # now obsoleted
