@@ -16,7 +16,11 @@ package "dovecot-#{node[:dovecot][:db][:driver]}"
 
 
 # For now we take this to mean "enable sieve"
-if node[:postfix][:virtual_transport] == 'dovecot'
+if node[:dovecot][:enable_sieve]
+
+    unless node[:postfix][:virtual_transport] == 'dovecot'
+        raise 'node[:postfix][:virtual_transport] must be set to "dovecot".'
+    end
 
     package 'dovecot-managesieved'
 

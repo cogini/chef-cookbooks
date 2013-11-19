@@ -6,7 +6,7 @@ service auth {
     }
 }
 
-<% if node[:postfix][:virtual_transport] == 'dovecot' -%>
+<% if node[:dovecot][:enable_sieve] -%>
 service auth {
     unix_listener auth-userdb {
         mode = 0600
