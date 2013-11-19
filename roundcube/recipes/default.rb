@@ -8,17 +8,31 @@
 #
 
 include_recipe 'nginx'
-include_recipe 'php::module_sqlite3'
 include_recipe 'php::module_mcrypt'
 include_recipe 'php::module_intl'
 include_recipe 'php::module_curl'
 include_recipe 'php::fpm'
 
 
+if node[:roundcube][:db][:driver] == 'sqlite'
+
+    include_recipe 'php::module_sqlite3'
+
+    directory File.dirname(node[:roundcube][:db][:database]) do
+        action :create
+        recursive true
+        owner 'www-data'
+    end
+
+else
+    raise NotImplementedError
+
+end
+
+
 [
     node[:roundcube][:log_dir],
     "#{node[:roundcube][:site_dir]}/temp",
-    File.dirname(node[:roundcube][:db][:sqlite]),
 ].each do |dir|
     directory dir do
         action :create
