@@ -10,7 +10,7 @@ template map_file do
     owner 'root'
     group 'root'
     mode 0400
-    notifies :run, resources(:execute => 'postmap_transport_maps'), :immediately
-    notifies :restart, resources(:service => 'postfix')
+    notifies :run, 'execute[postmap_transport_maps]', :immediately
+    notifies :restart, 'service[postfix]'
 end
 

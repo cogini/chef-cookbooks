@@ -31,8 +31,8 @@ when "redhat", "centos", "amazon", "scientific"
   end
   execute "switch_mailer_to_postfix" do
     command "/usr/sbin/alternatives --set mta /usr/sbin/sendmail.postfix"
-    notifies :stop, resources(:service => "sendmail")
-    notifies :start, resources(:service => "postfix")
+    notifies :stop, 'service[sendmail]'
+    notifies :start, 'service[postfix]'
     not_if "/usr/bin/test /etc/alternatives/mta -ef /usr/sbin/sendmail.postfix"
   end
 end
@@ -61,7 +61,7 @@ end
     owner "root"
     group "root"
     mode 0644
-    notifies :restart, resources(:service => "postfix")
+    notifies :restart, 'service[postfix]'
   end
 end
 
@@ -160,7 +160,7 @@ if postfix[:enable_amavis]
 end
 
 if postfix[:enable_gpg_mailgate]
-    include_recipe "postfix::gpg-mailgate"
+    include_recipe 'postfix::gpg_mailgate'
 end
 
 
