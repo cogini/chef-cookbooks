@@ -13,7 +13,7 @@ unless node[:shorewall][:interfaces]
 end
 
 
-case node['platform']
+case node[:platform]
 when 'centos', 'redhat'
     include_recipe 'shorewall::redhat'
 when 'ubuntu'
@@ -21,26 +21,9 @@ when 'ubuntu'
 end
 
 
-template '/etc/shorewall/rules' do
-    mode '0644'
-    source 'rules.erb'
-end
-
-template '/etc/shorewall/zones' do
-    mode '0644'
-    source 'zones.erb'
-end
-
-template '/etc/shorewall/interfaces' do
-    mode '0644'
-    source 'interfaces.erb'
-end
-
-template '/etc/shorewall/policy' do
-    mode '0644'
-    source 'policy.erb'
-end
-
-service 'shorewall' do
-    action [:enable, :start, :restart]
+%w{ rules zones interfaces policy }.each do |t|
+    template "/etc/shorewall/#{t}" do
+        mode '644'
+        notifies 'service[shorewall]'
+    end
 end
