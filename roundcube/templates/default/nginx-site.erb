@@ -1,0 +1,38 @@
+server {
+
+    listen              443 ssl;
+    server_name         <%= node[:roundcube][:server_name] %>;
+    root                <%= node[:roundcube][:site_dir] %>;
+
+    access_log          <%= node[:roundcube][:log_dir] %>/access.log json;
+    error_log           <%= node[:roundcube][:log_dir] %>/error.log;
+
+    ssl_certificate     <%= node[:postfix][:smtpd_tls_cert_file] %>;
+    ssl_certificate_key <%= node[:postfix][:smtpd_tls_key_file] %>;
+
+    location ~ \.(css|gif|jpeg|jpg|js|png)$ {
+        # Serve the file if it exists
+        expires 1w;
+    }
+
+    location ~ \.php$ {
+        try_files     $uri = 404;
+        include       fastcgi_params;
+        fastcgi_pass  127.0.0.1:9000;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+
+    location / {
+      index     index.php;
+      try_files $uri $uri/ /index.php?$args;
+    }
+}
+
+server {
+    listen      80;
+    server_name <%= node[:roundcube][:server_name] %>;
+    location / {
+        return 301 https://<%= node[:roundcube][:server_name] %>;
+    }
+}
