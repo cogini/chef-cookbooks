@@ -15,24 +15,13 @@ e.g.
 
 Attributes
 ----------
-TODO: List you cookbook attributes here.
 
-e.g.
-#### roundcube::default
-<table>
-  <tr>
-    <th>Key</th>
-    <th>Type</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
-  <tr>
-    <td><tt>['roundcube']['bacon']</tt></td>
-    <td>Boolean</td>
-    <td>whether to include bacon</td>
-    <td><tt>true</tt></td>
-  </tr>
-</table>
+These attributes are required:
+
+  - `[:roundcube][:db][:sqlite]`
+  - `[:roundcube][:log_dir]`
+  - `[:roundcube][:server_name]`
+  - `[:roundcube][:site_dir]`
 
 Usage
 -----
