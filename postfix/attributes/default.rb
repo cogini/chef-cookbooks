@@ -80,6 +80,7 @@ default[:postfix][:virtual_gid_static] = 5000
 default[:postfix][:virtual_mailbox_base] = ''
 default[:postfix][:virtual_mailbox_domains] = []
 default[:postfix][:virtual_mailbox_maps] = ''
+default[:postfix][:virtual_transport] = 'virtual'
 default[:postfix][:virtual_uid_static] = 5000
 
 default[:postfix][:smtpd_recipient_restrictions] = %w{

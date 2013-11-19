@@ -12,6 +12,7 @@ default[:dovecot][:db][:columns][:home_dir] = 'home_dir'
 default[:dovecot][:db][:columns][:mail_dir] = 'mail_dir'
 
 default[:dovecot][:disable_plaintext_auth] = 'no'
+default[:dovecot][:enable_sieve] = false
 
 set[:dovecot][:packages] = %w{
     dovecot-imapd

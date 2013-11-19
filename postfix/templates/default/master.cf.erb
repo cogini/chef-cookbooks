@@ -143,6 +143,22 @@ policy-spf  unix  -     n       n       -       -       spawn
   user=nobody argv=/usr/bin/policyd-spf
 <% end -%>
 
-<% node[:postfix][:master_partials].each do |partial_template| -%>
-<%= render partial_template %>
+<% if node[:postfix][:virtual_transport] == 'dovecot' -%>
+dovecot unix - n n - - pipe
+  flags=DRhu user=virtual:virtual argv=/usr/lib/dovecot/dovecot-lda -f ${sender} -d ${recipient}
+<% end -%>
+
+<% if node[:postfix][:enable_gpg_mailgate] -%>
+gpg-mailgate    unix    -   n   n   -   -   pipe
+    flags= user=<%= node[:postfix][:gpg_user] %> argv=/usr/local/bin/gpg-mailgate.py ${recipient}
+
+127.0.0.1:10028 inet    n   -   n   -   10  smtpd
+    -o content_filter=
+    -o receive_override_options=no_unknown_recipient_checks,no_header_body_checks,no_milters
+    -o smtpd_helo_restrictions=
+    -o smtpd_client_restrictions=
+    -o smtpd_sender_restrictions=
+    -o smtpd_recipient_restrictions=permit_mynetworks,reject
+    -o mynetworks=127.0.0.0/8
+    -o smtpd_authorized_xforward_hosts=127.0.0.0/8
 <% end -%>

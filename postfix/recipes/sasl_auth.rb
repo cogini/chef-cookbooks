@@ -35,24 +35,14 @@ end
 
 
 postfix[:sasl_packages].each do |pkg|
-  package pkg do
-    action :install
-  end
+    package pkg do
+        action :install
+    end
 end
 
 
 pw_file = postfix[:smtp_sasl_password_maps].sub('hash:', '')
 
-execute 'postmap-sasl_passwd' do
-  command "postmap #{pw_file}"
-  action :nothing
-end
-
-template pw_file do
-  source 'sasl_passwd.erb'
-  owner 'root'
-  group 'root'
-  mode 0400
-  notifies :run, resources(:execute => 'postmap-sasl_passwd'), :immediately
-  notifies :restart, resources(:service => 'postfix')
+postfix_map pw_file do
+    template_source 'sasl_passwd.erb'
 end

@@ -1,4 +1,4 @@
-define :postfix_map do
+define :postfix_map, :template_source => nil do
 
     map_file = params[:name]
 
@@ -8,7 +8,8 @@ define :postfix_map do
 
     template map_file do
         mode '400'
-        notifies :run, resources(:execute => "postmap #{map_file}"), :immediately
-        notifies :restart, resources(:service => 'postfix')
+        source params[:template_source]
+        notifies :run, "execute[postmap #{map_file}]", :immediately
+        notifies :restart, 'service[postfix]'
     end
 end
