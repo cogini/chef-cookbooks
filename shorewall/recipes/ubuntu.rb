@@ -19,5 +19,5 @@ end
 template '/etc/default/shorewall' do
     mode '644'
     source 'ubuntu-shorewall.conf.erb'
-    notifies 'service[shorewall]'
+    notifies :restart, 'service[shorewall]'
 end

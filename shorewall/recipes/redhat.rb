@@ -21,5 +21,5 @@ end
 template '/etc/shorewall/shorewall.conf' do
     mode '644'
     source 'redhat-shorewall.conf.erb'
-    notifies 'service[shorewall]'
+    notifies :restart, 'service[shorewall]'
 end

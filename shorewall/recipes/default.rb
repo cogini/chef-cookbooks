@@ -24,6 +24,6 @@ end
 %w{ rules zones interfaces policy }.each do |t|
     template "/etc/shorewall/#{t}" do
         mode '644'
-        notifies 'service[shorewall]'
+        notifies :restart, 'service[shorewall]'
     end
 end
