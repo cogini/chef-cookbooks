@@ -138,3 +138,9 @@ end
 nginx_site "chili.cogini.com" do
     action :enable
 end
+
+
+template '/etc/logrotate.d/chili' do
+    mode '644'
+    source 'logrotate.conf.erb'
+end

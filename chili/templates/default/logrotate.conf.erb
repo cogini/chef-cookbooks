@@ -1,0 +1,9 @@
+<%= node[:chili][:log_dir] %>/*.log {
+    daily
+    minsize 10M
+    rotate 10
+    create
+    compress
+    delaycompress
+    dateext
+}
