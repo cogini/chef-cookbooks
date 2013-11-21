@@ -98,6 +98,7 @@ recipient_delimiter = +
 relay_domains = <%= postfix[:relay_domains].join(', ') %>
 relay_recipient_maps = <%= postfix[:relay_recipient_maps] %>
 sender_dependent_relayhost_maps = <%= postfix[:sender_dependent_relayhost_maps] %>
+sender_dependent_default_transport_maps = <%= postfix[:sender_dependent_default_transport_maps] %>
 
 smtp_helo_timeout = 300s
 smtp_host_lookup = <%= postfix[:smtp_host_lookup] %>

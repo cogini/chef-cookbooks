@@ -137,6 +137,13 @@ if postfix[:smtpd_discard_ehlo_keyword_addresses]
 end
 
 
+if postfix[:sender_dependent_transports]
+    map_file = '/etc/postfix/sender_dependent_transports'
+    postfix_map map_file
+    node.set[:postfix][:sender_dependent_default_transport_maps] = "hash:#{map_file}"
+end
+
+
 if postfix[:enable_dkim]
   include_recipe 'dkim'
 end
