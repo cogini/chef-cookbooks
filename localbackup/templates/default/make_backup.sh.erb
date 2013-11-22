@@ -1,5 +1,7 @@
 #!/bin/bash
+
 set -e
+renice -n 19 $$
 
 
 <%- localbackup = node[:localbackup] -%>
@@ -36,9 +38,14 @@ do
     # Replace / with _
     out_base="${thing//\//_}"
     out_file="$backup_dir/$out_base-$timestamp.tar.gz"
+    set +e
+    # tar exits with code 1 if some files were changed while being archived,
+    # which is not a problem
+    # http://www.gnu.org/software/tar/manual/html_section/Synopsis.html
     /bin/tar <%= localbackup[:tar_options] %> \
              --exclude-from <%= localbackup[:ignore_file] %> \
              -Pczf "$out_file" "$thing"
+    set -e
 done
 
 
