@@ -1,0 +1,3 @@
+<% node[:postfix][:sender_dependent_transports].each do |address, transport| -%>
+<%= address %> <%= transport %>
+<% end -%>

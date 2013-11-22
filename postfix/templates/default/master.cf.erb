@@ -162,3 +162,7 @@ gpg-mailgate    unix    -   n   n   -   -   pipe
     -o mynetworks=127.0.0.0/8
     -o smtpd_authorized_xforward_hosts=127.0.0.0/8
 <% end -%>
+
+<% node[:postfix][:master_partials].each do |partial| -%>
+<%= render partial[:template], :cookbook => partial[:cookbook] %>
+<% end -%>
