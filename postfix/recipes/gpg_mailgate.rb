@@ -8,10 +8,6 @@ unless node[:postfix][:content_filter] == 'gpg-mailgate'
     end
 end
 
-unless node[:postfix][:master_partials].include? 'gpg-mailgate-master.cf.erb'
-    raise 'node[:postfix][:master_partials] must include "gpg-mailgate-master.cf.erb".'
-end
-
 
 install_dir = '/opt/gpg-mailgate'
 
