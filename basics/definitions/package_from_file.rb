@@ -9,9 +9,7 @@ define :package_from_file do
     include_recipe 'gdebi'
     provider = Chef::Provider::Package::Gdebi
   when 'rpm'
-    # The default provider (YUM) wants a version to
-    # be specified, which is inconvenient.
-    provider = Chef::Provider::Package::Rpm
+    provider = Chef::Provider::Package::Yum
   end
 
   package package_file do
