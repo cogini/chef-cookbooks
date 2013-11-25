@@ -13,12 +13,12 @@ template '/etc/init.d/supervisord' do
     mode '755'
 end
 
-service 'supervisord' do
-    supports :status => true, :restart => true, :reload => true
-    action [ :enable, :start ]
-end
-
 template '/etc/supervisord.conf' do
     mode '644'
     notifies :reload, 'service[supervisord]'
+end
+
+service 'supervisord' do
+    supports :status => true, :restart => true, :reload => true
+    action [ :enable, :start ]
 end
