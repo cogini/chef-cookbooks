@@ -14,6 +14,9 @@ include_recipe 'php::module_curl'
 include_recipe 'php::fpm'
 
 
+site_dir = node[:roundcube][:site_dir]
+
+
 if node[:roundcube][:db][:driver] == 'sqlite'
 
     include_recipe 'php::module_sqlite3'
@@ -32,7 +35,7 @@ end
 
 [
     node[:roundcube][:log_dir],
-    "#{node[:roundcube][:site_dir]}/temp",
+    "#{site_dir}/temp",
 ].each do |dir|
     directory dir do
         action :create
@@ -42,10 +45,16 @@ end
 end
 
 %w{ main db }.each do |config|
-    template "#{node[:roundcube][:site_dir]}/config/#{config}.inc.php" do
+    template "#{site_dir}/config/#{config}.inc.php" do
         source "#{config}.inc.php.erb"
         mode '644'
     end
+end
+
+template "#{site_dir}/plugins/password/config.inc.php" do
+    source 'password-config.inc.php.erb'
+    mode '600'
+    owner 'www-data'
 end
 
 
