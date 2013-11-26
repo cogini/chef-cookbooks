@@ -15,7 +15,6 @@ end
 package "dovecot-#{node[:dovecot][:db][:driver]}"
 
 
-# For now we take this to mean "enable sieve"
 if node[:dovecot][:enable_sieve]
 
     unless node[:postfix][:virtual_transport] == 'dovecot'
@@ -24,9 +23,11 @@ if node[:dovecot][:enable_sieve]
 
     package 'dovecot-managesieved'
 
-    template '/etc/dovecot/conf.d/15-lda.conf' do
-        mode '644'
-        notifies :reload, 'service[dovecot]'
+    %w{ 15-lda 90-sieve }.each do |t|
+        template "/etc/dovecot/conf.d/#{t}.conf" do
+            mode '644'
+            notifies :reload, 'service[dovecot]'
+        end
     end
 end
 

@@ -8,7 +8,7 @@
 plugin {
   # The path to the user's main active script. If ManageSieve is used, this the
   # location of the symbolic link controlled by ManageSieve.
-  sieve = ~/.dovecot.sieve
+  sieve = ~/sieve/%d/%n/.dovecot.sieve
 
   # The default Sieve script when the user has none. This is a path to a global
   # sieve script file, which gets executed ONLY if user's private Sieve script
@@ -20,7 +20,7 @@ plugin {
 
   # Directory for :personal include scripts for the include extension. This
   # is also where the ManageSieve service stores the user's scripts.
-  sieve_dir = ~/sieve
+  sieve_dir = ~/sieve/%d/%n
 
   # Directory for :global include scripts for the include extension.
   #sieve_global_dir =
