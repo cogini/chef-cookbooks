@@ -55,6 +55,7 @@ template "#{site_dir}/plugins/password/config.inc.php" do
     source 'password-config.inc.php.erb'
     mode '600'
     owner 'www-data'
+    only_if { node[:roundcube][:plugins].include?('password') }
 end
 
 
