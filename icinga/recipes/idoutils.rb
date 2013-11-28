@@ -25,7 +25,7 @@ end
 
 
 service 'ido2db' do
-    action :nothing
+    action [:enable, :start]
 end
 
 
