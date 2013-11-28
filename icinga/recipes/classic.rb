@@ -36,5 +36,5 @@ end
 
 
 service 'icinga' do
-    action [ :enable, :start ]
+    action [:enable, :start]
 end
