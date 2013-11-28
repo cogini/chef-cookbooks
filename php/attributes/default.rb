@@ -56,7 +56,7 @@ when 'debian', 'ubuntu'
     default[:php][:fpm][:user] = 'www-data'
     default[:php][:fpm_config] = '/etc/php5/fpm/php-fpm.conf'
     default[:php][:fpm_config_template] = 'ubuntu-php-fpm.conf.erb'
-    default[:php][:fpm_packages] = %w{ php5-fpm php5-cli }
+    default[:php][:fpm_packages] = %w{ php5-fpm php5-cli php5-dev php-pear }
     default[:php][:fpm_pool_config] = '/etc/php5/fpm/pool.d/www.conf'
     default[:php][:fpm_service] = 'php5-fpm'
     default[:php][:session][:gc_probability] = 0
