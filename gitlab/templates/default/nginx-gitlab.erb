@@ -8,7 +8,7 @@ upstream gitlab {
 
 server {
 
-  listen      80;
+  listen      80 default_server;
   server_name <%= node[:gitlab][:server_name] %>;
 
   root       <%= node[:gitlab][:dir] %>/public;
