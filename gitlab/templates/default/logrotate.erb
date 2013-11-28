@@ -6,3 +6,12 @@
     delaycompress
     copytruncate
 }
+
+<%= node[:gitlab][:shell][:dir] %>/gitlab-shell.log {
+    rotate 7
+    daily
+    minsize 10M
+    compress
+    delaycompress
+    copytruncate
+}
