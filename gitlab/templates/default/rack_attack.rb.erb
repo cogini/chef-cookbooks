@@ -1,5 +1,5 @@
 paths_to_be_protected = [
-<%= node[:gitlab][:protected_path].join("") %>
+<%= node[:gitlab][:protected_path].join(",") %>
 ]
 
 unless Rails.env.test?
