@@ -117,8 +117,8 @@ end
 end
 
 
-template "#{gitlab_dir}/config/initializers/rack_attack.rb" do
-  source "rack_attack.rb.erb"
+file "#{gitlab_dir}/config/initializers/rack_attack.rb" do
+  content IO.read("#{gitlab_dir}/config/initializers/rack_attack.rb.example")
   owner git_user
   group git_user
   mode '644'
