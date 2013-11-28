@@ -8,8 +8,8 @@ upstream gitlab {
 
 server {
 
-  listen      80 default_server;
-  server_name gitlab;
+  listen      80;
+  server_name <%= node[:gitlab][:server_name] %>;
 
   root       <%= node[:gitlab][:dir] %>/public;
   access_log <%= node[:gitlab][:dir] %>/log/nginx_access.log json;
