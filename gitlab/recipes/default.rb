@@ -117,11 +117,19 @@ end
 end
 
 
+file "#{gitlab_dir}/config/initializers/rack_attack.rb" do
+  content IO.read("#{gitlab_dir}/config/initializers/rack_attack.rb.example")
+  owner git_user
+  group git_user
+  mode '644'
+end
+
+
 template "#{gitlab_dir}/config/database.yml" do
   source "database.yml.erb"
   owner git_user
   group git_user
-  mode 0600
+  mode '600'
 end
 
 
@@ -130,7 +138,7 @@ if node[:gitlab][:sidekiq][:concurrency]
     source "4_sidekiq.rb.erb"
     owner git_user
     group git_user
-    mode 0644
+    mode '644'
   end
 end
 
@@ -165,7 +173,7 @@ end
   directory dir do
     owner git_user
     group git_user
-    mode 0755
+    mode '755'
     action :create
     recursive true
   end
@@ -207,7 +215,7 @@ end
 
 remote_file "/etc/init.d/gitlab" do
   source "https://raw.github.com/gitlabhq/gitlabhq/#{gitlab_version}/lib/support/init.d/gitlab"
-  mode 0755
+  mode '755'
 end
 
 
