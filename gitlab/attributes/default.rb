@@ -45,11 +45,3 @@ default[:gitlab][:satellites_path] = "/home/git/gitlab-satellites/"
 default[:gitlab][:repos_path] = "/home/git/repositories/"
 
 default[:gitlab][:worker_processes] = 2
-
-default[:gitlab][:protected_path] = %w{
-  "#{Rails.application.config.relative_url_root}/users/password"
-  "#{Rails.application.config.relative_url_root}/users/sign_in"
-  "#{Rails.application.config.relative_url_root}/api/#{API::API.version}/session.json"
-  "#{Rails.application.config.relative_url_root}/api/#{API::API.version}/session"
-  "#{Rails.application.config.relative_url_root}/users"
-}
