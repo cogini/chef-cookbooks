@@ -78,6 +78,7 @@ def get_file_list(config, hostname, disk):
                 # Ignore current directory
                 paths.append(current_path + the_path)
 
+        assert paths
         current_path = choice(paths)
 
     return current_path
