@@ -18,7 +18,7 @@
 # limitations under the License.
 #
 
-lib_dir = kernel['machine'] =~ /x86_64/ ? 'lib64' : 'lib'
+lib_dir = kernel[:machine] =~ /x86_64/ ? 'lib64' : 'lib'
 
 default[:php][:install_method] = 'package'
 default[:php][:post_max_size] = "8M"
@@ -37,7 +37,7 @@ default[:php][:fpm][:slowlog] = '/var/log/php-fpm/slow.log'
 
 default[:php][:session][:gc_probability] = 1
 
-case node['platform']
+case node[:platform]
 when 'centos', 'redhat', 'fedora', 'amazon'
     default[:php][:conf_dir] = '/etc'
     default[:php][:ext_conf_dir] = '/etc/php.d'
@@ -62,19 +62,19 @@ when 'debian', 'ubuntu'
     default[:php][:session][:gc_probability] = 0
 end
 
-default['php']['url'] = 'http://us.php.net/distributions'
-default['php']['version'] = '5.3.10'
-default['php']['checksum'] = 'ee26ff003eaeaefb649735980d9ef1ffad3ea8c2836e6ad520de598da225eaab'
-default['php']['prefix_dir'] = '/usr/local'
+default[:php][:url] = 'http://us.php.net/distributions'
+default[:php][:version] = '5.3.10'
+default[:php][:checksum] = 'ee26ff003eaeaefb649735980d9ef1ffad3ea8c2836e6ad520de598da225eaab'
+default[:php][:prefix_dir] = '/usr/local'
 
-default['php']['configure_options'] = %W{--prefix=#{php['prefix_dir']}
+default[:php][:configure_options] = %W{--prefix=#{php[:prefix_dir]}
                                           --with-libdir=#{lib_dir}
-                                          --with-config-file-path=#{php['conf_dir']}
-                                          --with-config-file-scan-dir=#{php['ext_conf_dir']}
+                                          --with-config-file-path=#{php[:conf_dir]}
+                                          --with-config-file-scan-dir=#{php[:ext_conf_dir]}
                                           --with-pear
                                           --enable-fpm
-                                          --with-fpm-user=#{php['fpm_user']}
-                                          --with-fpm-group=#{php['fpm_group']}
+                                          --with-fpm-user=#{php[:fpm_user]}
+                                          --with-fpm-group=#{php[:fpm_group]}
                                           --with-zlib
                                           --with-openssl
                                           --with-kerberos

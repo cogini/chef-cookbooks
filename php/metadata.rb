@@ -7,6 +7,7 @@ version           "1.0.2"
 depends "build-essential"
 depends "xml"
 depends "mysql"
+depends "yum"
 
 %w{ debian ubuntu centos redhat fedora }.each do |os|
   supports os
