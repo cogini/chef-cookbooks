@@ -16,6 +16,20 @@ server {
     }
 
     location ~ \.php$ {
+
+        # Allow caching of email preview
+        if ($arg__task = mail) {
+            set $cache 1;
+        }
+        if ($arg__action = preview) {
+            set $cache "${cache}2";
+        }
+        if ($cache = 12) {
+            expires 1d;
+        }
+        # Pragma no-cache is stupid anyway
+        fastcgi_hide_header Pragma;
+
         try_files     $uri = 404;
         include       fastcgi_params;
         fastcgi_pass  127.0.0.1:9000;
@@ -24,8 +38,8 @@ server {
     }
 
     location / {
-      index     index.php;
-      try_files $uri $uri/ /index.php?$args;
+        index     index.php;
+        try_files $uri $uri/ /index.php?$args;
     }
 }
 
