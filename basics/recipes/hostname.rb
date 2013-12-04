@@ -11,11 +11,6 @@ hostname = node[:new_hostname]
 fqdn = node[:new_fqdn]
 
 
-if node[:hostname] == hostname and node[:fqdn] == fqdn
-    return
-end
-
-
 case node[:platform]
 
 
@@ -48,6 +43,7 @@ end
 
 execute 'hostname' do
     command "hostname #{hostname}"
+    not_if { node[:hostname] == hostname and node[:fqdn] == fqdn }
 end
 
 
