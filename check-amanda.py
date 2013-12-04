@@ -36,14 +36,14 @@ def get_file_list(config, hostname, disk):
     # To match 2013-10-31-00-00-02
     pattern = re.compile('\d{4}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}')
 
-    newest = datetime.today()
+    now = datetime.today()
     # Plus one in case the backup for today hasn't run
     delta = {
         'daily': 5,
         'weekly': 35,
         'monthly': 150,
     }[config] + 1
-    oldest = newest - timedelta(days=delta)
+    oldest = now - timedelta(days=delta)
 
     p = Popen([AMRECOVER, config], stdin=PIPE, stdout=PIPE)
     stdin = p.stdin
@@ -67,14 +67,12 @@ def get_file_list(config, hostname, disk):
 
         for line in lines:
 
-            #print line
             date_str, the_path = line.split(None, 1)
             # date_str is like '2013-10-21-07-49-40'
             the_date = datetime.strptime(date_str, '%Y-%m-%d-%H-%M-%S')
-            assert oldest <= the_date <= newest
+            assert oldest <= the_date, '%s was backed up at %s. It is older than %s.' % (current_path + the_path, the_date, oldest)
 
             if the_path != '.':
-                #print the_path
                 # Ignore current directory
                 paths.append(current_path + the_path)
 
@@ -107,7 +105,6 @@ def test_extraction(config, hostname, disk, target):
     enter_line(stdin, 'exit')
 
     output, error = p.communicate()
-    #print output.strip()
     assert error is None
     assert p.returncode == 0
 
@@ -137,6 +134,7 @@ def main():
     disk = choice(disks)
 
     config = choice(('daily', 'weekly', 'monthly'))
+
     print 'Checking %s backup of %s:%s ...' % (config, hostname, disk)
 
     random_file = get_file_list(config, hostname, disk)
