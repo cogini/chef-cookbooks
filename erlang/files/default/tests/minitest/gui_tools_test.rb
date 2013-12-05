@@ -1,17 +1,15 @@
-# Cookbook Name:: erlang
-# Recipe:: default
-# Author:: Joe Williams <joe@joetify.com>
-# Author:: Matt Ray <matt@opscode.com>
-# Author:: Hector Castro <hector@basho.com>
 #
-# Copyright 2008-2009, Joe Williams
-# Copyright 2011, Opscode Inc.
+# Cookbook:: erlang
+# Minitest Chef Handler
+#
+# Author:: Joshua Timberman <joshua@opscode.com>
+# Copyright:: Copyright (c) 2012, Opscode, Inc. <legal@opscode.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#    http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,4 +18,13 @@
 # limitations under the License.
 #
 
-include_recipe "erlang::#{node["erlang"]["install_method"]}"
+require File.expand_path('../support/helpers', __FILE__)
+
+describe 'erlang::default' do
+  include Helpers::Erlang
+
+  it 'installs the x11 package if gui_tools is true' do
+    skip unless node['platform_family'] == 'debian'
+    package("erlang-gs").must_be_installed
+  end
+end
