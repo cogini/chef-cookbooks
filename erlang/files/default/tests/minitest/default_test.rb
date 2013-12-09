@@ -1,4 +1,7 @@
 #
+# Cookbook:: erlang
+# Minitest Chef Handler
+#
 # Author:: Joshua Timberman <joshua@opscode.com>
 # Copyright:: Copyright (c) 2012, Opscode, Inc. <legal@opscode.com>
 #
@@ -15,12 +18,22 @@
 # limitations under the License.
 #
 
-default['erlang']['gui_tools'] = false
-default['erlang']['install_method'] = "package"
+require File.expand_path('../support/helpers', __FILE__)
 
-default['erlang']['source']['version'] = "R15B01"
-default['erlang']['source']['url'] = "http://erlang.org/download/otp_src_#{node['erlang']['source']['version']}.tar.gz"
-default['erlang']['source']['checksum'] = "f94f7de7328af3c0cdc42089c1a4ecd03bf98ec680f47eb5e6cddc50261cabde"
+describe 'erlang::default' do
+  include Helpers::Erlang
 
-default['erlang']['esl']['version'] = nil
-default['erlang']['esl']['lsb_codename'] = node['lsb']['codename']
+  it 'doesnt install the gui_tools if the attribute is false (default)' do
+    skip unless node['platform_family'] == 'debian'
+    skip if node['erlang']['gui_tools']
+    package("erlang-gs").wont_be_installed
+  end
+
+  it 'can process erlang code with the erl command ' do
+    erl = shell_out("erl -myflag 1 <<-EOH
+init:get_argument(myflag).
+EOH
+")
+    assert_includes(erl.stdout,'{ok,[["1"]]}')
+  end
+end

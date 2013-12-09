@@ -1,11 +1,5 @@
-# Cookbook Name:: erlang
-# Recipe:: default
-# Author:: Joe Williams <joe@joetify.com>
-# Author:: Matt Ray <matt@opscode.com>
-# Author:: Hector Castro <hector@basho.com>
 #
-# Copyright 2008-2009, Joe Williams
-# Copyright 2011, Opscode Inc.
+# Copyright 2012-2013, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,4 +14,17 @@
 # limitations under the License.
 #
 
-include_recipe "erlang::#{node["erlang"]["install_method"]}"
+require File.expand_path('../support/helpers', __FILE__)
+
+describe "rabbitmq_test::mgmt_console" do
+  include Helpers::RabbitMQ
+
+  it 'enables the rabbitmq_management plugin' do
+    assert(plugin_enabled?("rabbitmq_management"))
+  end
+
+  it 'enables the rabbitmq_management_visualiser plugin' do
+    assert(plugin_enabled?("rabbitmq_management_visualiser"))
+  end
+
+end

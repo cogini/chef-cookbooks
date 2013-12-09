@@ -1,11 +1,5 @@
-# Cookbook Name:: erlang
-# Recipe:: default
-# Author:: Joe Williams <joe@joetify.com>
-# Author:: Matt Ray <matt@opscode.com>
-# Author:: Hector Castro <hector@basho.com>
 #
-# Copyright 2008-2009, Joe Williams
-# Copyright 2011, Opscode Inc.
+# Copyright 2012, Opscode, Inc. <legal@opscode.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,4 +14,18 @@
 # limitations under the License.
 #
 
-include_recipe "erlang::#{node["erlang"]["install_method"]}"
+describe "rabbitmq_test::cook-1724" do
+  include MiniTest::Chef::Assertions
+  include MiniTest::Chef::Context
+  include MiniTest::Chef::Resources
+
+  it 'doesnt use the rabbitmq apt repository' do
+    unless node['platform_family'] == 'debian'
+      skip "Only applicable on Debian family"
+    end
+
+    file("/etc/apt/sources.list.d/rabbitmq-source.list").wont_exist &&
+      package("rabbitmq-server").must_be_installed
+  end
+
+end

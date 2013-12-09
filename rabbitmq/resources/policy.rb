@@ -1,11 +1,9 @@
-# Cookbook Name:: erlang
-# Recipe:: default
-# Author:: Joe Williams <joe@joetify.com>
-# Author:: Matt Ray <matt@opscode.com>
-# Author:: Hector Castro <hector@basho.com>
 #
-# Copyright 2008-2009, Joe Williams
-# Copyright 2011, Opscode Inc.
+# Cookbook Name:: rabbitmq
+# Resource:: policy
+#
+# Author: Robert Choi <taeilchoi1@gmail.com>
+# Copyright 2013 by Robert Choi
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,4 +18,11 @@
 # limitations under the License.
 #
 
-include_recipe "erlang::#{node["erlang"]["install_method"]}"
+actions :set, :clear, :list
+default_action :set
+
+attribute :policy, :kind_of => String, :name_attribute => true
+attribute :pattern, :kind_of => String
+attribute :params, :kind_of => Hash
+attribute :priority, :kind_of => Integer
+attribute :vhost, :kind_of => String

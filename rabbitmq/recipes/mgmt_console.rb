@@ -1,11 +1,8 @@
-# Cookbook Name:: erlang
-# Recipe:: default
-# Author:: Joe Williams <joe@joetify.com>
-# Author:: Matt Ray <matt@opscode.com>
-# Author:: Hector Castro <hector@basho.com>
 #
-# Copyright 2008-2009, Joe Williams
-# Copyright 2011, Opscode Inc.
+# Cookbook Name:: rabbitmq
+# Recipe:: mgmt_console
+#
+# Copyright 2012, Tacit Knowledge, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,4 +17,15 @@
 # limitations under the License.
 #
 
-include_recipe "erlang::#{node["erlang"]["install_method"]}"
+include_recipe "rabbitmq::default"
+
+plugins = %w( rabbitmq_management rabbitmq_management_visualiser )
+
+service_name = node['rabbitmq']['service_name']
+
+plugins.each do |plugin|
+  rabbitmq_plugin plugin do
+    action :enable
+    notifies :restart, "service[#{service_name}]"
+  end
+end

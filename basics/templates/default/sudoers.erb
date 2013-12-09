@@ -15,3 +15,5 @@ root   ALL=(ALL) ALL
 <% node[:sudo][:groups].each do |group, run_as| %>
 %<%= group %> ALL=(<%= run_as %>) NOPASSWD:ALL
 <% end %>
+
+#includedir /etc/sudoers.d
