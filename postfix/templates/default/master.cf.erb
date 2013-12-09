@@ -145,7 +145,7 @@ policy-spf  unix  -     n       n       -       -       spawn
 
 <% if node[:postfix][:virtual_transport] == 'dovecot' -%>
 dovecot unix - n n - - pipe
-  flags=DRhu user=virtual:virtual argv=/usr/lib/dovecot/dovecot-lda -f ${sender} -d ${recipient}
+  flags=DRhu user=virtual:virtual argv=/usr/lib/dovecot/dovecot-lda -f ${sender} -a ${recipient} -d ${user}@${nexthop}
 <% end -%>
 
 <% if node[:postfix][:enable_gpg_mailgate] -%>
