@@ -47,4 +47,5 @@ default[:roundcube][:plugins] = []
 default[:roundcube][:prefer_html] = true
 default[:roundcube][:read_when_deleted] = true
 default[:roundcube][:refresh_interval] = 60
+default[:roundcube][:session_lifetime] = 10
 default[:roundcube][:smtp_auth_type] = ''

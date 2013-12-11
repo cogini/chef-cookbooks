@@ -4,9 +4,10 @@ license           "Apache 2.0"
 description       "Installs and maintains php and php modules"
 version           "1.0.2"
 
+depends "apt"
 depends "build-essential"
-depends "xml"
 depends "mysql"
+depends "xml"
 depends "yum"
 
 %w{ debian ubuntu centos redhat fedora }.each do |os|
