@@ -33,7 +33,7 @@ if pgsql[:enable]
     end
 
     if pgsql[:host] == 'localhost' and not node[:postgresql][:is_slave]
-        pgsql_user pgsql[:username] do
+        postgresql_user pgsql[:username] do
             action :create
             password pgsql[:password]
         end
