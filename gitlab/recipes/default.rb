@@ -17,11 +17,11 @@ if node[:gitlab][:dbHost] == "localhost"
     include_recipe "postgresql::server"
     db_user = node[:gitlab][:dbUsername]
 
-    pgsql_user db_user do
+    postgresql_user db_user do
       password node[:gitlab][:dbPassword]
     end
 
-    pgsql_db node[:gitlab][:dbName] do
+    postgresql_database node[:gitlab][:dbName] do
       owner db_user
     end
 end

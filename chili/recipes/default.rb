@@ -14,11 +14,11 @@ if db[:host] == "localhost"
     include_recipe "postgresql::server"
     db_user = db[:user]
 
-    pgsql_user db_user do
+    postgresql_user db_user do
         password db[:password]
     end
 
-    pgsql_db db[:database] do
+    postgresql_database db[:database] do
         owner db_user
     end
 end
