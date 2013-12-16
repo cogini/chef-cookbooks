@@ -4,8 +4,6 @@
 #
 # Copyright 2012, Cogini
 #
-# All rights reserved - Do not Redistribute
-#
 
 include_recipe 'postfix::vanilla'
 

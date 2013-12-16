@@ -4,8 +4,6 @@
 #
 # Copyright 2012, Cogini
 #
-# All rights reserved - Do Not Redistribute
-#
 
 yum_key 'RPM-GPG-KEY-remi' do
     url 'http://rpms.famillecollet.com/RPM-GPG-KEY-remi'

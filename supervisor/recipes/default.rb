@@ -4,8 +4,6 @@
 #
 # Copyright 2012, Cogini
 #
-# All rights reserved - Do Not Redistribute
-#
 
 package_from_url "http://packages.cogini.com/supervisor-#{node[:supervisor][:version]}-noarch.rpm"
 
