@@ -4,8 +4,6 @@
 #
 # Copyright 2012, Cogini
 #
-# All rights reserved - Do Not Redistribute
-#
 
 old_mail_dir = '/var/mail/old'
 

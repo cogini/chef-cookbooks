@@ -4,8 +4,6 @@
 #
 # Copyright 2012, Cogini
 #
-# All rights reserved - Do not Redistribute
-#
 
 
 # Somehow the cache is not created automatically

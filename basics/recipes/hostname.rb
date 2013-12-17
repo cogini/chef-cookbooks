@@ -4,8 +4,6 @@
 #
 # Copyright 2012, Cogini
 #
-# All rights reserved - Do Not Redistribute
-#
 
 hostname = node[:new_hostname]
 fqdn = node[:new_fqdn]

@@ -4,8 +4,6 @@
 #
 # Copyright 2012, Cogini
 #
-# All rights reserved - Do Not Redistribute
-#
 
 include_recipe 'basics::cronic'
 include_recipe 'fpm'

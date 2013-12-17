@@ -4,8 +4,6 @@
 #
 # Copyright 2012, Cogini
 #
-# All rights reserved - Do not Redistribute
-#
 
 node[:basics][:packages].each do |pkg|
     package pkg do

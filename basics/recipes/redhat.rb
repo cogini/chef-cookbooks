@@ -4,8 +4,6 @@
 #
 # Copyright 2012, Cogini
 #
-# All rights reserved - Do Not Redistribute
-#
 
 
 # Default shared memory is too low to be useful

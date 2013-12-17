@@ -4,8 +4,6 @@
 #
 # Copyright 2012, Cogini
 #
-# All rights reserved - Do Not Redistribute
-#
 
 key = "#{node.platform}#{node.platform_version.to_i}"
 

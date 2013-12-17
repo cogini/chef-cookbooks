@@ -4,8 +4,6 @@
 #
 # Copyright 2012, Cogini
 #
-# All rights reserved - Do Not Redistribute
-#
 
 sftp = node[:ssh][:sftp]
 sftp_users = sftp[:users]

@@ -1,5 +1,5 @@
 name             'nodejs'
-maintainer       'YOUR_COMPANY_NAME'
+maintainer       'Cogini'
 maintainer_email 'YOUR_EMAIL'
 license          'All rights reserved'
 description      'Installs/Configures nodejs'
