@@ -1,9 +1,9 @@
 #
-# Author:: Seth Chisamore <schisamo@opscode.com>
+# Author:: Sean Porter <portertech@hw-ops.com>
 # Cookbook Name:: python
-# Resource:: virtualenv
+# Recipe:: test_virtualenv
 #
-# Copyright:: 2011, Opscode, Inc <legal@opscode.com>
+# Copyright 2013, Heavy Water Operations, LLC.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,17 +18,18 @@
 # limitations under the License.
 #
 
-actions :create, :delete
-default_action :create if defined?(default_action) # Chef > 10.8
-
-# Default action for Chef <= 10.8
-def initialize(*args)
-  super
-  @action = :create
+python_virtualenv "/tmp/virtualenv" do
+  owner "root"
+  group "root"
+  action :create
 end
 
-attribute :path, :kind_of => String, :name_attribute => true
-attribute :interpreter, :kind_of => String
-attribute :owner, :regex => Chef::Config[:user_valid_regex]
-attribute :group, :regex => Chef::Config[:group_valid_regex]
-attribute :options, :kind_of => String
+python_virtualenv "isolated python environment" do
+  path "/tmp/tobedestroyed"
+  action :create
+end
+
+python_virtualenv "deleting the isolated python environment" do
+  path "/tmp/tobedestroyed"
+  action :delete
+end

@@ -1,9 +1,9 @@
 #
-# Author:: Seth Chisamore <schisamo@opscode.com>
+# Author:: Alex Kiernan (<alexk@alexandalex.com>)
 # Cookbook Name:: python
-# Resource:: virtualenv
+# Recipe:: cook-3084
 #
-# Copyright:: 2011, Opscode, Inc <legal@opscode.com>
+# Copyright 2013, Alex Kiernan
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,17 +18,18 @@
 # limitations under the License.
 #
 
-actions :create, :delete
-default_action :create if defined?(default_action) # Chef > 10.8
+include_recipe "python"
 
-# Default action for Chef <= 10.8
-def initialize(*args)
-  super
-  @action = :create
+python_virtualenv "cook-3084" do
 end
 
-attribute :path, :kind_of => String, :name_attribute => true
-attribute :interpreter, :kind_of => String
-attribute :owner, :regex => Chef::Config[:user_valid_regex]
-attribute :group, :regex => Chef::Config[:group_valid_regex]
-attribute :options, :kind_of => String
+python_virtualenv "cook-3084-interpreter" do
+  # on EL5 the default python we install is called python26
+  if !node['python']['install_method'].eql?("source") &&
+     platform_family?('rhel') &&
+     node['platform_version'].split('.').first.to_i < 6
+    interpreter '/usr/bin/python26'
+  else
+    interpreter 'python'
+  end
+end
