@@ -31,7 +31,7 @@ end
 
 # Include the right "family" recipe for installing the server
 # since they do things slightly differently.
-case node.platform
+case node[:platform]
 when "redhat", "centos", "fedora", "suse", "scientific", "amazon"
   include_recipe "postgresql::server_redhat91"
 when "debian", "ubuntu"
@@ -43,5 +43,5 @@ template "#{node[:postgresql][:dir]}/pg_hba.conf" do
   owner "postgres"
   group "postgres"
   mode 0600
-  notifies :reload, resources(:service => "postgresql-9.1"), :immediately
+  notifies :reload, 'service[postgresql-9.1]', :immediately
 end
