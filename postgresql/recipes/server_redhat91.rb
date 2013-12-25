@@ -89,13 +89,6 @@ template "#{pgsql_dir}/recovery.conf" do
     only_if { node[:postgresql][:is_slave] }
 end
 
-cron 'postgresql-clear-old-wal' do
-    hour node[:postgresql][:cron_time][:clear_wal]
-    minute '0'
-    command "find #{archive_dir} -type f -ctime +0 -delete"
-    only_if { node[:postgresql][:config][:archive_mode] == 'on' }
-end
-
 
 service "postgresql-9.1" do
   supports :restart => true, :status => true, :reload => true
