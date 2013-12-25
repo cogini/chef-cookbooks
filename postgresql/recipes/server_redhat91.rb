@@ -39,26 +39,26 @@ user "postgres" do
 end
 
 package "postgresql" do
-  case node.platform
+  case node[:platform]
   when "redhat","centos","scientific"
     case
-    when node.platform_version.to_f >= 6.0
+    when node[:platform_version].to_f >= 6.0
       package_name "postgresql"
     else
-      package_name "postgresql#{node['postgresql']['version'].split('.').join}"
+      package_name "postgresql#{node[:postgresql][:version].split('.').join}"
     end
   else
     package_name "postgresql"
   end
 end
 
-case node.platform
+case node[:platform]
 when "redhat","centos","scientific"
   case
-  when node.platform_version.to_f >= 6.0
+  when node[:platform_version].to_f >= 6.0
     package "postgresql-server"
   else
-    package "postgresql#{node['postgresql']['version'].split('.').join}-server"
+    package "postgresql#{node[:postgresql][:version].split('.').join}-server"
   end
 when "fedora","suse"
   package "postgresql-server"
@@ -79,27 +79,21 @@ template "#{pgsql_dir}/postgresql.conf" do
 end
 
 
-archive_dir = node.postgresql.config.archive_dir
+archive_dir = node[:postgresql][:config][:archive_dir]
 
-if node.postgresql.is_slave
-    template "#{pgsql_dir}/recovery.conf" do
-      source "recovery.conf.erb"
-      owner "postgres"
-      group "postgres"
-      mode 0600
-      variables({
-          :master_host => node.postgresql.master_host,
-          :archive_dir => archive_dir,
-      })
-    end
+template "#{pgsql_dir}/recovery.conf" do
+    source "recovery.conf.erb"
+    owner "postgres"
+    group "postgres"
+    mode 0600
+    only_if { node[:postgresql][:is_slave] }
 end
 
-if node[:postgresql][:config][:archive_mode] == 'on'
-    cron 'postgresql-clear-old-wal' do
-        hour node[:postgresql][:cron_time][:clear_wal]
-        minute '0'
-        command "find #{archive_dir} -type f -ctime +0 -delete"
-    end
+cron 'postgresql-clear-old-wal' do
+    hour node[:postgresql][:cron_time][:clear_wal]
+    minute '0'
+    command "find #{archive_dir} -type f -ctime +0 -delete"
+    only_if { node[:postgresql][:config][:archive_mode] == 'on' }
 end
 
 

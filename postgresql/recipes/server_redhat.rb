@@ -39,33 +39,33 @@ user "postgres" do
 end
 
 package "postgresql" do
-  case node.platform
+  case node[:platform]
   when "redhat", "centos", "scientific", "amazon"
     case
-    when node.platform_version.to_f >= 6.0
+    when node[:platform_version].to_f >= 6.0
       package_name "postgresql"
     else
-      package_name "postgresql#{node['postgresql']['version'].split('.').join}"
+      package_name "postgresql#{node[:postgresql][:version].split('.').join}"
     end
   else
     package_name "postgresql"
   end
 end
 
-case node.platform
+case node[:platform]
 when "redhat","centos","scientific", "amazon"
   case
-  when node.platform_version.to_f >= 6.0
+  when node[:platform_version].to_f >= 6.0
     package "postgresql-server"
   else
-    package "postgresql#{node['postgresql']['version'].split('.').join}-server"
+    package "postgresql#{node[:postgresql][:version].split('.').join}-server"
   end
 when "fedora","suse"
   package "postgresql-server"
 end
 
 execute "/sbin/service postgresql initdb" do
-  not_if { ::FileTest.exist?(File.join(node.postgresql.dir, "PG_VERSION")) }
+  not_if { ::FileTest.exist?(File.join(node[:postgresql][:dir], "PG_VERSION")) }
 end
 
 service "postgresql" do
@@ -78,5 +78,5 @@ template "#{node[:postgresql][:dir]}/postgresql.conf" do
   owner "postgres"
   group "postgres"
   mode 0600
-  notifies :restart, resources(:service => "postgresql")
+  notifies :restart, 'service[postgresql]'
 end
