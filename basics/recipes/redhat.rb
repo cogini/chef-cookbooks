@@ -6,10 +6,10 @@
 #
 
 
-# Default shared memory is too low to be useful
-template '/etc/sysctl.conf' do
-    mode '0644'
-    source 'redhat-sysctl.conf.erb'
+# Default is 32MB which is too low to be useful
+sysctl_param 'kernel.shmmax' do
+    # 64MB
+    value 67108864
 end
 
 
