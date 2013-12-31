@@ -5,8 +5,13 @@
 # Copyright 2012, Cogini
 #
 
-yum_repository 'epel' do
-    description 'Extra Packages for Enterprise Linux 6 - $basearch'
-    mirrorlist 'https://mirrors.fedoraproject.org/metalink?repo=epel-6&arch=$basearch'
-    gpgkey 'https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-6'
+key = "#{node.platform}#{node.platform_version.to_i}"
+
+case key
+when 'centos6', 'amazon2012'
+    package_from_url 'http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm'
+when 'centos5'
+    package_from_url 'http://dl.fedoraproject.org/pub/epel/5/x86_64/epel-release-5-4.noarch.rpm'
+else
+    raise NotImplementedError
 end
