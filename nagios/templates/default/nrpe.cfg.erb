@@ -203,6 +203,9 @@ command[check_zombie_procs]=<%= nagios[:plugin_dir] %>/check_procs -w 5 -c 10 -s
 command[check_root]=<%= nagios[:plugin_dir] %>/check_disk -w 10% -c 5% -X none
 command[check_logwarn_email]=<%= nagios[:plugin_dir] %>/check_logwarn -p /var/log/mail.log '^.* localhost postfix/.* status=(bounced|deferred)'
 command[check_total_procs]=<%= nagios[:plugin_dir] %>/check_procs -w <%= total_procs[:warning] %> -c <%= total_procs[:critical] %>
+<% %w{ check_ports }.each do |plugin| -%>
+command[<%= plugin %>]=<%= nagios[:plugin_dir] %>/<%= plugin %>
+<% end -%>
 
 <% case node[:platform] -%>
 <% when 'ubuntu' -%>

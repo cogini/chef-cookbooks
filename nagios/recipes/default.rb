@@ -5,6 +5,21 @@
 # Copyright 2012, Cogini
 #
 
+
+plugin_dir = node[:nagios][:plugin_dir]
+
+directory plugin_dir do
+    action :create
+    recursive true
+end
+
+%w{ check_ports }.each do |plugin|
+    template "#{plugin_dir}/#{plugin}" do
+        mode '775'
+    end
+end
+
+
 include_recipe node[:nagios][:recipe]
 
 

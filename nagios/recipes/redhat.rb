@@ -13,11 +13,3 @@ include_recipe 'yum::epel'
         action :install
     end
 end
-
-
-plugin_dir = node[:nagios][:plugin_dir]
-
-directory plugin_dir do
-    action :create
-    recursive true
-end

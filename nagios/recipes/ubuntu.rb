@@ -12,16 +12,9 @@
 end
 
 
-plugin_dir = node[:nagios][:plugin_dir]
-
-directory plugin_dir do
-    action :create
-    recursive true
-end
-
 %w{ check_reboot check_updates }.each do |plugin|
-    template "#{plugin_dir}/#{plugin}" do
+    template "#{node[:nagios][:plugin_dir]}/#{plugin}" do
         source "ubuntu-#{plugin}.erb"
-        mode '0775'
+        mode '775'
     end
 end
