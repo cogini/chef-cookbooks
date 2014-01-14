@@ -76,9 +76,9 @@ def get_file_list(config, hostname, disk):
                 # Ignore current directory
                 paths.append(current_path + the_path)
 
-        assert paths
         current_path = choice(paths)
 
+    assert current_path
     return current_path
 
 
@@ -135,6 +135,9 @@ def main():
 
     config = choice(('daily', 'weekly', 'monthly'))
 
+    #config = ''
+    #hostname = ''
+    #disk = ''
     print 'Checking %s backup of %s:%s ...' % (config, hostname, disk)
 
     random_file = get_file_list(config, hostname, disk)
