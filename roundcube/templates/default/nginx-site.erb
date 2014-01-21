@@ -1,7 +1,7 @@
 server {
 
     listen              443 ssl;
-    server_name         <%= node[:roundcube][:server_name] %>;
+    server_name         <%= node[:roundcube][:server_names][0] %>;
     root                <%= node[:roundcube][:site_dir] %>;
 
     access_log          <%= node[:roundcube][:log_dir] %>/access.log json;
@@ -45,8 +45,8 @@ server {
 
 server {
     listen      80;
-    server_name <%= node[:roundcube][:server_name] %>;
+    server_name <%= node[:roundcube][:server_names].join(' ') %>;
     location / {
-        return 301 https://<%= node[:roundcube][:server_name] %>;
+        return 301 https://<%= node[:roundcube][:server_names][0] %>;
     }
 }

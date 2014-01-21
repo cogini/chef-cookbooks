@@ -57,7 +57,7 @@ template "#{site_dir}/plugins/password/config.inc.php" do
 end
 
 
-site = node[:roundcube][:server_name]
+site = node[:roundcube][:server_names][0]
 
 template "/etc/nginx/sites-available/#{site}" do
     source 'nginx-site.erb'
