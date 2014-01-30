@@ -2,12 +2,6 @@
 # Cookbook: gpg-mailgate
 #
 
-unless node[:postfix][:content_filter] == 'gpg-mailgate'
-    unless node[:postfix][:enable_amavis]
-        raise 'node[:postfix][:content_filter] must be "gpg-mailgate".'
-    end
-end
-
 
 install_dir = '/opt/gpg-mailgate'
 
