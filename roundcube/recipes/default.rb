@@ -15,6 +15,12 @@ include_recipe 'php::fpm'
 site_dir = node[:roundcube][:site_dir]
 
 
+git site_dir do
+    repository 'https://github.com/roundcube/roundcubemail.git'
+    revision 'v0.9.5'
+end
+
+
 if node[:roundcube][:db][:driver] == 'sqlite'
 
     include_recipe 'php::module_sqlite3'
