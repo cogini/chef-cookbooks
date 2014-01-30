@@ -16,7 +16,7 @@ http {
     default_type  application/octet-stream;
 
     <% unless node['nginx']['disable_access_log'] -%>
-    access_log	<%= node['nginx']['log_dir'] %>/access.log;
+    access_log  <%= node['nginx']['log_dir'] %>/access.log;
     <% end %>
 
     sendfile <%= node[:nginx][:sendfile] %>;
@@ -34,6 +34,10 @@ http {
     gzip_proxied <%= node['nginx']['gzip_proxied'] %>;
     gzip_types <%= node['nginx']['gzip_types'].join(' ') %>;
     <% end %>
+
+    ssl_prefer_server_ciphers on;
+    ssl_ciphers               ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:DES-CBC3-SHA;
+    ssl_session_cache         shared:SSL:10m;
 
     client_max_body_size <%= node[:nginx][:client_max_body_size] %>;
 
