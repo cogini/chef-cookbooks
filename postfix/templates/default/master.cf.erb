@@ -7,6 +7,9 @@
 # ====================================================================
 #
 smtp      inet  n       -       -       -       -       smtpd
+<% if node[:postfix][:enable_gpg_mailgate] -%>
+    -o content_filter=gpg-mailgate
+<% end -%>
 #smtp      inet  n       -       -       -       1       postscreen
 #smtpd     pass  -       -       -       -       -       smtpd
 #dnsblog   unix  -       -       -       -       0       dnsblog
@@ -119,6 +122,7 @@ amavis    unix  -       -       -       -       2       smtp
   -o smtp_data_done_timeout=1200
   -o smtp_send_xforward_command=yes
 
+# After Amavis
 127.0.0.1:10025 inet    n       -       -       -       -       smtpd
   -o content_filter=<% if node[:postfix][:enable_gpg_mailgate] -%>gpg-mailgate<% end -%>
   -o mynetworks=127.0.0.0/8
