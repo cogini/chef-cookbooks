@@ -30,7 +30,7 @@ end
 
 
 template '/etc/default/icinga' do
-    source '_etc_default_icinga.erb'
+    source 'etc-default-icinga.erb'
     mode '644'
     notifies :restart, 'service[ido2db]'
     notifies :restart, 'service[icinga]'
