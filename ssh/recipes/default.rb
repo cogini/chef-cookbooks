@@ -20,6 +20,7 @@ ssh_users = node[:ssh][:users] | sysadmins.collect { |u| u[:username] }
 
 ssh_users.each do |u|
     user u do
+        shell '/bin/bash'
         supports :manage_home=>true
     end
 end
