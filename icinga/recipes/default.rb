@@ -56,3 +56,8 @@ end
         notifies :run, 'execute[icinga-clear-cache]'
     end
 end
+
+template '/etc/icinga/icinga.cfg' do
+    mode '644'
+    notifies :restart, 'service[icinga]'
+end
