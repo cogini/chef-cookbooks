@@ -1,0 +1,11 @@
+# Managed by Chef. Do not edit.
+
+<%- @jobs.each do |job| -%>
+# <%= job[:description] %>
+<%- minute = job.has_key?("minute") ? job[:minute] : '*' -%>
+<%- hour = job.has_key?("hour") ? job[:hour] : '*' -%>
+<%- day = job.has_key?("day") ? job[:day] : '*' -%>
+<%- month = job.has_key?("month") ? job[:month] : '*' -%>
+<%- weekday = job.has_key?("weekday") ? job[:weekday] : '*' -%>
+<%= minute %> <%= hour %> <%= day %> <%= month %> <%= weekday %> <% if job[:cronic] %><%= node[:cronic] %><% end %> <% if job[:script_dir] %><%= job[:script_dir] %>/<% end %><%= job[:command] %>
+<%- end -%>
