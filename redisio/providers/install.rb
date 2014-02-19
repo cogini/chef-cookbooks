@@ -72,7 +72,7 @@ def configure
     recipe_eval do
       piddir = "#{base_piddir}/#{current['port']}"
       aof_file = "#{current['datadir']}/appendonly-#{current['port']}.aof"
-      rdb_file = "#{current['datadir']}/dump-#{current['port']}.rdb"  
+      rdb_file = "#{current['datadir']}/dump-#{current['port']}.rdb"
 
       #Create the owner of the redis data directory
       user current['user'] do
@@ -115,16 +115,18 @@ def configure
         only_if { current['syslogenabled'] != 'yes' && current['logfile'] && current['logfile'] != 'stdout' }
       end
       #Create the log file is syslog is not being used
-      file current['logfile'] do 
-        owner current['user']
-        group current['group']
-        mode '0644'
-        backup false
-        action :touch
-        only_if { current['logfile'] && current['logfile'] != 'stdout' }
+      if current['logfile']
+        file current['logfile'] do
+          owner current['user']
+          group current['group']
+          mode '0644'
+          backup false
+          action :touch
+          only_if { current['logfile'] != 'stdout' }
+        end
       end
       #Set proper permissions on the AOF or RDB files
-      file aof_file do 
+      file aof_file do
         owner current['user']
         group current['group']
         mode '0644'
@@ -160,7 +162,7 @@ def configure
           :save                   => current['save'],
           :slaveof                => current['slaveof'],
           :masterauth             => current['masterauth'],
-          :slaveservestaledata    => current['slaveservestaledata'], 
+          :slaveservestaledata    => current['slaveservestaledata'],
           :replpingslaveperiod    => current['replpingslaveperiod'],
           :repltimeout            => current['repltimeout'],
           :requirepass            => current['requirepass'],
@@ -195,14 +197,14 @@ def configure
 end
 
 def redis_exists?
-  exists = Chef::ShellOut.new("which redis-server")
+  exists = Mixlib::ShellOut.new("which redis-server")
   exists.run_command
-  exists.exitstatus == 0 ? true : false 
+  exists.exitstatus == 0 ? true : false
 end
 
 def version
   if redis_exists?
-    redis_version = Chef::ShellOut.new("redis-server -v | cut -d ' ' -f 4")
+    redis_version = Mixlib::ShellOut.new("redis-server -v | cut -d ' ' -f 4")
     redis_version.run_command
     return redis_version.stdout.gsub("\n",'')
   end
