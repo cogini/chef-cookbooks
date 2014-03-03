@@ -5,6 +5,8 @@ end
 
 define :yii_framework do
 
+    include_recipe 'git'
+
     version = params[:name]
     path = params[:path] || yii_default_path(version)
     symlink = params[:symlink]
