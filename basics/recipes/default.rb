@@ -30,3 +30,7 @@ when 'redhat', 'centos', 'amazon'
 when 'ubuntu'
     include_recipe 'basics::ubuntu'
 end
+
+if node[:basics][:enable_unattended_upgrades]
+    include_recipe 'basics::unattended_upgrades'
+end
