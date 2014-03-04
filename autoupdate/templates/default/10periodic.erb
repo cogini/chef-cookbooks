@@ -1,0 +1,5 @@
+<%- update = node[:autoupdate] -%>
+APT::Periodic::Update-Package-Lists "<%= update[:update_package_lists_interval] %>";
+APT::Periodic::Download-Upgradeable-Packages "1";
+APT::Periodic::AutocleanInterval "<%= update[:clean_downloaded_packages_interval] %>";
+APT::Periodic::Unattended-Upgrade "<%= update[:upgrade_interval] %>";
