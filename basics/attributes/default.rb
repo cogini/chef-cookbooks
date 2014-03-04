@@ -5,6 +5,7 @@ default[:cronic] = '/opt/bin/cronic'
 default[:network][:hosts] = {}
 default[:sudo][:groups] = {}
 default[:sudoers] = []
+default[:basics][:enable_unattended_upgrades] = false
 
 case node[:platform]
 
@@ -50,7 +51,6 @@ when 'ubuntu'
     default[:basics][:package_mask] = %w{
         apt-listchanges
         consolekit
-        unattended-upgrades
     }
     default[:basics][:packages] = %w{
         ack-grep
@@ -84,3 +84,15 @@ when 'ubuntu'
         zip
     }
 end
+
+# Origins: security, updates, proposed, backports
+default[:basics][:unattended_upgrades][:origins] = [
+    "security",
+    "updates"
+]
+default[:basics][:unattended_upgrades][:auto_fix_interrupted_dpkg] = true
+default[:basics][:unattended_upgrades][:email] = "noc@cogini.com"
+deafult[:basics][:unattended_upgrades][:remove_unused_dependencies] = true
+deafult[:basics][:unattended_upgrades][:update_package_lists_interval] = 1
+default[:basics][:unattended_upgrades][:clean_downloaded_packages_interval] = 15
+default[:basics][:unattended_upgrades][:upgrade_interval] = 1

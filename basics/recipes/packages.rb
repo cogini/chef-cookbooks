@@ -24,3 +24,11 @@ node[:basics][:package_mask].each do |pkg|
         end
     end
 end
+
+package 'unattended-upgrades' do
+    unless node[:basics][:enable_unattended_upgrades]
+        action :remove
+    else
+        action :install
+    end
+end

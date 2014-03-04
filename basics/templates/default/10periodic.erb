@@ -1,0 +1,5 @@
+<%- unattended = node[:basics][:unattended_upgrades] -%>
+APT::Periodic::Update-Package-Lists "<%= unattended[:update_package_lists_interval] %>";
+APT::Periodic::Download-Upgradeable-Packages "1";
+APT::Periodic::AutocleanInterval "<%= unattended[:clean_downloaded_packages_interval] %>";
+APT::Periodic::Unattended-Upgrade "<%= unattended[:upgrade_interval] %>";
