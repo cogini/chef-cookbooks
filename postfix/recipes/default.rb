@@ -112,9 +112,8 @@ end
 
 
 unless postfix[:sender_dependent_relayhosts].empty?
-
-  map_file = postfix[:sender_dependent_relayhost_maps]
-  map_file = map_file.sub('hash:', '')
+  map_file = "/etc/postfix/sender_dependent_relayhosts"
+  node.set[:postfix][:sender_dependent_relayhost_maps] = "hash:#{map_file}"
 
   execute 'postmap-sender_dependent_relayhost_maps' do
     command "postmap #{map_file}"
@@ -170,6 +169,10 @@ if postfix[:enable_gpg_mailgate]
     include_recipe 'postfix::gpg_mailgate'
 end
 
+if postfix[:smtp_sasl_passwords]
+    node.set[:postfix][:smtp_sasl_password_maps] = "hash:/etc/postfix/smtp_sasl_passwords"
+    include_recipe 'postfix::sasl_auth'
+end
 
 service "postfix" do
     action :start
