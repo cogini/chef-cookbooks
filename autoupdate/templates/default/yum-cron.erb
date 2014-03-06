@@ -1,8 +1,8 @@
 <%- update = node[:autoupdate] -%>
 YUM_PARAMETER="<%- update[:blacklist].each do |pkg| -%>--exclude='<%= pkg %>' <%- end -%>
-CHECK_ONLY=<%= update[:check_only] == true ? "yes" : "no" %>
-CHECK_FIRST=<%= update[:check_first] == true ? "yes" : "no" %>
-DOWNLOAD_ONLY=<%= update[:download_only] == true ? "yes" : "no" %>
+CHECK_ONLY=<%= update[:enable] ? "no" : "yes" %>
+CHECK_FIRST=<%= update[:check_first] ? "yes" : "no" %>
+DOWNLOAD_ONLY=<%= update[:download_only] ? "yes" : "no" %>
 ERROR_LEVEL=1
 DEBUG_LEVEL=1
 RANDOMWAIT="60"

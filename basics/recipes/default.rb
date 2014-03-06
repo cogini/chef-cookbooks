@@ -22,6 +22,7 @@ include_recipe 'basics::rotate_mail'
 include_recipe 'basics::packages'
 include_recipe 'localbackup'
 include_recipe 'timezone'
+include_recipe 'autoupdate'
 
 
 case node[:platform]

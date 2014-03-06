@@ -1,7 +1,7 @@
 include_recipe 'apt'
 
 
-package 'unattended_upgrades'
+package 'unattended-upgrades'
 
 template '/etc/apt/apt.conf.d/50unattended-upgrades' do
     mode '644'
