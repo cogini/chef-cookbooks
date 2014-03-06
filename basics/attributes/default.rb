@@ -50,7 +50,6 @@ when 'ubuntu'
     default[:basics][:package_mask] = %w{
         apt-listchanges
         consolekit
-        unattended-upgrades
     }
     default[:basics][:packages] = %w{
         ack-grep
