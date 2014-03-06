@@ -64,11 +64,11 @@ when "fedora","suse"
   package "postgresql-server"
 end
 
-execute "/sbin/service postgresql initdb" do
+execute "/sbin/service postgresql-#{node[:postgresql][:version]} initdb" do
   not_if { ::FileTest.exist?(File.join(node[:postgresql][:dir], "PG_VERSION")) }
 end
 
-service "postgresql" do
+service "postgresql-#{node[:postgresql][:version]}" do
   supports :restart => true, :status => true, :reload => true
   action [:enable, :start]
 end
@@ -78,5 +78,5 @@ template "#{node[:postgresql][:dir]}/postgresql.conf" do
   owner "postgres"
   group "postgres"
   mode 0600
-  notifies :restart, 'service[postgresql]'
+  notifies :restart, "service[postgresql-#{node[:postgresql][:version]}]"
 end
