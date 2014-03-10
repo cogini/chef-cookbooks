@@ -1,0 +1,30 @@
+<%- update = node[:autoupdate] -%>
+// Automatically upgrade packages from these (origin:archive) pairs
+Unattended-Upgrade::Allowed-Origins {
+<%- update[:origins].each do |origin| -%>
+    "${distro_id}:${distro_codename}-<%= origin %>";
+<%- end -%>
+};
+
+// List of packages to not update
+Unattended-Upgrade::Package-Blacklist {
+<%- update[:blacklist].each do |pkg| -%>
+    "<%= pkg %>";
+<%- end -%>
+};
+
+// This option allows you to control if on a unclean dpkg exit
+// unattended-upgrades will automatically run
+//   dpkg --force-confold --configure -a
+// The default is true, to ensure updates keep getting installed
+Unattended-Upgrade::AutoFixInterruptedDpkg "<%= update[:auto_fix_interrupted_dpkg] == true ? "true" : "false" %>";
+
+// Send email to this address for problems or packages upgrades
+// If empty or unset then no email is sent, make sure that you
+// have a working mail setup on your system. A package that provides
+// 'mailx' must be installed.
+Unattended-Upgrade::Mail "<%= update[:email] %>";
+
+// Do automatic removal of new unused dependencies after the upgrade
+// (equivalent to apt-get autoremove)
+Unattended-Upgrade::Remove-Unused-Dependencies "<%= update[:remove_unused_dependencies] == true ? "true" : "false" %>";

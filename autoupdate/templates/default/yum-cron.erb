@@ -1,0 +1,13 @@
+<%- update = node[:autoupdate] -%>
+YUM_PARAMETER="<%- update[:blacklist].each do |pkg| -%>--exclude='<%= pkg %>' <%- end -%>
+CHECK_ONLY=<%= update[:enable] ? "no" : "yes" %>
+CHECK_FIRST=<%= update[:check_first] ? "yes" : "no" %>
+DOWNLOAD_ONLY=<%= update[:download_only] ? "yes" : "no" %>
+ERROR_LEVEL=1
+DEBUG_LEVEL=1
+RANDOMWAIT="60"
+MAILTO="<%= update[:email] %>"
+SYSTEMNAME="<%= update[:hostname] %>"
+CLEANDAY="0"
+SERVICE_WAITS=yes
+SERVICE_WAIT_TIME=300
