@@ -5,26 +5,20 @@
 # Copyright 2012, Cogini
 #
 
-key = "#{node.platform}#{node.platform_version.to_i}"
+pg_version = node[:postgresql][:version]
 
-case key
-when 'centos6'
-    url = 'http://yum.postgresql.org/9.1/redhat/rhel-6-x86_64/pgdg-centos91-9.1-4.noarch.rpm'
-else
-    raise NotImplementedError
+cookbook_file '/etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG' do
+    mode '644'
+    action :create
 end
 
-rpm_file = "#{Chef::Config[:file_cache_path]}/#{File.basename(url)}"
-
-remote_file rpm_file do
-    source url
-    action :create_if_missing
+template "/etc/yum.repos.d/pgdg-#{pg_version}-#{node[:platform]}.repo" do
+    mode '644'
+    source 'repo-postgresql.erb'
 end
 
-package 'pgdg-centos91' do
-    source rpm_file
-end
 
+# Why is it here instead of default recipe?
 template '/etc/yum.repos.d/CentOS-Base.repo' do
     source 'postgresql-CentOS-Base.repo.erb'
     mode '0644'
