@@ -17,5 +17,5 @@ when 'rhel'
 end
 
 default[:autoupdate][:email] = "admin@example.com"
-
+default[:autoupdate][:blacklist] = []
 default[:autoupdate][:enable] = false
