@@ -2,9 +2,9 @@ use_inline_resources
 
 action :create do
 
-    include_recipe 'git'
+    @run_context.include_recipe 'git'
 
-    version = new_resource.version
+    version = new_resource.name
     path = new_resource.path || "/opt/yii-#{version}"
     symlink = new_resource.symlink
 
