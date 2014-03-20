@@ -137,8 +137,10 @@ user=<%= program[:user] %>
     <% %w{
         autorestart
         autostart
-        stdout_logfile
         stderr_logfile
+        stderr_logfile_maxbytes
+        stdout_logfile
+        stdout_logfile_maxbytes
     }.each do |key| -%>
         <% if program.has_key?(key) -%>
 <%= key %>=<%= program[key] %>
