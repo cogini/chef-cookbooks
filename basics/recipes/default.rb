@@ -23,6 +23,7 @@ include_recipe 'basics::packages'
 include_recipe 'localbackup'
 include_recipe 'timezone'
 include_recipe 'autoupdate'
+include_recipe 'sysctl'
 
 
 case node[:platform]

@@ -6,13 +6,6 @@
 #
 
 
-# Default is 32MB which is too low to be useful
-sysctl_param 'kernel.shmmax' do
-    # 64MB
-    value 67108864
-end
-
-
 include_recipe 'yum::epel'
 
 node[:basics][:epel_packages].each do |pkg|
