@@ -16,6 +16,6 @@ when 'rhel'
     default[:autoupdate][:download_only] = false
 end
 
-default[:autoupdate][:email] = "admin@example.com"
+default[:autoupdate][:email] = 'root'
 default[:autoupdate][:blacklist] = []
 default[:autoupdate][:enable] = false
