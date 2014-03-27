@@ -19,9 +19,25 @@
 # limitations under the License.
 #
 
+unless node[:postgresql][:version] == node[:postgresql][:repo_version]
+    case node[:platform_family]
+    when 'rhel'
+        include_recipe 'yum::postgresql'
+    when 'debian'
+        apt_repository 'pgdg' do
+            uri 'http://apt.postgresql.org/pub/repos/apt/'
+            distribution "#{node[:lsb][:codename]}-pgdg"
+            components [:main]
+            keyserver 'keyserver.ubuntu.com'
+            key 'ACCC4CF8'
+            notifies :run, 'execute[apt-get update]', :immediately
+        end
+    end
+end
+
 pg_packages = case node[:platform]
 when "ubuntu","debian"
-  %w{postgresql-client libpq-dev make}
+  ["postgresql-client-#{node[:postgresql][:version]}", "libpq-dev", "make"]
 when "fedora","suse","amazon"
   %w{postgresql-devel}
 when "redhat","centos","scientific"
@@ -35,6 +51,11 @@ end
 
 pg_packages.each do |pg_pack|
   package pg_pack
+end
+
+link "/usr/bin/pg_config" do
+    to "/usr/pgsql-#{node[:postgresql][:version]}/bin/pg_config"
+    not_if { File.exist?("/usr/bin/pg_config") }
 end
 
 gem_package "pg"
