@@ -17,7 +17,7 @@ site_dir = node[:roundcube][:site_dir]
 
 git site_dir do
     repository 'https://github.com/roundcube/roundcubemail.git'
-    revision 'v0.9.5'
+    revision 'v1.0-rc'
 end
 
 
@@ -48,11 +48,9 @@ end
     end
 end
 
-%w{ main db }.each do |config|
-    template "#{site_dir}/config/#{config}.inc.php" do
-        source "#{config}.inc.php.erb"
-        mode '644'
-    end
+template "#{site_dir}/config/config.inc.php" do
+    source "config.inc.php.erb"
+    mode '644'
 end
 
 template "#{site_dir}/plugins/password/config.inc.php" do
