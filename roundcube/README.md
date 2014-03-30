@@ -19,7 +19,7 @@ Attributes
 These attributes are required:
 
   - `[:roundcube][:db][:database]`
-  - `[:roundcube][:db][:driver]` (currently this cookbook only supports SQLite)
+  - `[:roundcube][:db][:driver]`
   - `[:roundcube][:log_dir]`
   - `[:roundcube][:server_names]`
   - `[:roundcube][:site_dir]`
