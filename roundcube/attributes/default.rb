@@ -1,5 +1,9 @@
 ::Chef::Node.send(:include, Opscode::OpenSSL::Password)
 
+
+default[:roundcube][:max_attachment_size] = '10M'
+
+
 # Roundcube default is ISO-8859-1, but UTF-8 should be better
 default[:roundcube][:default_charset] = 'UTF-8'
 
