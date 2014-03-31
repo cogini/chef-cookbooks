@@ -15,3 +15,5 @@ Selector    <%= selector %>
 
 OmitHeaders "."
 SignHeaders "."
+
+InternalHosts <%= node[:postfix][:mail_relay_networks].join(',') %>
