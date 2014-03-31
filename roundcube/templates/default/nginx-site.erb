@@ -1,14 +1,15 @@
 server {
 
-    listen              443 ssl;
-    server_name         <%= node[:roundcube][:server_names][0] %>;
-    root                <%= node[:roundcube][:site_dir] %>;
+    listen               443 ssl;
+    server_name          <%= node[:roundcube][:server_names][0] %>;
+    root                 <%= node[:roundcube][:site_dir] %>;
+    client_max_body_size <%= node[:roundcube][:max_attachment_size] %>;
 
-    access_log          <%= node[:roundcube][:log_dir] %>/access.log json;
-    error_log           <%= node[:roundcube][:log_dir] %>/error.log;
+    access_log           <%= node[:roundcube][:log_dir] %>/access.log json;
+    error_log            <%= node[:roundcube][:log_dir] %>/error.log;
 
-    ssl_certificate     <%= node[:postfix][:smtpd_tls_cert_file] %>;
-    ssl_certificate_key <%= node[:postfix][:smtpd_tls_key_file] %>;
+    ssl_certificate      <%= node[:postfix][:smtpd_tls_cert_file] %>;
+    ssl_certificate_key  <%= node[:postfix][:smtpd_tls_key_file] %>;
 
     location ~ \.(css|gif|jpeg|jpg|js|png)$ {
         # Serve the file if it exists
