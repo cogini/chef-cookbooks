@@ -84,6 +84,14 @@ template "#{node[:postgresql][:dir]}/postgresql.conf" do
   source "redhat.postgresql.conf.erb"
   owner "postgres"
   group "postgres"
-  mode 0600
+  mode '600'
   notifies :restart, "service[postgresql]"
+end
+
+template "#{node[:postgresql][:dir]}/recovery.conf" do
+  source "recovery.conf.erb"
+  owner "postgres"
+  group "postgres"
+  mode '600'
+  only_if { node[:postgresql][:is_slave] }
 end
