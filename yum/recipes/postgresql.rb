@@ -5,10 +5,5 @@
 # Copyright 2012, Cogini
 #
 
+# XXX HXP: Maybe using `yum_repository` is a better idea
 package_from_url node[:yum][:postgresql_repo_url]
-
-
-template '/etc/yum.repos.d/CentOS-Base.repo' do
-    source 'postgresql-CentOS-Base.repo.erb'
-    mode '0644'
-end
