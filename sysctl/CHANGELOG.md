@@ -1,3 +1,16 @@
+##
+
+* [GH-24] On RHEL Adjust Init file to follow chkconfig standards (Alex Farhadi)
+* [GH-22] lwrp parameters are written to the sysctl config file (Sander van Zoest, Guilhem Lettron)
+* Entries in the sysctl config file are now sorted
+* Removed Thor development dependency
+* Added LWRP Matcher for use with ChefSpec by wrapper cookbooks
+* Added ChefSpec 3 unit tests
+* Ported bats tests to ServerSpec integration tests
+* Use platform_family? in attributes (requires Ohai 0.6.12)
+* Renamed ruby_block[sysctl config notifier] to ruby_block[save-sysctl-params] for clarity
+* [GH-19] Make sysctl template logic idempotent (Roy Tewalt)
+
 ## v0.3.5
 
 * Scientific Linux 6 support confirmed
