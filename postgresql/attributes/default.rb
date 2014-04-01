@@ -56,8 +56,8 @@ when "fedora"
 
 when "redhat", "centos", "scientific"
 
-  set[:postgresql][:repo_version] = "8.4"
-  default[:postgresql][:version] = "8.4"
+  set[:postgresql][:repo_version] = "8.1"
+  default[:postgresql][:version] = "8.1"
   default[:postgresql][:dir] = "/var/lib/pgsql/data"
   default[:postgresql][:config][:archive_dir] = "/var/lib/pgsql/wal-archive"
 
