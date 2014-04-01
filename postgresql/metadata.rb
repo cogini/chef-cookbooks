@@ -20,5 +20,6 @@ end
 end
 
 depends "apt"
+depends "basics"
 depends "openssl"
 depends "yum"
