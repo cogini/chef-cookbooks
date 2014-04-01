@@ -4,7 +4,6 @@ apt_repository 'pgdg' do
     components [:main]
     keyserver 'keyserver.ubuntu.com'
     key 'ACCC4CF8'
-    notifies :run, 'execute[apt-get update]', :immediately
 end
 
 if node[:postgresql][:version] == node[:postgresql][:repo_version]
