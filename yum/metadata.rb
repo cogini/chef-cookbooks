@@ -19,3 +19,6 @@ attribute "yum/installonlypkgs",
   :display_name => "yum.conf installonlypkgs",
   :description => "List of packages that should only ever be installed, never updated. Kernels in particular fall into this category. Defaults to kernel, kernel-smp, kernel-bigmem, kernel-enterprise, kernel-debug, kernel-unsupported.",
   :required => "optional"
+
+depends 'postgresql'
+depends 'basics'
