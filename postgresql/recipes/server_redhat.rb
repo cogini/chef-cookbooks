@@ -38,37 +38,24 @@ user "postgres" do
   supports :manage_home => false
 end
 
-package "postgresql" do
-  case node[:platform]
-  when "redhat", "centos", "scientific", "amazon"
-    case
-    when node[:platform_version].to_f >= 6.0
-      package_name "postgresql"
-    else
-      package_name "postgresql#{node[:postgresql][:version].split('.').join}"
-    end
-  else
-    package_name "postgresql"
-  end
-end
-
-case node[:platform]
-when "redhat","centos","scientific", "amazon"
-  case
-  when node[:platform_version].to_f >= 6.0
-    package "postgresql-server"
-  else
-    package "postgresql#{node[:postgresql][:version].split('.').join}-server"
-  end
-when "fedora","suse"
+if node[:postgresql][:version] == node[:postgresql][:repo_version]
   package "postgresql-server"
+else
+  package "postgresql#{node[:postgresql][:version].split('.').join}-server"
 end
 
-execute "/sbin/service postgresql initdb" do
+if node[:postgresql][:version] == node[:postgresql][:repo_version]
+  service_pg = "postgresql"
+else
+  service_pg = "postgresql-#{node[:postgresql][:version]}"
+end
+
+execute "/sbin/service #{service_pg} initdb" do
   not_if { ::FileTest.exist?(File.join(node[:postgresql][:dir], "PG_VERSION")) }
 end
 
 service "postgresql" do
+  service_name service_pg
   supports :restart => true, :status => true, :reload => true
   action [:enable, :start]
 end
@@ -77,6 +64,14 @@ template "#{node[:postgresql][:dir]}/postgresql.conf" do
   source "redhat.postgresql.conf.erb"
   owner "postgres"
   group "postgres"
-  mode 0600
-  notifies :restart, 'service[postgresql]'
+  mode '600'
+  notifies :restart, "service[postgresql]"
+end
+
+template "#{node[:postgresql][:dir]}/recovery.conf" do
+  source "recovery.conf.erb"
+  owner "postgres"
+  group "postgres"
+  mode '600'
+  only_if { node[:postgresql][:is_slave] }
 end
