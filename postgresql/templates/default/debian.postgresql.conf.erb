@@ -8,7 +8,11 @@ ident_file = '/etc/postgresql/<%= pg_version -%>/main/pg_ident.conf'
 external_pid_file = '/var/run/postgresql/<%= pg_version -%>-main.pid'
 port = 5432
 max_connections = 100
+<%- if pg_version.to_f < 9.3 -%>
 unix_socket_directory = '/var/run/postgresql'
+<%- else -%>
+unix_socket_directories = '/var/run/postgresql'
+<%- end -%>
 ssl = <%= pgsql[:ssl] ? 'on' : 'off' %>
 shared_buffers = 24MB
 log_line_prefix = '%t '
