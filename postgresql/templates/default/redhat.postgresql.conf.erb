@@ -23,5 +23,5 @@ hot_standby                = <%= pg_config[:hot_standby] %>
 log_min_duration_statement = <%= pg_config[:log_min_duration_statement] %>
 
 <% if node[:postgresql][:version].to_f >= 9.1 -%>
-max_pred_locks_per_transaction = <%= pgsql[:max_pred_locks_per_transaction] %>
+max_pred_locks_per_transaction = <%= pg_config[:max_pred_locks_per_transaction] %>
 <% end -%>
