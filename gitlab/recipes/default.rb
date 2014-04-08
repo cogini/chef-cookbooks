@@ -117,8 +117,8 @@ end
 end
 
 
-file "#{gitlab_dir}/config/initializers/rack_attack.rb" do
-  content IO.read("#{gitlab_dir}/config/initializers/rack_attack.rb.example")
+remote_file "#{gitlab_dir}/config/initializers/rack_attack.rb" do
+  source "https://raw.githubusercontent.com/gitlabhq/gitlabhq/#{gitlab_version}/config/initializers/rack_attack.rb.example"
   owner git_user
   group git_user
   mode '644'
