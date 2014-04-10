@@ -41,7 +41,6 @@ when "ubuntu"
   end
 
   default[:postgresql][:dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
-  default[:postgresql][:config][:archive_dir] = "/var/lib/postgresql/wal-archive"
 
 when "fedora"
 
@@ -59,7 +58,6 @@ when "redhat", "centos", "scientific"
   set[:postgresql][:repo_version] = "8.1"
   default[:postgresql][:version] = "8.1"
   default[:postgresql][:dir] = "/var/lib/pgsql/data"
-  default[:postgresql][:config][:archive_dir] = "/var/lib/pgsql/wal-archive"
 
 when "suse"
 
@@ -77,7 +75,6 @@ when "amazon"
   set[:postgresql][:repo_version] = "9.2"
   default[:postgresql][:version] = "9.2"
   default[:postgresql][:dir] = "/var/lib/pgsql9/data"
-  default[:postgresql][:config][:archive_dir] = "/var/lib/pgsql9/wal-archive"
 
 else
   set[:postgresql][:repo_version] = "8.4"

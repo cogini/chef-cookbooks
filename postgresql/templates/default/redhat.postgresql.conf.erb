@@ -16,7 +16,6 @@ lc_time = 'en_US.UTF-8'            # locale for time formatting
 default_text_search_config = 'pg_catalog.english'
 
 wal_level                  = <%= pg_config[:wal_level] %>
-archive_command            = 'cp %p <%= pg_config[:archive_dir] %>/%f'
 archive_timeout            = <%= pg_config[:archive_timeout] %>
 max_wal_senders            = <%= pg_config[:max_wal_senders] %>
 hot_standby                = <%= pg_config[:hot_standby] %>
