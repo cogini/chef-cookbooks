@@ -19,19 +19,21 @@
 # limitations under the License.
 #
 
-case node['platform']
-when "centos", "redhat", "fedora"
+if platform_family?("rhel", "fedora")
   %w{ httpd-devel pcre pcre-devel }.each do |pkg|
     package pkg do
       action :install
     end
   end
-  php_pear "apc" do
-    action :install
-    directives(:shm_size => "128M", :enable_cli => 0)
-  end
-when "debian", "ubuntu"
-  package "php-apc" do
-    action :install
-  end
+end
+
+# Use PEAR package instead of distro-provided package because sometimes
+# they cause PHP to hang
+if platform_family?("rhel", "fedora", "debian")
+    php_pear "apc" do
+        action :install
+        directives(:shm_size => "128M", :enable_cli => 0)
+    end
+else
+    raise NotImplementedError
 end
