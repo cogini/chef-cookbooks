@@ -16,12 +16,12 @@ lc_time = 'en_US.UTF-8'            # locale for time formatting
 default_text_search_config = 'pg_catalog.english'
 
 wal_level                  = <%= pg_config[:wal_level] %>
-archive_command            = 'cp %p <%= pg_config[:archive_dir] %>/%f'
 archive_timeout            = <%= pg_config[:archive_timeout] %>
 max_wal_senders            = <%= pg_config[:max_wal_senders] %>
 hot_standby                = <%= pg_config[:hot_standby] %>
 log_min_duration_statement = <%= pg_config[:log_min_duration_statement] %>
+wal_keep_segments          = <%= pg_config[:wal_keep_segments] %>
 
 <% if node[:postgresql][:version].to_f >= 9.1 -%>
-max_pred_locks_per_transaction = <%= pgsql[:max_pred_locks_per_transaction] %>
+max_pred_locks_per_transaction = <%= pg_config[:max_pred_locks_per_transaction] %>
 <% end -%>

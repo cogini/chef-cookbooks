@@ -41,7 +41,6 @@ when "ubuntu"
   end
 
   default[:postgresql][:dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
-  default[:postgresql][:config][:archive_dir] = "/var/lib/postgresql/wal-archive"
 
 when "fedora"
 
@@ -59,7 +58,6 @@ when "redhat", "centos", "scientific"
   set[:postgresql][:repo_version] = "8.1"
   default[:postgresql][:version] = "8.1"
   default[:postgresql][:dir] = "/var/lib/pgsql/data"
-  default[:postgresql][:config][:archive_dir] = "/var/lib/pgsql/wal-archive"
 
 when "suse"
 
@@ -77,7 +75,6 @@ when "amazon"
   set[:postgresql][:repo_version] = "9.2"
   default[:postgresql][:version] = "9.2"
   default[:postgresql][:dir] = "/var/lib/pgsql9/data"
-  default[:postgresql][:config][:archive_dir] = "/var/lib/pgsql9/wal-archive"
 
 else
   set[:postgresql][:repo_version] = "8.4"
@@ -88,12 +85,13 @@ end
 default[:postgresql][:client_auth] = []
 default[:postgresql][:config][:listen_addresses] = ["localhost"]
 default[:postgresql][:config][:wal_level] = "minimal"
-default[:postgresql][:config][:archive_timeout] = "60"
+default[:postgresql][:config][:archive_timeout] = 0
 default[:postgresql][:config][:max_wal_senders] = "0"
 default[:postgresql][:config][:hot_standby] = "off"
 default[:postgresql][:config][:log_min_duration_statement] = 250
 default[:postgresql][:config][:max_locks_per_transaction] = 64
 default[:postgresql][:config][:max_pred_locks_per_transaction] = 64
+default[:postgresql][:config][:wal_keep_segments] = 0
 
 default[:postgresql][:master_host] = nil
 set[:postgresql][:is_slave] = node[:postgresql][:master_host]
