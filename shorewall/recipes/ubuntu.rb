@@ -10,10 +10,6 @@ package 'shorewall' do
     action 'install'
 end
 
-service 'shorewall' do
-    action [:enable, :start]
-end
-
 template '/etc/default/shorewall' do
     mode '644'
     source 'ubuntu-shorewall.conf.erb'
