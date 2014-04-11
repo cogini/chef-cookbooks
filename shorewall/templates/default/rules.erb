@@ -2,10 +2,10 @@
 
 # Allow services
 <% unless node[:shorewall][:allowed_services][:tcp].empty? -%>
-ACCEPT net $FW tcp <%= node[:shorewall][:allowed_services][:tcp].join(',') %>
+ACCEPT all $FW tcp <%= node[:shorewall][:allowed_services][:tcp].join(',') %>
 <% end -%>
 <% unless node[:shorewall][:allowed_services][:udp].empty? -%>
-ACCEPT net $FW udp <%= node[:shorewall][:allowed_services][:udp].join(',') %>
+ACCEPT all $FW udp <%= node[:shorewall][:allowed_services][:udp].join(',') %>
 <% end -%>
 
 # Allow connections from certain hosts to certain ports
@@ -13,6 +13,6 @@ ACCEPT net $FW udp <%= node[:shorewall][:allowed_services][:udp].join(',') %>
 ACCEPT net:<%= connection[:hosts].join(',') %> $FW tcp <%= connection[:ports].join(',') %>
 <% end -%>
 
-Ping(ACCEPT) net $FW
+Ping(ACCEPT) all $FW
 
 #LAST LINE -- ADD YOUR ENTRIES BEFORE THIS ONE -- DO NOT REMOVE
