@@ -19,21 +19,22 @@
 # limitations under the License.
 #
 
-if platform_family?("rhel", "fedora")
-  %w{ httpd-devel pcre pcre-devel }.each do |pkg|
-    package pkg do
-      action :install
+case node[:platform_family]
+when "rhel", "fedora"
+    %w{ httpd-devel pcre pcre-devel }.each do |pkg|
+        package pkg do
+            action :install
+        end
     end
-  end
+when "debian"
+    package "libpcre3-dev"
+else
+    raise NotImplementedError
 end
 
 # Use PEAR package instead of distro-provided package because sometimes
 # they cause PHP to hang
-if platform_family?("rhel", "fedora", "debian")
-    php_pear "apc" do
-        action :install
-        directives(:shm_size => "128M", :enable_cli => 0)
-    end
-else
-    raise NotImplementedError
+php_pear "apc" do
+    action :install
+    directives(:shm_size => "128M", :enable_cli => 0)
 end
