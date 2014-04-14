@@ -36,7 +36,7 @@ http {
     <% end %>
 
     ssl_prefer_server_ciphers on;
-    ssl_ciphers               ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:DES-CBC3-SHA;
+    ssl_ciphers               'HIGH+ECDH HIGH+DH HIGH !aNULL';
     ssl_session_cache         shared:SSL:10m;
 
     client_max_body_size <%= node[:nginx][:client_max_body_size] %>;
