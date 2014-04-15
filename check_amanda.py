@@ -54,8 +54,9 @@ def get_file_list(config, hostname, disk):
     read_all(stdin, stdout)
 
     current_path = '%s/' % disk
+    tries = 0
 
-    while current_path.endswith('/'):
+    while current_path.endswith('/') and tries < 1000:
 
         enter_line(stdin, 'cd %s' % current_path)
         enter_line(stdin, 'ls')
@@ -80,6 +81,7 @@ def get_file_list(config, hostname, disk):
         if paths:
             current_path = choice(paths)
         else:
+            tries += 1
             current_path = '%s/' % disk
 
     assert current_path
