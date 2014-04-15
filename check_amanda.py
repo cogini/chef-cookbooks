@@ -56,6 +56,7 @@ def get_file_list(config, hostname, disk):
     current_path = '%s/' % disk
     tries = 0
 
+    # TODO: What if there are a lot of empty dirs?
     while current_path.endswith('/') and tries < 1000:
 
         enter_line(stdin, 'cd %s' % current_path)
