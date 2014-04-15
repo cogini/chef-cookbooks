@@ -76,7 +76,11 @@ def get_file_list(config, hostname, disk):
                 # Ignore current directory
                 paths.append(current_path + the_path)
 
-        current_path = choice(paths)
+        # If paths is empty, that means the directory is empty. Retry another path
+        if paths:
+            current_path = choice(paths)
+        else:
+            current_path = '%s/' % disk
 
     assert current_path
     return current_path
