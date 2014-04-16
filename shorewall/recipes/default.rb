@@ -25,3 +25,7 @@ end
         notifies :restart, 'service[shorewall]'
     end
 end
+
+service 'shorewall' do
+    action [:enable, :start]
+end

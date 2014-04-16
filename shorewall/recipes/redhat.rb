@@ -12,10 +12,6 @@ package 'shorewall' do
     options '--enablerepo=epel'
 end
 
-service 'shorewall' do
-    action [:enable, :start]
-end
-
 template '/etc/shorewall/shorewall.conf' do
     mode '644'
     source 'redhat-shorewall.conf.erb'

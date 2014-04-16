@@ -5,15 +5,8 @@
 # Copyright 2012, Cogini
 #
 
-yum_key 'RPM-GPG-KEY-remi' do
-    url 'http://rpms.famillecollet.com/RPM-GPG-KEY-remi'
-    action :add
-end
-
 yum_repository 'remi' do
     description 'Les RPM de remi pour Enterprise Linux $releasever - $basearch'
-    url 'http://rpms.famillecollet.com/enterprise/$releasever/remi/mirror'
-    key 'RPM-GPG-KEY-remi'
-    mirrorlist true
-    action :add
+    mirrorlist 'http://rpms.famillecollet.com/enterprise/$releasever/remi/mirror'
+    gpgkey 'http://rpms.famillecollet.com/RPM-GPG-KEY-remi'
 end
