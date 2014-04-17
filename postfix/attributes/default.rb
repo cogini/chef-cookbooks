@@ -18,7 +18,7 @@
 case platform
 when "ubuntu"
     # TODO: maybe we should use smtp_tls_CApath instead
-    default[:postfix][:smtp_tls_cafile] = '/etc/ssl/certs/ca.pem'
+    default[:postfix][:smtp_tls_cafile] = '/etc/ssl/certs/ca-certificates.crt'
     default[:postfix][:sasl_packages] = %w{ libsasl2-2 ca-certificates }
 when "centos"
     default[:postfix][:smtp_tls_cafile] = '/etc/pki/tls/certs/ca-bundle.crt'
