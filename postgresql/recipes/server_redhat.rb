@@ -21,6 +21,10 @@
 
 include_recipe "postgresql::client"
 
+
+pg_dir = node[:postgresql][:dir]
+
+
 # Create a group and user like the package will.
 # Otherwise the templates fail.
 
@@ -50,17 +54,19 @@ else
   service_pg = "postgresql-#{node[:postgresql][:version]}"
 end
 
-execute "/sbin/service #{service_pg} initdb" do
-  not_if { ::FileTest.exist?(File.join(node[:postgresql][:dir], "PG_VERSION")) }
+if node[:postgresql][:is_slave]
+  execute "pg_basebackup -h #{node[:postgresql][:master_host]} -D . -U replication --xlog" do
+    cwd pg_dir
+    user "postgres"
+    not_if { ::FileTest.exist?(File.join(pg_dir, "PG_VERSION")) }
+  end
+else
+  execute "/sbin/service #{service_pg} initdb" do
+    not_if { ::FileTest.exist?(File.join(pg_dir, "PG_VERSION")) }
+  end
 end
 
-service "postgresql" do
-  service_name service_pg
-  supports :restart => true, :status => true, :reload => true
-  action [:enable, :start]
-end
-
-template "#{node[:postgresql][:dir]}/postgresql.conf" do
+template "#{pg_dir}/postgresql.conf" do
   source "redhat.postgresql.conf.erb"
   owner "postgres"
   group "postgres"
@@ -68,10 +74,16 @@ template "#{node[:postgresql][:dir]}/postgresql.conf" do
   notifies :restart, "service[postgresql]"
 end
 
-template "#{node[:postgresql][:dir]}/recovery.conf" do
+template "#{pg_dir}/recovery.conf" do
   source "recovery.conf.erb"
   owner "postgres"
   group "postgres"
   mode '600'
   only_if { node[:postgresql][:is_slave] }
+end
+
+service "postgresql" do
+  service_name service_pg
+  supports :restart => true, :status => true, :reload => true
+  action [:enable, :start]
 end

@@ -42,5 +42,5 @@ template "#{node[:postgresql][:dir]}/pg_hba.conf" do
   owner "postgres"
   group "postgres"
   mode 0600
-  notifies :reload, "service[postgresql]", :immediately
+  notifies :restart, "service[postgresql]", :immediately
 end

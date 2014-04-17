@@ -83,15 +83,17 @@ else
 end
 
 default[:postgresql][:client_auth] = []
-default[:postgresql][:config][:listen_addresses] = ["localhost"]
-default[:postgresql][:config][:wal_level] = "minimal"
+
 default[:postgresql][:config][:archive_timeout] = 0
-default[:postgresql][:config][:max_wal_senders] = "0"
 default[:postgresql][:config][:hot_standby] = "off"
+default[:postgresql][:config][:listen_addresses] = ["localhost"]
 default[:postgresql][:config][:log_min_duration_statement] = 250
 default[:postgresql][:config][:max_locks_per_transaction] = 64
 default[:postgresql][:config][:max_pred_locks_per_transaction] = 64
+default[:postgresql][:config][:max_wal_senders] = "0"
+default[:postgresql][:config][:shared_buffers] = "32MB"
 default[:postgresql][:config][:wal_keep_segments] = 0
+default[:postgresql][:config][:wal_level] = "minimal"
 
 default[:postgresql][:master_host] = nil
 set[:postgresql][:is_slave] = node[:postgresql][:master_host]

@@ -2,26 +2,27 @@
 <% pg_config = node[:postgresql][:config] -%>
 <% pg_version = node[:postgresql][:version] -%>
 
+datestyle = 'iso, mdy'
+default_text_search_config = 'pg_catalog.english'
+listen_addresses = '<%= pg_config[:listen_addresses].join(',') %>'
+log_min_duration_statement = <%= pg_config[:log_min_duration_statement] %>
+max_connections = 100
+shared_buffers = <%= pg_config[:shared_buffers] %>
+wal_keep_segments = <%= pg_config[:wal_keep_segments] %>
+
 data_directory = '/var/lib/postgresql/<%= pg_version -%>/main'
 hba_file = '/etc/postgresql/<%= pg_version -%>/main/pg_hba.conf'
 ident_file = '/etc/postgresql/<%= pg_version -%>/main/pg_ident.conf'
 external_pid_file = '/var/run/postgresql/<%= pg_version -%>-main.pid'
 port = 5432
-max_connections = 100
 <%- if pg_version.to_f < 9.3 -%>
 unix_socket_directory = '/var/run/postgresql'
 <%- else -%>
 unix_socket_directories = '/var/run/postgresql'
 <%- end -%>
 ssl = <%= pg_config[:ssl] ? 'on' : 'off' %>
-shared_buffers = 24MB
 log_line_prefix = '%t '
-datestyle = 'iso, mdy'
-default_text_search_config = 'pg_catalog.english'
-listen_addresses = '<%= pg_config[:listen_addresses].join(',') %>'
-log_min_duration_statement = <%= pg_config[:log_min_duration_statement] %>
 max_locks_per_transaction = <%= pg_config[:max_locks_per_transaction] %>
-wal_keep_segments = <%= pg_config[:wal_keep_segments] %>
 
 <% if pg_version.to_f >= 9.1 -%>
 max_pred_locks_per_transaction = <%= pg_config[:max_pred_locks_per_transaction] %>
