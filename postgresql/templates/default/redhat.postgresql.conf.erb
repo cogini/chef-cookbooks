@@ -1,7 +1,7 @@
 <% pg_config = node[:postgresql][:config] -%>
 listen_addresses = '<%= pg_config[:listen_addresses].join(',') %>'
 max_connections = 100              # (change requires restart)
-shared_buffers = 32MB              # min 128kB
+shared_buffers = <%= pg_config[:shared_buffers] %>
 logging_collector = on             # Enable capturing of stderr and csvlog
 log_directory = 'pg_log'           # directory where log files are written,
 log_filename = 'postgresql-%a.log' # log file name pattern,

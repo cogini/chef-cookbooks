@@ -22,6 +22,7 @@ listen_addresses = '<%= pg_config[:listen_addresses].join(',') %>'
 log_min_duration_statement = <%= pg_config[:log_min_duration_statement] %>
 max_locks_per_transaction = <%= pg_config[:max_locks_per_transaction] %>
 wal_keep_segments = <%= pg_config[:wal_keep_segments] %>
+shared_buffers = <%= pg_config[:shared_buffers] %>
 
 <% if pg_version.to_f >= 9.1 -%>
 max_pred_locks_per_transaction = <%= pg_config[:max_pred_locks_per_transaction] %>
