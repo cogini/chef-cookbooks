@@ -1,3 +1,5 @@
+# TODO HXP: remove this in favor of postgresql_role
+
 define :pgsql_role, :action => :create, :options => [] do
 
     role_name = params[:name]
