@@ -19,6 +19,8 @@
 # limitations under the License.
 #
 
+include_recipe 'build-essential'
+
 case node[:platform_family]
 when "rhel", "fedora"
     %w{ httpd-devel pcre pcre-devel }.each do |pkg|
@@ -35,6 +37,7 @@ end
 # Use PEAR package instead of distro-provided package because sometimes
 # they cause PHP to hang
 php_pear "apc" do
-    action :install
     directives(:shm_size => "128M", :enable_cli => 0)
+    # TODO HXP: maybe FPM is not used
+    notifies :restart, "service[#{node[:php][:fpm_service]}]"
 end

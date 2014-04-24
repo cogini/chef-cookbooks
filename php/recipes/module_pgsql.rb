@@ -26,5 +26,6 @@ pkg = value_for_platform(
 )
 
 package pkg do
-    action :install
+    # TODO HXP: maybe FPM is not used
+    notifies :restart, "service[#{node[:php][:fpm_service]}]"
 end
