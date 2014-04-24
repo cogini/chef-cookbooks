@@ -17,7 +17,7 @@ site_dir = node[:roundcube][:site_dir]
 
 git site_dir do
     repository 'https://github.com/roundcube/roundcubemail.git'
-    revision 'v1.0-rc'
+    revision '1.0.0'
 end
 
 
