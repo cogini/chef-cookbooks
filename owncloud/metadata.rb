@@ -1,0 +1,6 @@
+depends 'apt'
+depends 'build-essential'
+depends 'git'
+depends 'nginx'
+depends 'postgresql'
+depends 'php'

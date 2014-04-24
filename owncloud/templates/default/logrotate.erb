@@ -1,0 +1,13 @@
+<%= node[:owncloud][:log_dir] %>/*.log {
+    daily
+    minsize 10M
+    rotate 7
+    create
+    compress
+    delaycompress
+    dateext
+    sharedscripts
+    postrotate
+        [ ! -f /var/run/nginx.pid ] || kill -USR1 `cat /var/run/nginx.pid`
+    endscript
+}
