@@ -1,8 +1,9 @@
 case node[:platform_family]
 when 'rhel'
-    # TODO: maybe use the RPM package instead:
-    # package 'php-pear-Log'
-    php_pear 'log'
+    package 'php-pear-Log' do
+        # TODO HXP: maybe FPM is not used
+        notifies :restart, 'service[php-fpm]'
+    end
 else
     raise NotImplementedError
 end
