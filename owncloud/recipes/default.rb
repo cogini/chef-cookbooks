@@ -47,6 +47,29 @@ git 'Clone owncloud' do
     user app_user
 end
 
+%w{config data apps}.each do |component|
+    dir = "#{site_dir}/#{component}"
+    directory dir do
+        action :create
+        recursive true
+        owner node[:php][:fpm][:user]
+        mode '770'
+    end
+
+    execute 'Set permission' do
+        command "chown -R #{node[:php][:fpm][:user]}:#{app_user} #{dir}"
+    end
+end
+
+owncloud[:apps].each do |app, app_version|
+    git "Clone #{app}" do
+        destination "#{site_dir}/apps/#{app}"
+        reference app_version
+        repository "https://github.com/owncloud/#{app}.git"
+        user node[:php][:fpm][:user]
+    end
+end
+
 if db[:host] == 'localhost'
 
     include_recipe 'postgresql::server'
@@ -58,20 +81,6 @@ if db[:host] == 'localhost'
 
     postgresql_database db[:database] do
         owner db_user
-    end
-end
-
-%w{config data apps}.each do |component|
-    dir = "#{site_dir}/#{component}"
-    directory dir do
-        action :create
-        recursive true
-        owner 'www-data'
-        mode '770'
-    end
-
-    execute 'Set permission' do
-        command "chown -R www-data:www-data #{dir}"
     end
 end
 
