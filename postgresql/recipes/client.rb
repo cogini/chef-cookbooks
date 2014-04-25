@@ -1,3 +1,9 @@
+unless node[:sysctl][:params][:kernel][:shmmax] >= 67108864 # 64MB
+    raise 'node[:sysctl][:params][:kernel][:shmmax] has to be 67108864 (64MB) or more!'
+end
+
+include_recipe 'sysctl'
+
 case node[:platform_family]
 when 'rhel'
     include_recipe 'postgresql::client_redhat'
