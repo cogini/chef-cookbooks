@@ -22,3 +22,4 @@ end
 depends "apt"
 depends "openssl"
 depends "yum"
+depends "sysctl"
