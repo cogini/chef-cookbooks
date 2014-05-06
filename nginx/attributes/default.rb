@@ -52,7 +52,6 @@ default['nginx']['worker_connections'] = 1024
 default['nginx']['server_names_hash_bucket_size'] = 64
 
 default['nginx']['disable_access_log'] = false
-default['nginx']['install_method'] = 'package'
 
 default[:nginx][:client_max_body_size] = '1M'
 default[:nginx][:types_hash_max_size] = '1024'
