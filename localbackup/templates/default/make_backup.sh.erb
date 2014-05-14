@@ -4,6 +4,13 @@ set -e
 renice -n 19 $$
 
 
+# Work around a bug in cron causing it not to respect locale
+# settings in /etc/default/locale and use POSIX instead of UTF-8.
+# This creates problems with non-ascii file names.
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=543895
+export LANG='en_US.UTF-8'
+
+
 <%- localbackup = node[:localbackup] -%>
 backup_dir=<%= localbackup[:destination] %>
 dump_dir="$backup_dir/db_dumps"
