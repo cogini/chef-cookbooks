@@ -30,7 +30,7 @@ write_enable=YES
 #
 # Default umask for local users is 077. You may wish to change this to 022,
 # if your users expect that (022 is used by most other ftpd's)
-#local_umask=022
+local_umask=<%= node[:vsftpd][:umask] %>
 #
 # Uncomment this to allow the anonymous FTP user to upload files. This only
 # has an effect if the above global write enable is activated. Also, you will
@@ -114,10 +114,12 @@ connect_from_port_20=YES
 # You may specify an explicit list of local users to chroot() to their home
 # directory. If chroot_local_user is YES, then this list becomes a list of
 # users to NOT chroot().
-chroot_local_user=<%= @chroot_local_user %>
+<% if node[:vsftpd][:chroot_local_user] == 'YES' %>
+chroot_local_user=YES
 chroot_list_enable=YES
 # (default follows)
 chroot_list_file=/etc/vsftpd.chroot_list
+<% end -%>
 #
 # You may activate the "-R" option to the builtin ls. This is disabled by
 # default to avoid remote users being able to cause excessive I/O on large
@@ -141,9 +143,9 @@ pam_service_name=vsftpd
 #
 # This option specifies the location of the RSA certificate to use for SSL
 # encrypted connections.
-#rsa_cert_file=/etc/ssl/private/vsftpd.pem
-rsa_cert_file=<%= @ssl_cert_path %>/<%= @ssl_certs_basename %>.pem
-rsa_private_key_file=<%= @ssl_private_key_path %>/<%= @ssl_certs_basename %>.key
-
+rsa_cert_file=<%= node[:vsftpd][:cert_file] %>
+<% if node[:vsftpd][:key_file] -%>
+rsa_private_key_file=<%= node[:vsftpd][:key_file] %>
 require_ssl_reuse=No
 ssl_enable=Yes
+<% end -%>
