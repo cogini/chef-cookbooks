@@ -114,7 +114,7 @@ connect_from_port_20=YES
 # You may specify an explicit list of local users to chroot() to their home
 # directory. If chroot_local_user is YES, then this list becomes a list of
 # users to NOT chroot().
-<% if node[:vsftpd][:chroot_local_user] == 'YES' %>
+<% if node[:vsftpd][:chroot_local_user] %>
 chroot_local_user=YES
 chroot_list_enable=YES
 # (default follows)

@@ -20,4 +20,4 @@ default[:vsftpd][:chroot_local_user] = false
 default[:vsftpd][:chroot_users] = Array.new
 default[:vsftpd][:use_ssl_certs_from_cookbook] = true
 default[:vsftpd][:cert_file] = "/etc/ssl/private/vsftpd.pem"
-default[:vsftpd][:umask] = 077
+default[:vsftpd][:umask] = '077'
