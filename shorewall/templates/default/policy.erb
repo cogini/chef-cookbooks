@@ -3,6 +3,8 @@
 
 #SOURCE DEST POLICY LOG_LEVEL LIMIT:BURST
 $FW     net  ACCEPT
-net     all  DROP   info
+# FIXME: Without a log level things will be dropped without notice. With a log
+# level log messages will become a bottleneck during DDOS attacks.
+net     all  DROP
 # The FOLLOWING POLICY MUST BE LAST
-all     all  REJECT info
+all     all  REJECT
