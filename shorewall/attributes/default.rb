@@ -1,16 +1,15 @@
-# Json format:
-# "shorewall": {
-#   "allowed_connections": [
-#     {
-#       "hosts": ["ip1", "ip2"],
-#       "ports": ["port1", "port2"]
-#     },
-#     {
-#       ...
-#     }
-#   ]
-# }
-default[:shorewall][:allowed_connections] = []
+set[:shorewall][:rule_defaults] = {
+    :action => 'ACCEPT',
+    :source => 'all',
+    :destination => '$FW',
+    :protocol => 'tcp',
+    #:ports => %w{ http https ssh },
+    :source_ports => '-',
+    :original_destination => '-',
+    :rate_limit => '-',
+}
 
-default[:shorewall][:allowed_services][:tcp] = %w{ http https ssh }
-default[:shorewall][:allowed_services][:udp] = []
+
+default[:shorewall][:rules] = [{
+    'ports' => %w{ http https ssh }
+}]
