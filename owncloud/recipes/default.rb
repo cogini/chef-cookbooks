@@ -1,5 +1,4 @@
 include_recipe 'apt'
-include_recipe 'build-essential'
 include_recipe 'git'
 include_recipe 'nginx'
 include_recipe 'php::fpm'
@@ -44,6 +43,7 @@ git 'Clone owncloud' do
     enable_submodules true
     reference owncloud[:version]
     repository 'https://github.com/owncloud/core.git'
+    timeout 1200
     user app_user
 end
 
@@ -53,6 +53,7 @@ end
         action :create
         recursive true
         owner node[:php][:fpm][:user]
+        group app_user
         mode '770'
     end
 
@@ -61,12 +62,16 @@ end
     end
 end
 
-owncloud[:apps].each do |app, app_version|
-    git "Clone #{app}" do
-        destination "#{site_dir}/apps/#{app}"
-        reference app_version
-        repository "https://github.com/owncloud/#{app}.git"
-        user node[:php][:fpm][:user]
+if owncloud[:apps]
+    owncloud[:apps].each do |app_repo_url, app_version|
+        app = app_repo_url.split('/')[-1].split('.')[0]
+        git "Clone #{app}" do
+            destination "#{site_dir}/apps/#{app}"
+            reference app_version
+            repository app_repo_url
+            timeout 1200
+            user node[:php][:fpm][:user]
+        end
     end
 end
 
