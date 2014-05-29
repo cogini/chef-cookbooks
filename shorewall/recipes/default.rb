@@ -11,6 +11,13 @@ unless node[:shorewall][:interfaces]
 end
 
 
+# Be safe and check for obsoleted attributes
+if node[:shorewall][:allowed_connections] or
+    node[:shorewall][:allowed_services]
+    raise
+end
+
+
 case node[:platform]
 when 'centos', 'redhat'
     include_recipe 'shorewall::redhat'
