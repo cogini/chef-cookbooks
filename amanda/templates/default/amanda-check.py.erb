@@ -131,8 +131,7 @@ def test_extraction(config, hostname, disk, target):
 
 def main():
 
-    dna = json.load(open('/etc/chef/node.json'))
-    locations = dna['amanda']['backup_locations']
+    locations = json.loads('<%= node[:amanda][:backup_locations].to_json %>')
 
     hosts = [host['hostname'] for host in locations]
     hostname = choice(hosts)

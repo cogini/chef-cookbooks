@@ -139,3 +139,16 @@ cron 'Amanda backup' do
   user app_user
   command backup_script
 end
+
+
+check_script = "#{amanda[:home]}/amanda-check.py"
+
+template check_script do
+    mode '755'
+end
+
+cron 'Amanda check' do
+    minute 0
+    hour 6
+    command "#{node[:cronic]} #{check_script}"
+end
