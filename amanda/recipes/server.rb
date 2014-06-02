@@ -141,6 +141,20 @@ cron 'Amanda backup' do
 end
 
 
+retry_script = "#{amanda[:home]}/amanda-retry.sh"
+
+template retry_script do
+    mode '755'
+end
+
+cron 'Amanda retry' do
+    minute 0
+    hour '*/3'
+    user app_user
+    command "#{node[:cronic]} #{retry_script}"
+end
+
+
 check_script = "#{amanda[:home]}/amanda-check.py"
 
 template check_script do
