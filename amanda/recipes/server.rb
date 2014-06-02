@@ -14,7 +14,7 @@ app_group = amanda[:app_group]
 arch = node[:kernel][:machine] =~ /x86_64/ ? 'amd64' : 'i386'
 
 
-if node[:platform] == 'ubuntu' and node['platform_version'].to_f == 12.04
+if node[:platform] == 'ubuntu' and node[:platform_version].to_f == 12.04
     amanda_pkg = "amanda-backup-server_#{amanda[:version]}-1Ubuntu1204_#{arch}.deb"
     pkg_file = "#{Chef::Config[:file_cache_path]}/#{amanda_pkg}"
 else
