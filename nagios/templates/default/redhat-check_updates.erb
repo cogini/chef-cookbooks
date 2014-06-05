@@ -1,0 +1,19 @@
+#!/bin/bash
+
+warning=10
+critical=20
+
+packages=$(
+    yum --quiet list updates |
+    tail --lines +2 |
+    wc --lines
+)
+
+if [[ "$packages" -gt "$warning" ]]
+then
+    echo "$packages packages need upgrading!"
+    [[ "$packages" -gt "$critical" ]] && exit 2
+    exit 1
+else
+    echo "$packages packages need upgrading."
+fi
