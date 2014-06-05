@@ -15,13 +15,17 @@ include_recipe 'yum::epel'
 end
 
 
+# Use a custom script that is less noisy instead
+package 'nagios-plugins-check-updates' do
+    action :remove
+end
+
 plugin_dir = node[:nagios][:plugin_dir]
 
 directory plugin_dir do
     action :create
     recursive true
 end
-
 
 %w{ check_updates }.each do |plugin|
     template "#{plugin_dir}/#{plugin}" do
