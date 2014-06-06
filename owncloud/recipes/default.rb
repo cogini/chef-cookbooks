@@ -7,6 +7,7 @@ include_recipe 'php::module_curl'
 include_recipe 'php::module_gd'
 include_recipe 'php::module_intl'
 include_recipe 'php::module_pgsql'
+include_recipe 'php::module_json'
 include_recipe 'postgresql::client'
 
 owncloud = node[:owncloud]
@@ -14,10 +15,6 @@ app_user = owncloud[:app_user]
 site_dir = owncloud[:site_dir]
 log_dir = owncloud[:log_dir]
 db = owncloud[:db]
-
-owncloud[:dependencies].each do |pkg|
-    package pkg
-end
 
 user app_user do
     home "/home/#{app_user}"
