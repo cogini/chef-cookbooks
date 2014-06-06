@@ -59,16 +59,14 @@ end
     end
 end
 
-if owncloud[:apps]
-    owncloud[:apps].each do |app_repo_url, app_version|
-        app = app_repo_url.split('/')[-1].split('.')[0]
-        git "Clone #{app}" do
-            destination "#{site_dir}/apps/#{app}"
-            reference app_version
-            repository app_repo_url
-            timeout 1200
-            user node[:php][:fpm][:user]
-        end
+owncloud[:apps].each do |app_repo_url, app_version|
+    app = app_repo_url.split('/')[-1].split('.')[0]
+    git "Clone #{app}" do
+        destination "#{site_dir}/apps/#{app}"
+        reference app_version
+        repository app_repo_url
+        timeout 1200
+        user node[:php][:fpm][:user]
     end
 end
 
