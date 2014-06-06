@@ -50,12 +50,11 @@ end
         action :create
         recursive true
         owner node[:php][:fpm][:user]
-        group app_user
         mode '770'
     end
 
     execute 'Set permission' do
-        command "chown -R #{node[:php][:fpm][:user]}:#{app_user} #{dir}"
+        command "chown -R #{node[:php][:fpm][:user]} #{dir}"
     end
 end
 
