@@ -1,0 +1,33 @@
+#!/bin/bash
+
+set -e
+
+
+monthday="$(date +%-d)"
+weekday="$(date +%w)"
+
+if [[ "$monthday" -eq 1 ]]
+then
+    config=monthly
+elif [[ "$weekday" -eq 0 ]]
+then
+    config=weekly
+else
+    config=daily
+fi
+
+
+string=$(
+    /usr/sbin/amreport $config |
+    grep FAILED |
+    awk '{print $1}' |
+    sort -u |
+    while read host
+    do
+        echo -n " .$host "
+    done
+)
+
+
+[[ "$string" = "" ]] && exit 0
+/usr/sbin/amdump $config $string
