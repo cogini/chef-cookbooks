@@ -18,19 +18,19 @@
 #
 
 nameservers =
-  search(:node, "role:#{node['resolver']['server_role']} AND chef_environment:#{node.chef_environment}").
-    map {|node| node['ipaddress'] } +
-  node['resolver']['nameservers']
+    search(:node, "role:#{node[:resolver][:server_role]} AND chef_environment:#{node.chef_environment}").
+        map {|node| node[:ipaddress] } +
+    node[:resolver][:nameservers]
 
-template "/etc/resolv.conf" do
-  source "resolv.conf.erb"
-  owner "root"
-  group "root"
-  mode 0644
-  variables(
-    'search' => node['resolver']['search'],
-    'nameservers' => nameservers,
-    'options' => node['resolver']['options']
-  )
+template '/etc/resolv.conf' do
+    source 'resolv.conf.erb'
+    owner 'root'
+    group 'root'
+    mode '644'
+    variables(
+        'search' => node[:resolver][:search],
+        'nameservers' => nameservers,
+        'options' => node[:resolver][:options]
+    )
 end
 

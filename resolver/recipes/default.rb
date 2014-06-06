@@ -22,12 +22,12 @@
 if node[:resolver][:nameservers].empty?
     raise 'node[:resolver][:nameservers] must not be empty'
 else
-  template "/etc/resolv.conf" do
-    source "resolv.conf.erb"
-    owner "root"
-    group "root"
-    mode 0644
-    # This syntax makes the resolver sub-keys available directly
-    variables node['resolver']
-  end
+    template '/etc/resolv.conf' do
+        source 'resolv.conf.erb'
+        owner 'root'
+        group 'root'
+        mode '644'
+        # This syntax makes the resolver sub-keys available directly
+        variables node[:resolver]
+    end
 end
