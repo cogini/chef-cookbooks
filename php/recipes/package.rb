@@ -34,6 +34,14 @@ pkgs.each do |pkg|
   end
 end
 
+directory node['php']['conf_dir'] do
+  owner "root"
+  group "root"
+  mode "0755"
+  recursive true
+end
+
+
 template "#{node['php']['conf_dir']}/php.ini" do
   source "php.ini.erb"
   owner "root"
