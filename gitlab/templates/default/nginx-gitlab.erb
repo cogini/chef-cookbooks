@@ -2,12 +2,14 @@
 
 
 upstream gitlab {
-  server unix:<%= node[:gitlab][:dir] %>/tmp/sockets/gitlab.socket;
+  # http://unicorn.bogomips.org/Unicorn/Configurator.html#method-i-timeout
+  server unix:<%= node[:gitlab][:dir] %>/tmp/sockets/gitlab.socket fail_timeout=0;
 }
 
 
 server {
 
+  # TODO: handle enable_https
   listen      80 default_server;
   server_name <%= node[:gitlab][:server_name] %>;
 
@@ -26,7 +28,9 @@ server {
     proxy_connect_timeout 300; # https://github.com/gitlabhq/gitlabhq/issues/694
     proxy_read_timeout    300; # https://github.com/gitlabhq/gitlabhq/issues/694
 
-    proxy_set_header X-Forwarded-Proto $scheme;
+    # If there is a proxy that terminates SSL connections, the scheme should be
+    # set there. TODO: handle this automatically
+    # proxy_set_header X-Forwarded-Proto $scheme;
     proxy_set_header Host              $http_host;
     proxy_set_header X-Real-IP         $remote_addr;
   }

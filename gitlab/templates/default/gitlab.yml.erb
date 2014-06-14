@@ -17,7 +17,7 @@ production: &base
     ## Web server settings
     host: <%= node[:gitlab][:host] %>
     port: <%= node[:gitlab][:port] %>
-    https: false
+    https: <%= node[:gitlab][:enable_https] %>
 
     # Uncomment and customize the last line to run in a non-root path
     # WARNING: This feature is no longer supported

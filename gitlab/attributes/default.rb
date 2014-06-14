@@ -39,9 +39,16 @@ default[:gitlab][:dir] = "/home/git/gitlab"
 default[:gitlab][:ssh_port] = 22
 
 default[:gitlab][:host] = "localhost"
-default[:gitlab][:port] = 80
+default[:gitlab][:enable_https] = false
 
 default[:gitlab][:satellites_path] = "/home/git/gitlab-satellites/"
 default[:gitlab][:repos_path] = "/home/git/repositories/"
 
 default[:gitlab][:worker_processes] = 2
+
+
+if node[:gitlab][:enable_https]
+    default[:gitlab][:port] = 443
+else
+    default[:gitlab][:port] = 80
+end
