@@ -25,7 +25,7 @@ users.each do |user|
     end
 end
 
-sudo_members = sudoers.collect { |u| u[:username] }
+sudo_members = users.collect { |u| u[:username] }
 
 group 'sudo' do
     members sudo_members
