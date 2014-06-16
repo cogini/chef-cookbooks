@@ -16,7 +16,12 @@ if version != node[:nginx][:repo_version]
 
 end
 
-package 'nginx'
+package 'nginx' do
+    # :install (default action) will not upgrade to the newest version if Nginx
+    # is already installed. :upgrade may cause some subtle problems but I guess
+    # it's OK for now.
+    action :upgrade
+end
 
 include_recipe 'nginx::commons'
 service 'nginx' do
