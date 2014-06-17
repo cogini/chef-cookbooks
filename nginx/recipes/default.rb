@@ -21,6 +21,7 @@ package 'nginx' do
     # is already installed. :upgrade may cause some subtle problems but I guess
     # it's OK for now.
     action :upgrade
+    version node[:nginx][:version]
 end
 
 include_recipe 'nginx::commons'

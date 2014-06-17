@@ -20,7 +20,6 @@
 # limitations under the License.
 #
 
-default['nginx']['version'] = '1.0.14'
 default['nginx']['dir'] = '/etc/nginx'
 default['nginx']['log_dir'] = '/var/log/nginx'
 default['nginx']['binary'] = '/usr/sbin/nginx'
@@ -63,10 +62,13 @@ when 'ubuntu'
     if node[:platform_version].to_f >= 12.04
         default[:nginx][:types_hash_max_size] = 2048
     end
+    default['nginx']['version'] = '1.1'
+    default['nginx']['repo_version'] = '1.1'
 when 'redhat','centos','scientific','amazon','oracle','fedora'
     default['nginx']['user']       = 'nginx'
     default['nginx']['init_style'] = 'init'
+    default['nginx']['version'] = '1.0'
+    default['nginx']['repo_version'] = '1.0'
 else
-    default['nginx']['user']       = 'www-data'
-    default['nginx']['init_style'] = 'init'
+    raise NotImplemented
 end
