@@ -19,6 +19,10 @@ package 'icinga-web' do
     response_file 'icinga-web.seed'
 end
 
+
+# Needed by config file but not created by package
+directory '/etc/icinga/conf.d'
+
 # Fix path for some missing logos
 link '/usr/share/icinga/htdocs/images/logos/base' do
     to '/usr/share/nagios/htdocs/images/logos/base'
