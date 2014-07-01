@@ -4,6 +4,7 @@ when 'ubuntu'
 
     default[:dkim][:key_dir] = '/etc/mail'
     default[:dkim][:selector] = 'mail'
+    default[:dkim][:user] = 'root'
 
     if node[:platform_version].to_f < 10.04
         default[:dkim][:packages] = %w{ dkim-filter }
@@ -28,6 +29,7 @@ when 'centos'
     default[:dkim][:genkey] = 'opendkim-genkey'
     default[:dkim][:key_dir] = '/etc/opendkim/keys'
     default[:dkim][:selector] = 'default'
+    default[:dkim][:user] = 'opendkim'
 
 else
     raise NotImplemented

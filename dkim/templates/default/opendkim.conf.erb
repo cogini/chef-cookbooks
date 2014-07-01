@@ -6,6 +6,7 @@ UMask         002
 Socket        inet:8891@localhost
 OmitHeaders   "."
 SignHeaders   "."
+UserID        <%= node[:dkim][:user] %>:<%= node[:dkim][:user] %>
 
 Domain        <%= node[:dkim][:domains].join(',') %>
 KeyFile       <%= node[:dkim][:key_dir] %>/<%= node[:dkim][:selector] %>.private
