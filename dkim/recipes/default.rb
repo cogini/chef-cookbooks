@@ -6,11 +6,13 @@
 #
 
 
+dkim = node[:dkim]
 dkim_service = node[:dkim][:service]
 selector = node[:dkim][:selector]
+key_dir = node[:dkim][:key_dir]
 
 
-node[:dkim][:packages].each do |pkg|
+dkim[:packages].each do |pkg|
     package pkg do
         action :install
     end
@@ -19,26 +21,20 @@ end
 
 service dkim_service do
     action [:enable, :start]
-    supports :reload => true, :restart => true, :status => true
 end
 
 
-template node[:dkim][:config] do
+template dkim[:config] do
     source 'opendkim.conf.erb'
-    notifies :reload, resources(:service => dkim_service)
-end
-
-template "/etc/default/opendkim" do
-    source "etc_default_opendkim.erb"
-    notifies :reload, resources(:service => dkim_service)
+    notifies :restart, "service[#{dkim_service}]"
 end
 
 
-bash 'dkim genkey' do
-    code <<-EOBASH
-        mkdir -p /etc/mail
-        cd /etc/mail
-        #{node[:dkim][:genkey]} -s #{selector} -d #{node[:dkim][:domains][0]}
-    EOBASH
-    not_if { File.exists?("/etc/mail/#{selector}.private") }
+directory key_dir do
+    recursive true
+end
+
+execute "#{dkim[:genkey]} -s #{selector} -d #{dkim[:domains][0]}" do
+    cwd key_dir
+    not_if { File.exists?("#{key_dir}/#{selector}.private") }
 end
