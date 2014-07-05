@@ -35,7 +35,7 @@ end
 
 sftp_users.each do |sftp_user|
     user sftp_user do
-        home "/#{sftp_upload_dir}"
+        home "/srv/sftp/#{sftp_user}"
         shell sftp[:shell]
         action :create
     end
