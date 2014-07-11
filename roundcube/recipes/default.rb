@@ -6,13 +6,18 @@
 #
 
 include_recipe 'nginx'
+include_recipe 'php::fpm'
 include_recipe 'php::module_mcrypt'
 include_recipe 'php::module_intl'
 include_recipe 'php::module_curl'
-include_recipe 'php::fpm'
+
+if node[:roundcube][:imap_cache] == 'apc'
+    include_recipe 'php::module_apc'
+end
 
 
 site_dir = node[:roundcube][:site_dir]
+php_user = node[:php][:fpm][:user]
 
 
 git site_dir do
@@ -28,7 +33,7 @@ if node[:roundcube][:db][:driver] == 'sqlite'
     directory File.dirname(node[:roundcube][:db][:database]) do
         action :create
         recursive true
-        owner 'www-data'
+        owner php_user
     end
 
 else
@@ -44,7 +49,7 @@ end
     directory dir do
         action :create
         recursive true
-        owner 'www-data'
+        owner php_user
     end
 end
 
@@ -56,7 +61,7 @@ end
 template "#{site_dir}/plugins/password/config.inc.php" do
     source 'password-config.inc.php.erb'
     mode '600'
-    owner 'www-data'
+    owner php_user
     only_if { node[:roundcube][:plugins].include?('password') }
 end
 
