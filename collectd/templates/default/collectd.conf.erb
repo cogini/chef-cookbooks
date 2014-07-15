@@ -157,7 +157,7 @@ LoadPlugin rrdtool
 #LoadPlugin serial
 ##LoadPlugin sigrok
 #LoadPlugin snmp
-#LoadPlugin statsd
+LoadPlugin statsd
 #LoadPlugin swap
 #LoadPlugin table
 #LoadPlugin tail
@@ -888,13 +888,13 @@ LoadPlugin rrdtool
 #	CollectStatistics true
 #</Plugin>
 
-#<Plugin rrdtool>
-#	DataDir "/var/lib/collectd/rrd"
+<Plugin rrdtool>
+	DataDir "/var/lib/collectd/rrd"
 #	CreateFilesAsync false
 #	CacheTimeout 120
 #	CacheFlush   900
 #	WritesPerSecond 50
-#</Plugin>
+</Plugin>
 
 #<Plugin sensors>
 #	SensorConfigFile "/etc/sensors.conf"

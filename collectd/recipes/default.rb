@@ -10,3 +10,9 @@ end
 service 'collectd' do
     action [:enable, :start]
 end
+
+
+template '/etc/collectd.conf' do
+    mode '644'
+    notifies :restart, 'service[collectd]'
+end
