@@ -1,0 +1,13 @@
+server {
+    server_name localhost;
+    root /var/www/collection3;
+    location ~ .+\.cgi {
+        # gzip makes scripts feel slower since they have to complete before
+        # getting gzipped
+        gzip off;
+        fastcgi_pass 127.0.0.1:8888;
+        include fastcgi_params;
+        fastcgi_index index.cgi;
+        fastcgi_param SCRIPT_FILENAME /var/www/collection3$fastcgi_script_name;
+    }
+}

@@ -1,1 +1,2 @@
 depends 'basics'
+depends 'nginx'
