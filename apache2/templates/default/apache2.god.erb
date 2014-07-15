@@ -6,7 +6,6 @@ God.watch do |w|
   w.restart = "<%= @params[:restart] %>"
   w.start_grace = 10.seconds
   w.restart_grace = 10.seconds
-  w.pid_file = "/var/run/httpd.pid"
   w.behavior(:clean_pid_file)
 
   w.start_if do |start|
