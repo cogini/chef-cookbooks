@@ -6,3 +6,6 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+
+package 'graphite-carbon'
+package 'graphite-web'
