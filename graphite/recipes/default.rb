@@ -55,6 +55,13 @@ template '/etc/apache2/sites-available/graphite-web.conf' do
     notifies :restart, 'service[apache2]'
 end
 
+node[:graphite][:users].each do |u,p|
+    htpasswd node[:graphite][:auth_user_file] do
+        user u
+        password p
+    end
+end
+
 apache_site 'graphite-web.conf'
 
 apache_site '000-default.conf' do

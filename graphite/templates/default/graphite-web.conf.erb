@@ -18,5 +18,13 @@
 
     CustomLog ${APACHE_LOG_DIR}/graphite-web_access.log combined
 
-</VirtualHost>
+    <%- if not node[:graphite][:users].empty? -%>
+    <Location />
+        AuthName     "Restricted"
+        AuthType     Basic
+        AuthUserFile <%= node[:graphite][:auth_user_file] %>
+        Require      valid-user
+    </Location>
+    <%- end -%>
 
+</VirtualHost>
