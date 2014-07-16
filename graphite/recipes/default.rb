@@ -9,3 +9,12 @@
 
 package 'graphite-carbon'
 package 'graphite-web'
+
+template '/etc/default/graphite-carbon' do
+    mode '644'
+    notifies :restart, 'service[carbon-cache]'
+end
+
+service 'carbon-cache' do
+    action [:enable, :start]
+end
