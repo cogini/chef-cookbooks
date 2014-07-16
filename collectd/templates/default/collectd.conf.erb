@@ -177,7 +177,9 @@ LoadPlugin statsd
 #LoadPlugin vmem
 #LoadPlugin vserver
 #LoadPlugin wireless
-#LoadPlugin write_graphite
+<%- if node[:collectd][:plugins].has_key?('write_graphite') -%>
+LoadPlugin write_graphite
+<%- end -%>
 #LoadPlugin write_http
 ##LoadPlugin write_mongodb
 ##LoadPlugin write_redis
@@ -1129,19 +1131,15 @@ LoadPlugin statsd
 #	Verbose false
 #</Plugin>
 
-#<Plugin write_graphite>
-#  <Node "example">
-#    Host "localhost"
-#    Port "2003"
-#    Protocol "tcp"
-#    LogSendErrors true
-#    Prefix "collectd"
-#    Postfix "collectd"
-#    StoreRates true
-#    AlwaysAppendDS false
-#    EscapeCharacter "_"
-#  </Node>
-#</Plugin>
+<%- if node[:collectd][:plugins].has_key?('write_graphite') -%>
+<Plugin write_graphite>
+    <Node "<%= node[:collectd][:plugins][:write_graphite][:host] %>">
+        Host "<%= node[:collectd][:plugins][:write_graphite][:host] %>"
+        Protocol "tcp"
+        Prefix "collectd."
+    </Node>
+</Plugin>
+<%- end -%>
 
 #<Plugin write_http>
 #	<URL "http://example.com/collectd-post">
