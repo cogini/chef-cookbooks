@@ -20,6 +20,34 @@ service 'carbon-cache' do
 end
 
 
+db = node[:graphite][:db]
+
+if db[:engine] == 'mysql'
+
+    include_recipe 'mysql::client'
+    package 'python-mysqldb'
+
+    if db[:host] == 'localhost'
+
+        include_recipe 'mysql::server'
+
+        mysql_user db[:user] do
+            password db[:password]
+        end
+
+        mysql_db db[:name] do
+            owner db[:user]
+        end
+    end
+end
+
+template '/etc/graphite/local_settings.py' do
+    owner '_graphite'
+    mode '600'
+    notifies :restart, 'service[apache2]'
+end
+
+
 include_recipe 'apache2::mod_wsgi'
 
 template '/etc/apache2/sites-available/graphite-web.conf' do
