@@ -18,3 +18,17 @@ end
 service 'carbon-cache' do
     action [:enable, :start]
 end
+
+
+include_recipe 'apache2::mod_wsgi'
+
+template '/etc/apache2/sites-available/graphite-web.conf' do
+    mode '644'
+    notifies :restart, 'service[apache2]'
+end
+
+apache_site 'graphite-web.conf'
+
+apache_site '000-default.conf' do
+    action :disable
+end
