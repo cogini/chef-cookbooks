@@ -6,21 +6,11 @@
 ServerRoot "<%= node['apache']['dir'] %>"
 
 #
-# The accept serialization lock file MUST BE STORED ON A LOCAL DISK.
-#
-<% if node['platform'] == "debian" || node['platform'] == "ubuntu" -%>
-LockFile /var/lock/apache2/accept.lock
-<% elsif node['platform'] == "freebsd" -%>
-LockFile /var/log/accept.lock
-<% else %>
-LockFile logs/accept.lock
-<% end -%>
-
-#
 # PidFile: The file in which the server should record its process
 # identification number when it starts.
+# This needs to be set in /etc/apache2/envvars
 #
-PidFile <%= node['apache']['pid_file'] %>
+PidFile ${APACHE_PID_FILE}
 
 #
 # Timeout: The number of seconds before receives and sends time out.
@@ -100,17 +90,6 @@ AccessFileName .htaccess
     Order allow,deny
     Deny from all
 </Files>
-
-#
-# DefaultType is the default MIME type the server will use for a document
-# if it cannot otherwise determine one, such as from filename extensions.
-# If your server contains mostly text or HTML documents, "text/plain" is
-# a good value.  If most of your content is binary, such as applications
-# or images, you may want to use "application/octet-stream" instead to
-# keep browsers from trying to display binary files as though they are
-# text.
-#
-DefaultType text/plain
 
 
 #
