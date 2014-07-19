@@ -1,3 +1,5 @@
+include_recipe 'php::fpm'
+
 php_pear "zendopcache" do
   action :install
   preferred_state :beta  # for now there is no "stable" zendopcache package
