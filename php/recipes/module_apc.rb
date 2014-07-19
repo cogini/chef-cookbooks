@@ -20,6 +20,7 @@
 #
 
 include_recipe 'build-essential'
+include_recipe 'php::fpm'
 
 case node[:platform_family]
 when "rhel", "fedora"
