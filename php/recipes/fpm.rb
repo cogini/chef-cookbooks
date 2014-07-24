@@ -36,6 +36,9 @@ end
 
 service node[:php][:fpm_service] do
     action [:enable, :start]
+    if node[:platform] == 'ubuntu' && node[:platform_version].to_f > 12.04
+        provider Chef::Provider::Service::Upstart
+    end
 end
 
 
