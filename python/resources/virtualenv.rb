@@ -32,3 +32,4 @@ attribute :interpreter, :kind_of => String
 attribute :owner, :regex => Chef::Config[:user_valid_regex]
 attribute :group, :regex => Chef::Config[:group_valid_regex]
 attribute :options, :kind_of => String
+attribute :environment, :kind_of => Hash
