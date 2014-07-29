@@ -100,6 +100,7 @@ default['apache']['timeout'] = 300
 default['apache']['keepalive'] = "On"
 default['apache']['keepaliverequests'] = 100
 default['apache']['keepalivetimeout'] = 5
+default['apache']['snippet_dir'] = 'conf.d'
 
 # Security
 default['apache']['servertokens'] = "Prod"
@@ -137,6 +138,7 @@ default['apache']['default_modules'] = %w{
 
 if node[:platform] == 'ubuntu' && node[:platform_version].to_f >= 14.04
     default['apache']['default_modules'].delete('authz_default')
+    default['apache']['snippet_dir'] = 'conf-enabled'
 end
 
 %w{ log_config logio }.each do |log_mod|

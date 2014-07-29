@@ -208,10 +208,11 @@ LogFormat "{\"remote_host\": \"%h\", \"remote_logname\": \"%l\", \"remote_user\"
 #    ErrorDocument 503 /error/HTTP_SERVICE_UNAVAILABLE.html.var
 #    ErrorDocument 506 /error/HTTP_VARIANT_ALSO_VARIES.html.var
 
-
+# Include of directories ignores editors' and dpkg's backup files,
+# see README.Debian for details.
 
 # Include generic snippets of statements
-Include <%= node['apache']['dir'] %>/conf.d/
+Include <%= node['apache']['dir'] %>/<%= node['apache']['snippet_dir'] %>/
 
 # Include the virtual host configurations:
 Include <%= node['apache']['dir'] %>/sites-enabled/
