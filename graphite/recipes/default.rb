@@ -47,6 +47,11 @@ template '/etc/graphite/local_settings.py' do
     notifies :restart, 'service[apache2]'
 end
 
+template '/etc/carbon/storage-schemas.conf' do
+    mode '644'
+    notifies :restart, 'service[apache2]'
+end
+
 
 include_recipe 'apache2::mod_wsgi'
 
