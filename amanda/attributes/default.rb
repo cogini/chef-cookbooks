@@ -32,7 +32,7 @@ when 'debian'
   set[:amanda][:package_url] = "http://www.zmanda.com/downloads/community/Amanda/#{a_version}/Ubuntu-#{p_version}/amanda-backup-client_#{a_version}-1Ubuntu#{dotless}_#{arch}.deb"
 when 'rhel'
   arch = node[:kernel][:machine] =~ /x86_64/ ? 'x86_64' : 'i686'
-  set[:amanda][:package_url] = "http://www.zmanda.com/downloads/community/Amanda/#{a_version}/Redhat_Enterprise_#{p_version}/amanda-backup_client-#{a_version}-1.rhel#{p_version.to_i}.#{arch}.rpm"
+  set[:amanda][:package_url] = "http://www.zmanda.com/downloads/community/Amanda/#{a_version}/Redhat_Enterprise_#{p_version.to_i}.0/amanda-backup_client-#{a_version}-1.rhel#{p_version.to_i}.#{arch}.rpm"
 else
   raise NotImplementedError
 end
