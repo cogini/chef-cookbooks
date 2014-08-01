@@ -59,10 +59,8 @@ mysql_packages.each do |mysql_pack|
   end
 end
 
-if platform?(%w{ redhat centos fedora suse scientific amazon })
-  package 'ruby-mysql'
-elsif platform?(%w{ debian ubuntu })
-  package 'ruby-dbd-mysql'
+if node['mysql']['ruby_module_package']
+  package node['mysql']['ruby_module_package']
 else
   gem_package "mysql" do
     action :install
