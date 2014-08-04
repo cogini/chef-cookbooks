@@ -207,3 +207,8 @@ arc_ratio		value:GAUGE:0:U
 arc_size		current:GAUGE:0:U, target:GAUGE:0:U, minlimit:GAUGE:0:U, maxlimit:GAUGE:0:U
 mysql_qcache		hits:COUNTER:0:U, inserts:COUNTER:0:U, not_cached:COUNTER:0:U, lowmem_prunes:COUNTER:0:U, queries_in_cache:GAUGE:0:U
 mysql_threads		running:GAUGE:0:U, connected:GAUGE:0:U, cached:GAUGE:0:U, created:COUNTER:0:U
+
+
+<%- node[:collectd][:types].each do |k,v| -%>
+<%= k %> <%= v %>
+<%- end -%>
