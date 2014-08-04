@@ -54,14 +54,14 @@ LoadPlugin syslog
 #LoadPlugin logfile
 
 #<Plugin logfile>
-#	LogLevel info
-#	File STDOUT
-#	Timestamp true
-#	PrintSeverity false
+#   LogLevel info
+#   File STDOUT
+#   Timestamp true
+#   PrintSeverity false
 #</Plugin>
 
 #<Plugin syslog>
-#	LogLevel info
+#   LogLevel info
 #</Plugin>
 
 ##############################################################################
@@ -240,20 +240,20 @@ LoadPlugin write_graphite
 #</Plugin>
 
 #<Plugin apcups>
-#	Host "localhost"
-#	Port "3551"
-#	ReportSeconds true
+#   Host "localhost"
+#   Port "3551"
+#   ReportSeconds true
 #</Plugin>
 
 #<Plugin aquaero>
-#	Device ""
+#   Device ""
 #</Plugin>
 
 #<Plugin ascent>
-#	URL "http://localhost/ascent/status/"
-#	User "www-user"
-#	Password "secret"
-#	CACert "/etc/ssl/ca.crt"
+#   URL "http://localhost/ascent/status/"
+#   User "www-user"
+#   Password "secret"
+#   CACert "/etc/ssl/ca.crt"
 #</Plugin>
 
 #<Plugin "bind">
@@ -282,8 +282,8 @@ LoadPlugin write_graphite
 #</Plugin>
 
 #<Plugin csv>
-#	DataDir "/var/lib/collectd/csv"
-#	StoreRates false
+#   DataDir "/var/lib/collectd/csv"
+#   StoreRates false
 #</Plugin>
 
 #<Plugin curl>
@@ -352,79 +352,79 @@ LoadPlugin write_graphite
 #</Plugin>
 
 #<Plugin dbi>
-#	<Query "num_of_customers">
-#		Statement "SELECT 'customers' AS c_key, COUNT(*) AS c_value FROM customers_tbl"
-#		<Result>
-#			Type "gauge"
-#			InstancesFrom "c_key"
-#			ValuesFrom "c_value"
-#		</Result>
-#	</Query>
-#	<Database "customers_db">
-#		Driver "mysql"
-#		DriverOption "host" "localhost"
-#		DriverOption "username" "collectd"
-#		DriverOption "password" "AeXohy0O"
-#		DriverOption "dbname" "custdb0"
-#		#SelectDB "custdb0"
-#		Query "num_of_customers"
-#		#Query "..."
-#		#Host "..."
-#	</Database>
+#   <Query "num_of_customers">
+#       Statement "SELECT 'customers' AS c_key, COUNT(*) AS c_value FROM customers_tbl"
+#       <Result>
+#           Type "gauge"
+#           InstancesFrom "c_key"
+#           ValuesFrom "c_value"
+#       </Result>
+#   </Query>
+#   <Database "customers_db">
+#       Driver "mysql"
+#       DriverOption "host" "localhost"
+#       DriverOption "username" "collectd"
+#       DriverOption "password" "AeXohy0O"
+#       DriverOption "dbname" "custdb0"
+#       #SelectDB "custdb0"
+#       Query "num_of_customers"
+#       #Query "..."
+#       #Host "..."
+#   </Database>
 #</Plugin>
 
 #<Plugin df>
-#	Device "/dev/hda1"
-#	Device "192.168.0.2:/mnt/nfs"
-#	MountPoint "/home"
-#	FSType "ext3"
-#	IgnoreSelected false
-#	ReportByDevice false
-#	ReportReserved false
-#	ReportInodes false
-#	ValuesAbsolute true
-#	ValuesPercentage false
+#   Device "/dev/hda1"
+#   Device "192.168.0.2:/mnt/nfs"
+#   MountPoint "/home"
+#   FSType "ext3"
+#   IgnoreSelected false
+#   ReportByDevice false
+#   ReportReserved false
+#   ReportInodes false
+#   ValuesAbsolute true
+#   ValuesPercentage false
 #</Plugin>
 
 #<Plugin disk>
-#	Disk "/^[hs]d[a-f][0-9]?$/"
-#	IgnoreSelected false
+#   Disk "/^[hs]d[a-f][0-9]?$/"
+#   IgnoreSelected false
 #</Plugin>
 
 #<Plugin dns>
-#	Interface "eth0"
-#	IgnoreSource "192.168.0.1"
-#	SelectNumericQueryTypes true
+#   Interface "eth0"
+#   IgnoreSource "192.168.0.1"
+#   SelectNumericQueryTypes true
 #</Plugin>
 
 #<Plugin email>
-#	SocketFile "/var/run/collectd-email"
-#	SocketGroup "collectd"
-#	SocketPerms "0770"
-#	MaxConns 5
+#   SocketFile "/var/run/collectd-email"
+#   SocketGroup "collectd"
+#   SocketPerms "0770"
+#   MaxConns 5
 #</Plugin>
 
 #<Plugin ethstat>
-#	Interface "eth0"
-#	Map "rx_csum_offload_errors" "if_rx_errors" "checksum_offload"
-#	Map "multicast" "if_multicast"
-#	MappedOnly false
+#   Interface "eth0"
+#   Map "rx_csum_offload_errors" "if_rx_errors" "checksum_offload"
+#   Map "multicast" "if_multicast"
+#   MappedOnly false
 #</Plugin>
 
 #<Plugin exec>
-#	Exec "user:group" "/path/to/exec"
-#	NotificationExec "user:group" "/path/to/exec"
+#   Exec "user:group" "/path/to/exec"
+#   NotificationExec "user:group" "/path/to/exec"
 #</Plugin>
 
 #<Plugin filecount>
-#	<Directory "/path/to/dir">
-#		Instance "foodir"
-#		Name "*.conf"
-#		MTime "-5m"
-#		Size "+10k"
-#		Recursive true
-#		IncludeHidden false
-#	</Directory>
+#   <Directory "/path/to/dir">
+#       Instance "foodir"
+#       Name "*.conf"
+#       MTime "-5m"
+#       Size "+10k"
+#       Recursive true
+#       IncludeHidden false
+#   </Directory>
 #</Plugin>
 
 #<Plugin "gmond">
@@ -447,260 +447,260 @@ LoadPlugin write_graphite
 #</Plugin>
 
 #<Plugin interface>
-#	Interface "eth0"
-#	IgnoreSelected false
+#   Interface "eth0"
+#   IgnoreSelected false
 #</Plugin>
 
 #<Plugin ipmi>
-#	Sensor "some_sensor"
-#	Sensor "another_one"
-#	IgnoreSelected false
-#	NotifySensorAdd false
-#	NotifySensorRemove true
-#	NotifySensorNotPresent false
+#   Sensor "some_sensor"
+#   Sensor "another_one"
+#   IgnoreSelected false
+#   NotifySensorAdd false
+#   NotifySensorRemove true
+#   NotifySensorNotPresent false
 #</Plugin>
 
 #<Plugin iptables>
-#	Chain table chain
+#   Chain table chain
 #</Plugin>
 
 #<Plugin irq>
-#	Irq 7
-#	Irq 8
-#	Irq 9
-#	IgnoreSelected true
+#   Irq 7
+#   Irq 8
+#   Irq 9
+#   IgnoreSelected true
 #</Plugin>
 
 #<Plugin "java">
-#	JVMArg "-verbose:jni"
-#	JVMArg "-Djava.class.path=/usr/share/collectd/java/collectd-api.jar"
+#   JVMArg "-verbose:jni"
+#   JVMArg "-Djava.class.path=/usr/share/collectd/java/collectd-api.jar"
 #
-#	LoadPlugin "org.collectd.java.Foobar"
-#	<Plugin "org.collectd.java.Foobar">
-#	  # To be parsed by the plugin
-#	</Plugin>
+#   LoadPlugin "org.collectd.java.Foobar"
+#   <Plugin "org.collectd.java.Foobar">
+#     # To be parsed by the plugin
+#   </Plugin>
 #</Plugin>
 
 #<Plugin libvirt>
-#	Connection "xen:///"
-#	RefreshInterval 60
-#	Domain "name"
-#	BlockDevice "name:device"
-#	InterfaceDevice "name:device"
-#	IgnoreSelected false
-#	HostnameFormat name
-#	InterfaceFormat name
+#   Connection "xen:///"
+#   RefreshInterval 60
+#   Domain "name"
+#   BlockDevice "name:device"
+#   InterfaceDevice "name:device"
+#   IgnoreSelected false
+#   HostnameFormat name
+#   InterfaceFormat name
 #</Plugin>
 
 #<Plugin lpar>
-#	CpuPoolStats   false
-#	ReportBySerial false
+#   CpuPoolStats   false
+#   ReportBySerial false
 #</Plugin>
 
 #<Plugin madwifi>
-#	Interface "wlan0"
-#	IgnoreSelected false
-#	Source "SysFS"
-#	WatchSet "None"
-#	WatchAdd "node_octets"
-#	WatchAdd "node_rssi"
-#	WatchAdd "is_rx_acl"
-#	WatchAdd "is_scan_active"
+#   Interface "wlan0"
+#   IgnoreSelected false
+#   Source "SysFS"
+#   WatchSet "None"
+#   WatchAdd "node_octets"
+#   WatchAdd "node_rssi"
+#   WatchAdd "is_rx_acl"
+#   WatchAdd "is_scan_active"
 #</Plugin>
 
 #<Plugin mbmon>
-#	Host "127.0.0.1"
-#	Port "411"
+#   Host "127.0.0.1"
+#   Port "411"
 #</Plugin>
 
 #<Plugin md>
-#	Device "/dev/md0"
-#	IgnoreSelected false
+#   Device "/dev/md0"
+#   IgnoreSelected false
 #</Plugin>
 
 #<Plugin memcachec>
-#	<Page "plugin_instance">
-#		Server "localhost"
-#		Key "page_key"
-#		<Match>
-#			Regex "(\\d+) bytes sent"
-#			ExcludeRegex "<lines to be excluded>"
-#			DSType CounterAdd
-#			Type "ipt_octets"
-#			Instance "type_instance"
-#		</Match>
-#	</Page>
+#   <Page "plugin_instance">
+#       Server "localhost"
+#       Key "page_key"
+#       <Match>
+#           Regex "(\\d+) bytes sent"
+#           ExcludeRegex "<lines to be excluded>"
+#           DSType CounterAdd
+#           Type "ipt_octets"
+#           Instance "type_instance"
+#       </Match>
+#   </Page>
 #</Plugin>
 
 #<Plugin memcached>
-#	<Instance "local">
-#		Host "127.0.0.1"
-#		Port "11211"
-#	</Instance>
+#   <Instance "local">
+#       Host "127.0.0.1"
+#       Port "11211"
+#   </Instance>
 #</Plugin>
 
 #<Plugin modbus>
-#	<Data "data_name">
-#		RegisterBase 1234
-#		RegisterType float
-#		Type gauge
-#		Instance "..."
-#	</Data>
+#   <Data "data_name">
+#       RegisterBase 1234
+#       RegisterType float
+#       Type gauge
+#       Instance "..."
+#   </Data>
 #
-#	<Host "name">
-#		Address "addr"
-#		Port "1234"
-#		Interval 60
+#   <Host "name">
+#       Address "addr"
+#       Port "1234"
+#       Interval 60
 #
-#		<Slave 1>
-#			Instance "foobar" # optional
-#			Collect "data_name"
-#		</Slave>
-#	</Host>
+#       <Slave 1>
+#           Instance "foobar" # optional
+#           Collect "data_name"
+#       </Slave>
+#   </Host>
 #</Plugin>
 
 #<Plugin mysql>
-#	<Database db_name>
-#		Host "database.serv.er"
-#		User "db_user"
-#		Password "secret"
-#		Database "db_name"
-#		MasterStats true
-#	</Database>
+#   <Database db_name>
+#       Host "database.serv.er"
+#       User "db_user"
+#       Password "secret"
+#       Database "db_name"
+#       MasterStats true
+#   </Database>
 #
-#	<Database db_name2>
-#		Host "localhost"
-#		Socket "/var/run/mysql/mysqld.sock"
-#		SlaveStats true
-#		SlaveNotifications true
-#	</Database>
+#   <Database db_name2>
+#       Host "localhost"
+#       Socket "/var/run/mysql/mysqld.sock"
+#       SlaveStats true
+#       SlaveNotifications true
+#   </Database>
 #</Plugin>
 
 #<Plugin netapp>
-#	<Host "netapp1.example.com">
-#		Protocol      "https"
-#		Address       "10.0.0.1"
-#		Port          443
-#		User          "username"
-#		Password      "aef4Aebe"
-#		Interval      30
+#   <Host "netapp1.example.com">
+#       Protocol      "https"
+#       Address       "10.0.0.1"
+#       Port          443
+#       User          "username"
+#       Password      "aef4Aebe"
+#       Interval      30
 #
-#		<WAFL>
-#			Interval 30
-#			GetNameCache   true
-#			GetDirCache    true
-#			GetBufferCache true
-#			GetInodeCache  true
-#		</WAFL>
+#       <WAFL>
+#           Interval 30
+#           GetNameCache   true
+#           GetDirCache    true
+#           GetBufferCache true
+#           GetInodeCache  true
+#       </WAFL>
 #
-#		<Disks>
-#			Interval 30
-#			GetBusy true
-#		</Disks>
+#       <Disks>
+#           Interval 30
+#           GetBusy true
+#       </Disks>
 #
-#		<VolumePerf>
-#			Interval 30
-#			GetIO      "volume0"
-#			IgnoreSelectedIO      false
-#			GetOps     "volume0"
-#			IgnoreSelectedOps     false
-#			GetLatency "volume0"
-#			IgnoreSelectedLatency false
-#		</VolumePerf>
+#       <VolumePerf>
+#           Interval 30
+#           GetIO      "volume0"
+#           IgnoreSelectedIO      false
+#           GetOps     "volume0"
+#           IgnoreSelectedOps     false
+#           GetLatency "volume0"
+#           IgnoreSelectedLatency false
+#       </VolumePerf>
 #
-#		<VolumeUsage>
-#			Interval 30
-#			GetCapacity "vol0"
-#			GetCapacity "vol1"
-#			IgnoreSelectedCapacity false
-#			GetSnapshot "vol1"
-#			GetSnapshot "vol3"
-#			IgnoreSelectedSnapshot false
-#		</VolumeUsage>
+#       <VolumeUsage>
+#           Interval 30
+#           GetCapacity "vol0"
+#           GetCapacity "vol1"
+#           IgnoreSelectedCapacity false
+#           GetSnapshot "vol1"
+#           GetSnapshot "vol3"
+#           IgnoreSelectedSnapshot false
+#       </VolumeUsage>
 #
-#		<System>
-#			Interval 30
-#			GetCPULoad     true
-#			GetInterfaces  true
-#			GetDiskOps     true
-#			GetDiskIO      true
-#		</System>
-#	</Host>
+#       <System>
+#           Interval 30
+#           GetCPULoad     true
+#           GetInterfaces  true
+#           GetDiskOps     true
+#           GetDiskIO      true
+#       </System>
+#   </Host>
 #</Plugin>
 
 #<Plugin netlink>
-#	Interface "All"
-#	VerboseInterface "All"
-#	QDisc "eth0" "pfifo_fast-1:0"
-#	Class "ppp0" "htb-1:10"
-#	Filter "ppp0" "u32-1:0"
-#	IgnoreSelected false
+#   Interface "All"
+#   VerboseInterface "All"
+#   QDisc "eth0" "pfifo_fast-1:0"
+#   Class "ppp0" "htb-1:10"
+#   Filter "ppp0" "u32-1:0"
+#   IgnoreSelected false
 #</Plugin>
 
 <%- if node[:collectd][:plugins].has_key?('network') -%>
 <Plugin network>
-	Listen "127.0.0.1" "25826"
-	# statistics about the network plugin itself
-	ReportStats true
+    Listen "127.0.0.1" "25826"
+    # statistics about the network plugin itself
+    ReportStats true
 </Plugin>
 <%- end -%>
 
 #<Plugin nginx>
-#	URL "http://localhost/status?auto"
-#	User "www-user"
-#	Password "secret"
-#	CACert "/etc/ssl/ca.crt"
+#   URL "http://localhost/status?auto"
+#   User "www-user"
+#   Password "secret"
+#   CACert "/etc/ssl/ca.crt"
 #</Plugin>
 
 #<Plugin notify_desktop>
-#	OkayTimeout 1000
-#	WarningTimeout 5000
-#	FailureTimeout 0
+#   OkayTimeout 1000
+#   WarningTimeout 5000
+#   FailureTimeout 0
 #</Plugin>
 
 #<Plugin notify_email>
 #       SMTPServer "localhost"
-#	SMTPPort 25
-#	SMTPUser "my-username"
-#	SMTPPassword "my-password"
-#	From "collectd@main0server.com"
-#	# <WARNING/FAILURE/OK> on <hostname>. beware! do not use not more than two %s in this string!!!
-#	Subject "Aaaaaa!! %s on %s!!!!!"
-#	Recipient "email1@domain1.net"
-#	Recipient "email2@domain2.com"
+#   SMTPPort 25
+#   SMTPUser "my-username"
+#   SMTPPassword "my-password"
+#   From "collectd@main0server.com"
+#   # <WARNING/FAILURE/OK> on <hostname>. beware! do not use not more than two %s in this string!!!
+#   Subject "Aaaaaa!! %s on %s!!!!!"
+#   Recipient "email1@domain1.net"
+#   Recipient "email2@domain2.com"
 #</Plugin>
 
 #<Plugin ntpd>
-#	Host "localhost"
-#	Port 123
-#	ReverseLookups false
-#	IncludeUnitID true
+#   Host "localhost"
+#   Port 123
+#   ReverseLookups false
+#   IncludeUnitID true
 #</Plugin>
 
 #<Plugin nut>
-#	UPS "upsname@hostname:port"
+#   UPS "upsname@hostname:port"
 #</Plugin>
 
 #<Plugin olsrd>
-#	Host "127.0.0.1"
-#	Port "2006"
-#	CollectLinks "Summary"
-#	CollectRoutes "Summary"
-#	CollectTopology "Summary"
+#   Host "127.0.0.1"
+#   Port "2006"
+#   CollectLinks "Summary"
+#   CollectRoutes "Summary"
+#   CollectTopology "Summary"
 #</Plugin>
 
 #<Plugin onewire>
-#	Device "-s localhost:4304"
-#	Sensor "F10FCA000800"
-#	IgnoreSelected false
+#   Device "-s localhost:4304"
+#   Sensor "F10FCA000800"
+#   IgnoreSelected false
 #</Plugin>
 
 #<Plugin openvpn>
-#	StatusFile "/etc/openvpn/openvpn-status.log"
-#	ImprovedNamingSchema false
-#	CollectCompression true
-#	CollectIndividualUsers true
-#	CollectUserCount false
+#   StatusFile "/etc/openvpn/openvpn-status.log"
+#   ImprovedNamingSchema false
+#   CollectCompression true
+#   CollectIndividualUsers true
+#   CollectUserCount false
 #</Plugin>
 
 #<Plugin oracle>
@@ -721,88 +721,88 @@ LoadPlugin write_graphite
 #</Plugin>
 
 #<Plugin perl>
-#	IncludeDir "/my/include/path"
-#	BaseName "Collectd::Plugins"
-#	EnableDebugger ""
-#	LoadPlugin Monitorus
-#	LoadPlugin OpenVZ
+#   IncludeDir "/my/include/path"
+#   BaseName "Collectd::Plugins"
+#   EnableDebugger ""
+#   LoadPlugin Monitorus
+#   LoadPlugin OpenVZ
 #
-#	<Plugin foo>
-#		Foo "Bar"
-#		Qux "Baz"
-#	</Plugin>
+#   <Plugin foo>
+#       Foo "Bar"
+#       Qux "Baz"
+#   </Plugin>
 #</Plugin>
 
 #<Plugin pinba>
-#	Address "::0"
-#	Port "30002"
-#	<View "name">
-#		Host "host name"
-#		Server "server name"
-#		Script "script name"
-#	</View>
+#   Address "::0"
+#   Port "30002"
+#   <View "name">
+#       Host "host name"
+#       Server "server name"
+#       Script "script name"
+#   </View>
 #</Plugin>
 
 #<Plugin ping>
-#	Host "host.foo.bar"
-#	Interval 1.0
-#	Timeout 0.9
-#	TTL 255
-#	SourceAddress "1.2.3.4"
-#	Device "eth0"
-#	MaxMissed -1
+#   Host "host.foo.bar"
+#   Interval 1.0
+#   Timeout 0.9
+#   TTL 255
+#   SourceAddress "1.2.3.4"
+#   Device "eth0"
+#   MaxMissed -1
 #</Plugin>
 
 #<Plugin postgresql>
-#	<Query magic>
-#		Statement "SELECT magic FROM wizard WHERE host = $1;"
-#		Param hostname
-#		<Result>
-#			Type gauge
-#			InstancePrefix "magic"
-#			ValuesFrom magic
-#		</Result>
-#	</Query>
-#	<Query rt36_tickets>
-#		Statement "SELECT COUNT(type) AS count, type \
-#		                  FROM (SELECT CASE \
-#		                               WHEN resolved = 'epoch' THEN 'open' \
-#		                               ELSE 'resolved' END AS type \
-#		                               FROM tickets) type \
-#		                  GROUP BY type;"
-#		<Result>
-#			Type counter
-#			InstancePrefix "rt36_tickets"
-#			InstancesFrom "type"
-#			ValuesFrom "count"
-#		</Result>
-#	</Query>
-#	<Writer sqlstore>
-#		# See contrib/postgresql/collectd_insert.sql for details
-#		Statement "SELECT collectd_insert($1, $2, $3, $4, $5, $6, $7, $8, $9);"
-#		StoreRates true
-#	</Writer>
-#	<Database foo>
-#		Host "hostname"
-#		Port "5432"
-#		User "username"
-#		Password "secret"
-#		SSLMode "prefer"
-#		KRBSrvName "kerberos_service_name"
-#		Query magic
-#	</Database>
-#	<Database bar>
-#		Interval 60
-#		Service "service_name"
-#		Query backend # predefined
-#		Query rt36_tickets
-#	</Database>
-#	<Database qux>
-#		Service "collectd_store"
-#		Writer sqlstore
-#		# see collectd.conf(5) for details
-#		CommitInterval 30
-#	</Database>
+#   <Query magic>
+#       Statement "SELECT magic FROM wizard WHERE host = $1;"
+#       Param hostname
+#       <Result>
+#           Type gauge
+#           InstancePrefix "magic"
+#           ValuesFrom magic
+#       </Result>
+#   </Query>
+#   <Query rt36_tickets>
+#       Statement "SELECT COUNT(type) AS count, type \
+#                         FROM (SELECT CASE \
+#                                      WHEN resolved = 'epoch' THEN 'open' \
+#                                      ELSE 'resolved' END AS type \
+#                                      FROM tickets) type \
+#                         GROUP BY type;"
+#       <Result>
+#           Type counter
+#           InstancePrefix "rt36_tickets"
+#           InstancesFrom "type"
+#           ValuesFrom "count"
+#       </Result>
+#   </Query>
+#   <Writer sqlstore>
+#       # See contrib/postgresql/collectd_insert.sql for details
+#       Statement "SELECT collectd_insert($1, $2, $3, $4, $5, $6, $7, $8, $9);"
+#       StoreRates true
+#   </Writer>
+#   <Database foo>
+#       Host "hostname"
+#       Port "5432"
+#       User "username"
+#       Password "secret"
+#       SSLMode "prefer"
+#       KRBSrvName "kerberos_service_name"
+#       Query magic
+#   </Database>
+#   <Database bar>
+#       Interval 60
+#       Service "service_name"
+#       Query backend # predefined
+#       Query rt36_tickets
+#   </Database>
+#   <Database qux>
+#       Service "collectd_store"
+#       Writer sqlstore
+#       # see collectd.conf(5) for details
+#       CommitInterval 30
+#   </Database>
 #</Plugin>
 
 #<Plugin powerdns>
@@ -820,23 +820,23 @@ LoadPlugin write_graphite
 #</Plugin>
 
 #<Plugin processes>
-#	Process "name"
+#   Process "name"
 #</Plugin>
 
 #<Plugin protocols>
-#	Value "/^Tcp:/"
-#	IgnoreSelected false
+#   Value "/^Tcp:/"
+#   IgnoreSelected false
 #</Plugin>
 
 #<Plugin python>
-#	ModulePath "/path/to/your/python/modules"
-#	LogTraces true
-#	Interactive true
-#	Import "spam"
+#   ModulePath "/path/to/your/python/modules"
+#   LogTraces true
+#   Interactive true
+#   Import "spam"
 #
-#	<Module spam>
-#		spam "wonderful" "lovely"
-#	</Module>
+#   <Module spam>
+#       spam "wonderful" "lovely"
+#   </Module>
 #</Plugin>
 
 #<Plugin redis>
@@ -848,42 +848,42 @@ LoadPlugin write_graphite
 #</Plugin>
 
 #<Plugin routeros>
-#	<Router>
-#		Host "router.example.com"
-#		Port "8728"
-#		User "admin"
-#		Password "dozaiTh4"
-#		CollectInterface true
-#		CollectRegistrationTable true
-#		CollectCPULoad true
-#		CollectMemory true
-#		CollectDF true
-#		CollectDisk true
-#	</Router>
+#   <Router>
+#       Host "router.example.com"
+#       Port "8728"
+#       User "admin"
+#       Password "dozaiTh4"
+#       CollectInterface true
+#       CollectRegistrationTable true
+#       CollectCPULoad true
+#       CollectMemory true
+#       CollectDF true
+#       CollectDisk true
+#   </Router>
 #</Plugin>
 
 #<Plugin rrdcached>
-#	DaemonAddress "unix:/tmp/rrdcached.sock"
-#	DataDir "/var/lib/collectd/rrd"
-#	CreateFiles true
-#	CreateFilesAsync false
-#	CollectStatistics true
+#   DaemonAddress "unix:/tmp/rrdcached.sock"
+#   DataDir "/var/lib/collectd/rrd"
+#   CreateFiles true
+#   CreateFilesAsync false
+#   CollectStatistics true
 #</Plugin>
 
 <Plugin rrdtool>
-	DataDir "/var/lib/collectd/rrd"
-#	CreateFilesAsync false
-#	CacheTimeout 120
-#	CacheFlush   900
-#	WritesPerSecond 50
+    DataDir "/var/lib/collectd/rrd"
+#   CreateFilesAsync false
+#   CacheTimeout 120
+#   CacheFlush   900
+#   WritesPerSecond 50
 </Plugin>
 
 #<Plugin sensors>
-#	SensorConfigFile "/etc/sensors.conf"
-#	Sensor "it8712-isa-0290/temperature-temp1"
-#	Sensor "it8712-isa-0290/fanspeed-fan3"
-#	Sensor "it8712-isa-0290/voltage-in8"
-#	IgnoreSelected false
+#   SensorConfigFile "/etc/sensors.conf"
+#   Sensor "it8712-isa-0290/temperature-temp1"
+#   Sensor "it8712-isa-0290/fanspeed-fan3"
+#   Sensor "it8712-isa-0290/voltage-in8"
+#   IgnoreSelected false
 #</Plugin>
 
 #<Plugin sigrok>
@@ -952,27 +952,27 @@ LoadPlugin write_graphite
 #</Plugin>
 
 #<Plugin "swap">
-#	ReportByDevice false
-#	ReportBytes true
+#   ReportByDevice false
+#   ReportBytes true
 #</Plugin>
 
 #<Plugin "table">
-#	<Table "/proc/slabinfo">
-#		Instance "slabinfo"
-#		Separator " "
-#		<Result>
-#			Type gauge
-#			InstancePrefix "active_objs"
-#			InstancesFrom 0
-#			ValuesFrom 1
-#		</Result>
-#		<Result>
-#			Type gauge
-#			InstancePrefix "objperslab"
-#			InstancesFrom 0
-#			ValuesFrom 4
-#		</Result>
-#	</Table>
+#   <Table "/proc/slabinfo">
+#       Instance "slabinfo"
+#       Separator " "
+#       <Result>
+#           Type gauge
+#           InstancePrefix "active_objs"
+#           InstancesFrom 0
+#           ValuesFrom 1
+#       </Result>
+#       <Result>
+#           Type gauge
+#           InstancePrefix "objperslab"
+#           InstancesFrom 0
+#           ValuesFrom 4
+#       </Result>
+#   </Table>
 #</Plugin>
 
 #<Plugin "tail">
@@ -1022,42 +1022,42 @@ LoadPlugin write_graphite
 #</Plugin>
 
 #<Plugin tcpconns>
-#	ListeningPorts false
-#	LocalPort "25"
-#	RemotePort "25"
+#   ListeningPorts false
+#   LocalPort "25"
+#   RemotePort "25"
 #</Plugin>
 
 #<Plugin teamspeak2>
-#	Host "127.0.0.1"
-#	Port "51234"
-#	Server "8767"
+#   Host "127.0.0.1"
+#   Port "51234"
+#   Server "8767"
 #</Plugin>
 
 #<Plugin ted>
-#	Device "/dev/ttyUSB0"
-#	Retries 0
+#   Device "/dev/ttyUSB0"
+#   Retries 0
 #</Plugin>
 
 #<Plugin thermal>
-#	ForceUseProcfs false
-#	Device "THRM"
-#	IgnoreSelected false
+#   ForceUseProcfs false
+#   Device "THRM"
+#   IgnoreSelected false
 #</Plugin>
 
 #<Plugin tokyotyrant>
-#	Host "localhost"
-#	Port "1978"
+#   Host "localhost"
+#   Port "1978"
 #</Plugin>
 
 #<Plugin unixsock>
-#	SocketFile "/usr/var/run/collectd-unixsock"
-#	SocketGroup "collectd"
-#	SocketPerms "0660"
-#	DeleteSocket false
+#   SocketFile "/usr/var/run/collectd-unixsock"
+#   SocketGroup "collectd"
+#   SocketPerms "0660"
+#   DeleteSocket false
 #</Plugin>
 
 #<Plugin uuid>
-#	UUIDFile "/etc/uuid"
+#   UUIDFile "/etc/uuid"
 #</Plugin>
 
 #<Plugin mic>
@@ -1108,7 +1108,7 @@ LoadPlugin write_graphite
 #</Plugin>
 
 #<Plugin vmem>
-#	Verbose false
+#   Verbose false
 #</Plugin>
 
 <%- if node[:collectd][:plugins].has_key?('write_graphite') -%>
@@ -1122,47 +1122,47 @@ LoadPlugin write_graphite
 <%- end -%>
 
 #<Plugin write_http>
-#	<URL "http://example.com/collectd-post">
-#		User "collectd"
-#		Password "weCh3ik0"
-#		VerifyPeer true
-#		VerifyHost true
-#		CACert "/etc/ssl/ca.crt"
-#		Format "Command"
-#		StoreRates false
-#	</URL>
+#   <URL "http://example.com/collectd-post">
+#       User "collectd"
+#       Password "weCh3ik0"
+#       VerifyPeer true
+#       VerifyHost true
+#       CACert "/etc/ssl/ca.crt"
+#       Format "Command"
+#       StoreRates false
+#   </URL>
 #</Plugin>
 
 #<Plugin write_mongodb>
-#	<Node "example">
-#		Host "localhost"
-#		Port "27017"
-#		Timeout 1000
-#		StoreRates false
-#		Database "auth_db"
-#		User "auth_user"
-#		Password "auth_passwd"
-#	</Node>
+#   <Node "example">
+#       Host "localhost"
+#       Port "27017"
+#       Timeout 1000
+#       StoreRates false
+#       Database "auth_db"
+#       User "auth_user"
+#       Password "auth_passwd"
+#   </Node>
 #</Plugin>
 
 #<Plugin write_redis>
-#	<Node "example">
-#		Host "localhost"
-#		Port "6379"
-#		Timeout 1000
-#	</Node>
+#   <Node "example">
+#       Host "localhost"
+#       Port "6379"
+#       Timeout 1000
+#   </Node>
 #</Plugin>
 
 #<Plugin write_riemann>
-#	<Node "example">
-#		Host "localhost"
-#		Port 5555
-#		Protocol UDP
-#		StoreRates true
-#		AlwaysAppendDS false
-#		TTLFactor 2.0
-#	</Node>
-#	Tag "foobar"
+#   <Node "example">
+#       Host "localhost"
+#       Port 5555
+#       Protocol UDP
+#       StoreRates true
+#       AlwaysAppendDS false
+#       TTLFactor 2.0
+#   </Node>
+#   Tag "foobar"
 #</Plugin>
 
 ##############################################################################
@@ -1237,10 +1237,10 @@ LoadPlugin write_graphite
 #    </Plugin>
 #
 #    <Type "load">
-#    	DataSource "midterm"
-#    	FailureMax 4
-#    	Hits 3
-#    	Hysteresis 3
+#       DataSource "midterm"
+#       FailureMax 4
+#       Hits 3
+#       Hysteresis 3
 #    </Type>
 #  </Host>
 #</Plugin>
