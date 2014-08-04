@@ -16,3 +16,8 @@ template '/etc/collectd.conf' do
     mode '644'
     notifies :restart, 'service[collectd]'
 end
+
+template '/usr/share/collectd/types.db' do
+    mode '644'
+    notifies :restart, 'service[collectd]'
+end
