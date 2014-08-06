@@ -35,9 +35,11 @@ when "ubuntu"
     default[:postgresql][:version] = "8.3"
   when platform_version.to_f <= 11.04
     default[:postgresql][:version] = "8.4"
-  else
-    set[:postgresql][:repo_version] = "9.1"
+  when platform_version.to_f <= 12.04
     default[:postgresql][:version] = "9.1"
+  else
+    set[:postgresql][:repo_version] = "9.3"
+    default[:postgresql][:version] = "9.3"
   end
 
   default[:postgresql][:dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
