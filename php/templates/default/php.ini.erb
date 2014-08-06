@@ -153,3 +153,17 @@ soap.wsdl_cache_ttl=86400
 soap.wsdl_cache_limit = 5
 [ldap]
 ldap.max_links = -1
+<%- if node[:platform_version].to_f >= 14.04 -%>
+[opcache]
+<%- if php[:opcache][:enabled] -%>
+opcache.enable=1
+opcache.memory_consumption=<%= php[:opcache][:memory_consumption] != nil ? php[:opcache][:memory_consumption] : 128 %>
+opcache.interned_strings_buffer=<%= php[:opcache][:interned_strings_buffer] != nil ? php[:opcache][:interned_strings_buffer] : 8 %>
+opcache.max_accelerated_files=<%= php[:opcache][:max_accelerated_files] != nil ? php[:opcache][:max_accelerated_files] : 4000 %>
+opcache.revalidate_freq=<%= php[:opcache][:revalidate_freq] != nil ? php[:opcache][:revalidate_freq] : 60 %>
+opcache.fast_shutdown=<%= php[:opcache][:fast_shutdown] != nil ? php[:opcache][:fast_shutdown] : 1 %>
+opcache.enable_cli=<%= php[:opcache][:enable_cli] != nil ? php[:opcache][:enable_cli] : 1 %>
+<%- else -%>
+opcache.enable=0
+<%-end -%>
+<%-end -%>
