@@ -11,7 +11,7 @@
 ##############################################################################
 
 #Hostname    "localhost"
-#FQDNLookup   true
+FQDNLookup   <%= node[:collectd][:fqdn_lookup] %>
 #BaseDir     "/var/lib/collectd"
 #PIDFile     "/var/run/collectd.pid"
 #PluginDir   "/usr/lib/collectd"

@@ -1,3 +1,4 @@
+default[:collectd][:fqdn_lookup] = true
 default[:collectd][:version] = '5.4.1'
 default[:collectd][:plugins] = {}
 default[:collectd][:types] = {}
