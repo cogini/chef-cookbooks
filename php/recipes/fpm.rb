@@ -60,10 +60,9 @@ template "#{node[:php][:conf_dir]}/php.ini" do
 end
 
 
-# Starting from Ubuntu 12.10 php5-fpm includes a logrotate conf file
-unless node[:platform] == 'ubuntu' and node[:platform_version].to_f >= 12.10
-    template '/etc/logrotate.d/php-fpm' do
-        source 'logrotate.erb'
-        mode '644'
-    end
+template '/etc/logrotate.d/php-fpm' do
+    source 'logrotate.erb'
+    mode '644'
+    # Starting from Ubuntu 12.10 php5-fpm includes a logrotate conf file
+    not_if node[:platform] == 'ubuntu' and node[:platform_version].to_f >= 12.10
 end
