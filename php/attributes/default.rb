@@ -105,9 +105,9 @@ default[:php][:configure_options] = %W{--prefix=#{php[:prefix_dir]}
                                           --with-pdo-mysql
                                           --with-pdo-sqlite}
 
-node[:php][:opcache][:memory_consumption] = 128
-node[:php][:opcache][:interned_strings_buffer] = 8
-node[:php][:opcache][:max_accelerated_files] = 4000
-node[:php][:opcache][:revalidate_freq] = 60
-node[:php][:opcache][:fast_shutdown] = 1
-node[:php][:opcache][:enable_cli] = 1
+default[:php][:opcache][:memory_consumption] = 128
+default[:php][:opcache][:interned_strings_buffer] = 8
+default[:php][:opcache][:max_accelerated_files] = 4000
+default[:php][:opcache][:revalidate_freq] = 60
+default[:php][:opcache][:fast_shutdown] = 1
+default[:php][:opcache][:enable_cli] = 1
