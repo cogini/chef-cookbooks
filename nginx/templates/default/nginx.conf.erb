@@ -38,6 +38,9 @@ http {
     ssl_prefer_server_ciphers on;
     ssl_ciphers               'HIGH+ECDH HIGH+DH HIGH !aNULL';
     ssl_session_cache         shared:SSL:10m;
+    <% if node[:nginx][:ssl_dhparam] -%>
+    ssl_dhparam               <%= node[:nginx][:ssl_dhparam] %>;
+    <% end -%>
 
     client_max_body_size <%= node[:nginx][:client_max_body_size] %>;
 
