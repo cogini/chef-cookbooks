@@ -59,16 +59,9 @@ case node['platform']
 when 'ubuntu'
     default['nginx']['user'] = 'www-data'
     default['nginx']['init_style'] = 'runit'
-    if node[:platform_version].to_f >= 12.04
-        default[:nginx][:types_hash_max_size] = 2048
-    end
-    default['nginx']['version'] = '1.1'
-    default['nginx']['repo_version'] = '1.1'
 when 'redhat','centos','scientific','amazon','oracle','fedora'
     default['nginx']['user']       = 'nginx'
     default['nginx']['init_style'] = 'init'
-    default['nginx']['version'] = '1.0'
-    default['nginx']['repo_version'] = '1.0'
 else
     raise NotImplemented
 end
