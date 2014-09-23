@@ -105,7 +105,7 @@ default[:php][:configure_options] = %W{--prefix=#{php[:prefix_dir]}
                                           --with-pdo-mysql
                                           --with-pdo-sqlite}
 
-default[:php][:apc][:shm_size] = 32
+default[:php][:apc][:shm_size] = "32M"
 # APC defaults to 0 for ttl and user_ttl, which is kinda silly
 default[:php][:apc][:ttl] = 3600
 default[:php][:apc][:user_ttl] = 3600
