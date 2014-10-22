@@ -1,12 +1,15 @@
 server {
 
-    listen               443 ssl;
+    listen               443 ssl spdy;
     server_name          <%= node[:roundcube][:server_names][0] %>;
     root                 <%= node[:roundcube][:site_dir] %>;
     client_max_body_size <%= node[:roundcube][:max_attachment_size] %>;
 
     access_log           <%= node[:roundcube][:log_dir] %>/access.log json;
     error_log            <%= node[:roundcube][:log_dir] %>/error.log;
+
+    # A year of HSTS
+    add_header Strict-Transport-Security "max-age=31536000";
 
     ssl_certificate      <%= node[:postfix][:smtpd_tls_cert_file] %>;
     ssl_certificate_key  <%= node[:postfix][:smtpd_tls_key_file] %>;
