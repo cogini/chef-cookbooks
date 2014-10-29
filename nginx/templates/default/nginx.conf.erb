@@ -36,10 +36,18 @@ http {
     <% end %>
 
     ssl_prefer_server_ciphers on;
-    ssl_ciphers               'HIGH+ECDH HIGH+DH HIGH !aNULL';
+    ssl_ciphers               'AESGCM+ECDH AESGCM+DH FIPS+ECDH FIPS+DH FIPS !aNULL';
     ssl_session_cache         shared:SSL:10m;
+    ssl_protocols             TLSv1 TLSv1.1 TLSv1.2;
     <% if node[:nginx][:ssl_dhparam] -%>
     ssl_dhparam               <%= node[:nginx][:ssl_dhparam] %>;
+    <% end -%>
+    <% if node[:nginx][:ssl_stapling] -%>
+    ssl_stapling              on;
+    <% end -%>
+    <% if node[:nginx][:ssl_trusted_certificate] -%>
+    ssl_stapling_verify       on;
+    ssl_trusted_certificate   <%= node[:nginx][:ssl_trusted_certificate] %>;
     <% end -%>
 
     client_max_body_size <%= node[:nginx][:client_max_body_size] %>;
