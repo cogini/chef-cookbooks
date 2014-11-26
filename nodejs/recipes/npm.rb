@@ -1,7 +1,7 @@
 #
 # Author:: Marius Ducea (marius@promethost.com)
 # Cookbook Name:: nodejs
-# Recipe:: default
+# Recipe:: npm
 #
 # Copyright 2010-2012, Promet Solutions
 #
@@ -18,16 +18,11 @@
 # limitations under the License.
 #
 
-include_recipe 'nodejs::nodejs'
-include_recipe 'nodejs::npm'
-
-node['nodejs']['npm_packages'].each do |pkg|
-  f = nodejs_npm pkg['name'] do
-    action :nothing
-  end
-  pkg.each do |key, value|
-    f.send(key, value) unless key == 'name' || key == 'action'
-  end
-  action = pkg.key?('action') ? pkg['action'] : :install
-  f.action(action)
-end if node['nodejs'].key?('npm_packages')
+case node['nodejs']['npm']['install_method']
+when 'embedded'
+  include_recipe 'nodejs::nodejs'
+when 'source'
+  include_recipe 'nodejs::npm_from_source'
+else
+  Chef::Log.error('No install method found for npm')
+end

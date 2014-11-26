@@ -1,68 +1,91 @@
-nodejs Cookbook
-===============
-TODO: Enter the cookbook description here.
+# [nodejs-cookbook](https://github.com/redguide/nodejs)
+[![CK Version](http://img.shields.io/cookbook/v/nodejs.svg)](https://supermarket.getchef.com/cookbooks/nodejs) [![Build Status](https://img.shields.io/travis/redguide/nodejs.svg)](https://travis-ci.org/redguide/nodejs)
+[![Gitter chat](https://badges.gitter.im/redguide/nodejs.png)](https://gitter.im/redguide/nodejs)
 
-e.g.
-This cookbook makes your favorite breakfast sandwhich.
+## DESCRIPTION
 
-Requirements
-------------
-TODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.
+Installs Node.js and manage npm
 
-e.g.
-#### packages
-- `toaster` - nodejs needs toaster to brown your bagel.
+## USAGE
 
-Attributes
-----------
-TODO: List you cookbook attributes here.
+Include the nodejs recipe to install node on your system based on the default installation method:
+```chef
+include_recipe "nodejs"
+```
+Installation method can be customized with attribute `node['nodejs']['install_method']`
 
-e.g.
-#### nodejs::default
-<table>
-  <tr>
-    <th>Key</th>
-    <th>Type</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
-  <tr>
-    <td><tt>['nodejs']['bacon']</tt></td>
-    <td>Boolean</td>
-    <td>whether to include bacon</td>
-    <td><tt>true</tt></td>
-  </tr>
-</table>
+### Install methods
 
-Usage
------
-#### nodejs::default
-TODO: Write usage instructions for each cookbook.
+#### Package
 
-e.g.
-Just include `nodejs` in your node's `run_list`:
+Install node from packages:
 
-```json
-{
-  "name":"my_node",
-  "run_list": [
-    "recipe[nodejs]"
-  ]
-}
+```chef
+node['nodejs']['install_method'] = 'package' # Not necessary because it's the default
+include_recipe "nodejs"
+# Or
+include_recipe "nodejs::nodejs_from_package"
+```
+Note that only apt (Ubuntu, Debian) appears to have up to date packages available. 
+Centos, RHEL, etc are non-functional (try `nodejs_from_binary` for those).
+
+#### Binary
+
+Install node from official prebuilt binaries:
+```chef
+node['nodejs']['install_method'] = 'binary'
+include_recipe "nodejs"
+# Or
+include_recipe "nodejs::nodejs_from_binary"
 ```
 
-Contributing
-------------
-TODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.
+#### Source
 
-e.g.
-1. Fork the repository on Github
-2. Create a named feature branch (like `add_component_x`)
-3. Write you change
-4. Write tests for your change (if applicable)
-5. Run the tests, ensuring they all pass
-6. Submit a Pull Request using Github
+Install node from sources:
+```chef
+node['nodejs']['install_method'] = 'source'
+include_recipe "nodejs"
+# Or
+include_recipe "nodejs::nodejs_from_source"
+```
 
-License and Authors
--------------------
-Authors: TODO: List authors
+## NPM
+
+Npm is included in nodejs installs by default.
+By default, we are using it and call it `embedded`.
+Adding recipe `nodejs::npm` assure you to have npm installed and let you choose install method with `node['nodejs']['npm']['install_method']`
+```chef
+include_recipe "nodejs::npm"
+```
+_Warning:_ This recipe will include the `nodejs` recipe, which by default includes `nodejs::nodejs_from_package` if you did not set `node['nodejs']['install_method']`.
+
+## LWRP
+
+### nodejs_npm
+
+`nodejs_npm` let you install npm packages from various sources:
+* npm registry:
+ * name: `attribute :package`
+ * version: `attribute :version` (optionnal)
+* url: `attribute :url`
+ * for git use `git://{your_repo}`
+* from a json (packages.json by default): `attribute :json`
+ * use `true` for default
+ * use a `String` to specify json file
+ 
+Packages can be installed globally (by default) or in a directory (by using `attribute :path`)
+
+You can append more specific options to npm command with `attribute :options` array :  
+ * use an array of options (w/ dash), they will be added to npm call.
+ * ex: `['--production','--force']` or `['--force-latest']`
+ 
+This LWRP try to use npm bare as much as possible (no custom wrapper).
+
+#### [Examples](test/cookbooks/nodejs_test/recipes/npm.rb)
+
+## AUTHORS
+
+* Marius Ducea (marius@promethost.com)
+* Nathan L Smith (nlloyds@gmail.com)
+* Guilhem Lettron (guilhem@lettron.fr)
+* Barthelemy Vessemont (bvessemont@gmail.com)
