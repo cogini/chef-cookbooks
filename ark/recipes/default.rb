@@ -1,9 +1,9 @@
 #
-# Author:: Marius Ducea (marius@promethost.com)
-# Cookbook Name:: nodejs
+# Cookbook Name:: ark
 # Recipe:: default
 #
-# Copyright 2010-2012, Promet Solutions
+# Author:: Bryan W. Berry <bryan.berry@gmail.com>
+# Copyright 2012, Bryan W. Berry
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,16 +18,8 @@
 # limitations under the License.
 #
 
-include_recipe 'nodejs::nodejs'
-include_recipe 'nodejs::npm'
+Array(node['ark']['package_dependencies']).each do |pkg|
+  package pkg
+end
 
-node['nodejs']['npm_packages'].each do |pkg|
-  f = nodejs_npm pkg['name'] do
-    action :nothing
-  end
-  pkg.each do |key, value|
-    f.send(key, value) unless key == 'name' || key == 'action'
-  end
-  action = pkg.key?('action') ? pkg['action'] : :install
-  f.action(action)
-end if node['nodejs'].key?('npm_packages')
+include_recipe "7-zip" if node['platform_family'] == 'windows'

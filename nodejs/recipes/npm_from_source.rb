@@ -1,7 +1,7 @@
 #
 # Author:: Marius Ducea (marius@promethost.com)
 # Cookbook Name:: nodejs
-# Recipe:: default
+# Recipe:: npm
 #
 # Copyright 2010-2012, Promet Solutions
 #
@@ -18,16 +18,15 @@
 # limitations under the License.
 #
 
-include_recipe 'nodejs::nodejs'
-include_recipe 'nodejs::npm'
+Chef::Recipe.send(:include, NodeJs::Helper)
 
-node['nodejs']['npm_packages'].each do |pkg|
-  f = nodejs_npm pkg['name'] do
-    action :nothing
-  end
-  pkg.each do |key, value|
-    f.send(key, value) unless key == 'name' || key == 'action'
-  end
-  action = pkg.key?('action') ? pkg['action'] : :install
-  f.action(action)
-end if node['nodejs'].key?('npm_packages')
+include_recipe 'nodejs::nodejs'
+
+dist = npm_dist
+
+ark 'npm' do
+  url dist['url']
+  checksum dist['checksum']
+  version dist['version']
+  action :install_with_make
+end
