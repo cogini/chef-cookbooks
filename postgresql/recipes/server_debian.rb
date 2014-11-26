@@ -34,7 +34,7 @@ service "postgresql" do
   case node[:platform]
   when "ubuntu"
     case
-    when node[:platform_version].to_f <= 10.04
+    when node[:platform_version].to_f < 10.04
       service_name "postgresql-#{node[:postgresql][:version]}"
     else
       service_name "postgresql"
