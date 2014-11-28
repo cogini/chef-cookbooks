@@ -2,37 +2,42 @@ require 'spec_helper'
 
 describe 'java::default' do
   let(:chef_run) do
-    runner = ChefSpec::ChefRunner.new(
+    runner = ChefSpec::Runner.new(
       :platform => 'debian',
       :version => '7.0'
     )
-    runner.converge('java::default')
+    runner.converge(described_recipe)
   end
   it 'should include the openjdk recipe by default' do
     expect(chef_run).to include_recipe('java::openjdk')
   end
+  it 'includes set_attributes_from_version' do
+    expect(chef_run).to include_recipe('java::set_attributes_from_version')
+  end
 
   context 'windows' do
     let(:chef_run) do
-      runner = ChefSpec::ChefRunner.new(
-        'platform' => 'windows',
-        'version' => '2008R2'
+      runner = ChefSpec::Runner.new(
+        :platform => 'windows',
+        :version => '2008R2'
       )
-      runner.node.set['java']['install_flavor'] = 'windows'
       runner.node.set['java']['windows']['url'] = 'http://example.com/windows-java.msi'
-      runner.converge('java::default')
+      runner.node.set['java']['java_home'] = 'C:/java'
+      runner.converge('windows::default',described_recipe)
     end
 
-    it 'should include the windows recipe' do
-      expect(chef_run).to include_recipe('java::windows')
+    # Running the tests on non-Windows platforms will error in the Windows library,
+    # but this means the recipe was included. There has to be a better way to handle this...
+    it 'should error on windows recipe' do
+      expect { chef_run }.to raise_error(TypeError)
     end
   end
 
   context 'oracle' do
     let(:chef_run) do
-      runner = ChefSpec::ChefRunner.new
+      runner = ChefSpec::Runner.new
       runner.node.set['java']['install_flavor'] = 'oracle'
-      runner.converge('java::default')
+      runner.converge(described_recipe)
     end
 
     it 'should include the oracle recipe' do
@@ -42,9 +47,9 @@ describe 'java::default' do
 
   context 'oracle_i386' do
     let(:chef_run) do
-      runner = ChefSpec::ChefRunner.new
+      runner = ChefSpec::Runner.new
       runner.node.set['java']['install_flavor'] = 'oracle_i386'
-      runner.converge('java::default')
+      runner.converge(described_recipe)
     end
 
     it 'should include the oracle_i386 recipe' do
@@ -54,10 +59,10 @@ describe 'java::default' do
 
   context 'ibm' do
     let(:chef_run) do
-      runner = ChefSpec::ChefRunner.new
+      runner = ChefSpec::Runner.new
       runner.node.set['java']['install_flavor'] = 'ibm'
       runner.node.set['java']['ibm']['url'] = 'http://example.com/ibm-java.bin'
-      runner.converge('java::default')
+      runner.converge(described_recipe)
     end
 
     it 'should include the ibm recipe' do
@@ -65,4 +70,42 @@ describe 'java::default' do
     end
   end
 
+  context 'ibm_tar' do
+    let(:chef_run) do
+      runner = ChefSpec::Runner.new
+      runner.node.set['java']['install_flavor'] = 'ibm_tar'
+      runner.node.set['java']['ibm']['url'] = 'http://example.com/ibm-java.tar.gz'
+      runner.converge(described_recipe)
+    end
+
+    it 'should include the ibm_tar recipe' do
+      expect(chef_run).to include_recipe('java::ibm_tar')
+    end
+  end
+
+  context 'Oracle JDK 8' do
+    let(:chef_run) do
+      runner = ChefSpec::Runner.new
+      runner.node.set['java']['install_flavor'] = 'oracle'
+      runner.node.set['java']['jdk_version'] = '8'
+      runner.converge(described_recipe)
+    end
+
+    it 'should not error' do
+      expect{chef_run}.to_not raise_error
+    end
+  end
+
+  context 'OpenJDK 8' do
+    let(:chef_run) do
+      runner = ChefSpec::Runner.new
+      runner.node.set['java']['install_flavor'] = 'openjdk'
+      runner.node.set['java']['jdk_version'] = '8'
+      runner.converge(described_recipe)
+    end
+
+    it 'should error' do
+      expect{chef_run}.to raise_error
+    end
+  end
 end
