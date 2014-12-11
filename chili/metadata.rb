@@ -1,3 +1,4 @@
+name                "chili"
 maintainer          "Cogini"
 maintainer_email    "nhan@cogini.com"
 license             "All rights reserved"

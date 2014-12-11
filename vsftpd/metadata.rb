@@ -1,3 +1,4 @@
+name "vstfpd"
 maintainer       "Robert J. Berger"
 maintainer_email "rberger+maintainer@ibd.com"
 license          "Apache License, Version 2.0"

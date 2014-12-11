@@ -1,3 +1,4 @@
+name "sphinx"
 maintainer       "Alex Soto"
 maintainer_email "apsoto@gmail.com"
 license          "Apache 2.0"
