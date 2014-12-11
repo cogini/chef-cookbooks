@@ -1,3 +1,4 @@
+name    'owncloud'
 depends 'apt'
 depends 'git'
 depends 'nginx'

@@ -1,3 +1,4 @@
+name "munin"
 maintainer       "Cogini"
 maintainer_email "phu@cogini.com"
 license          "All rights reserved"
