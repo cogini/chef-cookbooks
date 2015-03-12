@@ -7,6 +7,7 @@ default[:amanda][:inparallel] = 10
 default[:amanda][:netusage] = '80 MBps'
 default[:amanda][:runtapes] = 1
 default[:amanda][:number_of_tapes] = node[:amanda][:runtapes] * 15
+default[:amanda][:tapecycle] = node[:amanda][:runtapes] * 11
 default[:amanda][:version] = '3.3.4'
 
 # 'backup_locations': [
