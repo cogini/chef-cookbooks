@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-default['mysql']['bind_address']               = node.attribute?('cloud') ? node.cloud['local_ipv4'] : node['ipaddress']
+default['mysql']['bind_address']               = '127.0.0.1'
 
 case node["platform"]
 when "centos", "redhat", "fedora", "suse", "scientific", "amazon"
