@@ -9,10 +9,10 @@
 case node['platform_family']
   when 'debian'
     node.normal[:apt][:compile_time_update] = true
-    node.normal[:erlang][:esl][:version] = "1:17.3.2"
+    node.normal[:erlang][:esl][:version] = "1:17.5"
     package 'unzip'
   when 'rhel'
-    node.normal[:erlang][:esl][:version] = "17.3-1.el6"
+    node.normal[:erlang][:esl][:version] = "17.5-1.el6"
 end
 
 elixir_version = node[:elixir][:version]
