@@ -22,7 +22,7 @@ disable_classes =
 expose_php = Off
 max_execution_time = <%= php[:max_execution_time] %>
 max_input_time = 60
-memory_limit = 128M
+memory_limit = <%= php[:memory_limit] %>
 error_reporting = <%= php[:error_reporting] %>
 display_errors = Off
 display_startup_errors = Off

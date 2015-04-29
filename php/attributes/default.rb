@@ -26,6 +26,7 @@ default[:php][:timezone] = 'UTC'
 default[:php][:upload_max_filesize] = "2M"
 default[:php][:max_execution_time] = 30
 default[:php][:max_file_uploads] = 20
+default[:php][:memory_limit] = "128M"
 default[:php][:error_reporting] = 'E_ALL & ~E_DEPRECATED'
 
 default[:php][:fpm][:catch_workers_output] = 'yes'
