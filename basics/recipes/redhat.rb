@@ -31,6 +31,8 @@ end
 # Unlock port 1022
 package 'policycoreutils-python'
 
+# TODO: check if selinux is enabled before running this. Temporarily ignore failure to walkaround.
 execute 'semanage port -a -t ssh_port_t -p tcp 1022' do
     not_if 'semanage port -l | grep 1022'
+    ignore_failure true
 end
